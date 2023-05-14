@@ -35,14 +35,14 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 
 - Install Gymnasium for Modelling Environments:
 ```shell
-pip3 intall gymnasium
+pip3 install gymnasium
 ```
 
 - Install Ray for Reinforcement Learning Algorithms:
 ```shell
-pip3 intall ray[default]
-pip3 intall ray[air]
-pip3 intall ray[tune]
-pip3 intall ray[rllib]
-pip3 intall ray[serve]
+pip3 install ray[default]
+pip3 install ray[air]
+pip3 install ray[tune]
+pip3 install ray[rllib]
+pip3 install ray[serve]
 ```
