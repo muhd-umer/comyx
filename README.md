@@ -33,12 +33,7 @@ conda activate fyp
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
-- Install Gymnasium for Modelling Environments:
-```shell
-pip3 install gymnasium
-```
-
-- Install Ray for Reinforcement Learning Algorithms:
+- Install Ray for Reinforcement Learning:
 ```shell
 pip3 install ray[default]
 pip3 install ray[air]
