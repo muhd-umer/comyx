@@ -1,7 +1,6 @@
 name: fyp
 channels:
     - conda-forge
-    - pytorch
     - defaults
 dependencies:
     - python=3.10
@@ -25,10 +24,6 @@ dependencies:
     - xarray
     - zarr
     - numcodecs
-    - pytorch
-    - torchvision
-    - torchaudio
-    - torchtext
     - opencv
     - librosa
     - pip:
