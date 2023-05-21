@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-In this project, we investigated the performance of non-orthogonal multiple access (NOMA) and orthogonal frequency division multiple access (OFDMA) in a wireless network environment. We created a simulation model of a wireless network with 10 users, each of which was transmitting data at a different rate. We used the exhaustive looping technique to find the optimal power levels for each user in NOMA. We then compared the performance of NOMA and OFDMA in terms of throughput, energy efficiency, and fairness. We found that NOMA outperformed OFDMA in all three metrics. We also performed optimal resource allocation in NOMA to further improve its performance.
+In this project, we investigated the performance of non-orthogonal multiple access (NOMA) and orthogonal frequency division multiple access (OFDMA) in a wireless network environment. We created a simulation model of a wireless network with 4 users, each of which was transmitting data at a different rate. We used the exhaustive looping technique to find the optimal power levels for each user in NOMA. We then compared the performance of NOMA and OFDMA in terms of throughput, energy efficiency, and fairness. We found that NOMA outperformed OFDMA in all three metrics. We also performed optimal resource allocation in NOMA to further improve its performance.
 
 \end{abstract}
 
@@ -59,42 +59,49 @@ Non-orthogonal multiple access (NOMA) \cite{saito2013non} is a powerful multiple
 
 The underlying principle of NOMA can be summarized as follows: The base station (BS) simultaneously transmits a composite signal that incorporates the signals of multiple users. Users with weaker channels experience less interference, allowing them to reliably receive their intended signals. Conversely, users with stronger channels encounter more interference from other signals. To mitigate this interference, users employ a technique known as successive interference cancellation (SIC). With SIC, users decode and subtract the signals of stronger users, progressively isolating and extracting their own signals from the received composite signal.
 
-Consider a NOMA system with two users, denoted as User 1 and User 2. User 1 has a stronger channel than User 2. The BS allocates a lower power level to User 1 and a higher power level to User 2. This ensures that User 2 can decode its signal without suffering significant interference from User 1. User 1, on the other hand, can decode its signal by first decoding and subtracting the signal of User 2, and then decoding its own signal.
+Consider a NOMA system with four users, denoted as U1, U2, U3, and U4. U1 has the weakest channel, followed by U2, U3, and U4. The base station (BS) allocates power levels to each user accordingly to ensure successful decoding.
 
 \subsection{Successive Interference Cancellation (SIC)}
 
-The received signal at the base station (BS) can be expressed as:
-\begin{equation*}
-    y = \sqrt{P_1} h_1 x_1 + \sqrt{P_2} h_2 x_2 + n
-\end{equation*}
-
-where $y$ represents the received signal, $P_1$ and $P_2$ are the power levels allocated to User 1 and User 2 respectively, $h_1$ and $h_2$ are the channel gains of User 1 and User 2 respectively, $x_1$ and $x_2$ are the transmitted symbols of User 1 and User 2 respectively, and $n$ is the additive white Gaussian noise (AWGN).
-
-The transmitted symbols $x_1$ and $x_2$ can be decoded at the BS using successive interference cancellation (SIC). The decoded symbol for User 1, denoted as $\hat{x}_1$, can be obtained as:
+The received signal at the BS can be expressed as:
 
 \begin{equation*}
-    \hat{x}_1 = \frac{\sqrt{P_1} h_1 x_1}{\sqrt{P_1} h_1 + \sqrt{P_2} h_2}
+y = \sqrt{P_1} h_1 x_1 + \sqrt{P_2} h_2 x_2 + \sqrt{P_3} h_3 x_3 + \sqrt{P_4} h_4 x_4 + n
 \end{equation*}
 
-The residual interference after decoding User 1's symbol is given by:
+where $y$ represents the received signal, $P_1$, $P_2$, $P_3$, and $P_4$ are the power levels allocated to U1, U2, U3, and U4, respectively. $h_1$, $h_2$, $h_3$, and $h_4$ are the channel gains of U1, U2, U3, and U4, respectively. $x_1$, $x_2$, $x_3$, and $x_4$ are the transmitted symbols of U1, U2, U3, and U4, respectively. $n$ represents the additive white Gaussian noise (AWGN).
+
+The transmitted symbols $x_1$, $x_2$, $x_3$, and $x_4$ can be decoded at the BS using successive interference cancellation (SIC). The decoded symbol for U4 (nearest) can be obtained as:
+
 \begin{equation*}
-    I_2 = \sqrt{P_2} h_2 x_2 - \hat{x}_1 \sqrt{P_2} h_2
+\hat{x}_4 = \frac{\sqrt{P_1} h_1 x_1}{\sqrt{P_1} h_1 + \sqrt{P_2} h_2 + \sqrt{P_3} h_3 + \sqrt{P_4} h_4}
 \end{equation*}
 
-The decoded symbol for User 2, denoted as $\hat{x}_2$, is obtained by subtracting the interference $I_2$ from the received signal $y$:
+To decode the symbols for U3, we subtract the interference from U4:
+
 \begin{equation*}
-    \hat{x}_2 = \frac{y - I_2}{\sqrt{P_2} h_2}
+\hat{x}_3 = \frac{\sqrt{P_1} h_1 x_1 - \sqrt{P_4} h_4 \hat{x}_4}{\sqrt{P_1} h_1 + \sqrt{P_2} h_2 + \sqrt{P_3} h_3}
 \end{equation*}
 
-In this NOMA system, the power levels $P_1$ and $P_2$ are optimized based on the channel conditions of User 1 and User 2 to maximize the overall system performance.
+Next, we subtract the interference from U4 and U3 to decode the symbols for U2:
+
+\begin{equation*}
+\hat{x}_2 = \frac{\sqrt{P_1} h_1 x_1 - \sqrt{P_4} h_4 \hat{x}_4 - \sqrt{P_3} h_3 \hat{x}_3}{\sqrt{P_1} h_1 + \sqrt{P_2} h_2}
+\end{equation*}
+
+Finally, we subtract the interference from U4, U3, and U2 to decode the symbols for U1 (furthest):
+
+\begin{equation*}
+\hat{x}_1 = \frac{\sqrt{P_1} h_1 x_1 - \sqrt{P_4} h_4 \hat{x}_4 - \sqrt{P_3} h_3 \hat{x}_3 - \sqrt{P_2} h_2 \hat{x}_2}{\sqrt{P_1} h_1}
+\end{equation*}
+
+In this NOMA system, the power levels $P_1$, $P_2$, $P_3$, and $P_4$ are optimized based on the channel conditions of each user to maximize the overall system performance.
 
 \subsection{Superposition Coding}
 The superposition coding equation in NOMA is given by:
-
-\[
+$$
 y = \sum_{i=1}^{N} h_i x_i + n
-\]
-
+$$
 where:
 \begin{itemize}
   \item $y$ represents the received signal,
@@ -118,17 +125,13 @@ Additional noteworthy details about OFDMA are as follows: the number of subcarri
 \subsection{Subcarrier Allocation}
 
 The available bandwidth is divided into a number of narrowband subcarriers. The number of subcarriers can be calculated as:
-
-\[
+$$
 \text{{Number of subcarriers}} = \frac{{\text{{Total bandwidth}}}}{{\text{{Subcarrier spacing}}}}
-\]
-
+$$
 Each user is assigned a subset of subcarriers. The subcarriers assigned to user \(i\) can be represented as:
-
-\[
+$$
 \text{{Subcarriers assigned to user}}_i = \{s_{i,1}, s_{i,2}, \ldots, s_{i,n}\}
-\]
-
+$$
 where \(n\) is the total number of subcarriers assigned to user \(i\).
 
 \subsection{Channel Capacity}
@@ -137,11 +140,9 @@ Channel capacity is a fundamental concept in information theory that measures th
 The channel capacity is influenced by various factors, including the available bandwidth, the signal-to-noise ratio (SNR), and the characteristics of the channel itself. It provides a measure of the channel's ability to carry information without error.
 
 The channel capacity equation for OFDMA is given by:
-
-\[
+$$
 C = \sum_{k=1}^{K} \log_2 \left(1 + \frac{P_k |H_k|^2}{N_0}\right)
-\]
-
+$$
 where:
 \begin{itemize}
   \item $C$ represents the total channel capacity,
@@ -161,10 +162,9 @@ The Rayleigh fading channel model can be represented by the following equation:
     \caption{System Model}
 \end{figure}
 
-\[
+$$
 h = \sqrt{\frac{1}{2}} \left( \text{Re}\{n\} + \text{Im}\{n\} \right)
-\]
-
+$$
 where:
 \begin{itemize}
   \item $h$ represents the channel gain or fading coefficient,
@@ -200,7 +200,7 @@ The graph shows the average rate and fairness comparison of different user alloc
 \begin{figure}[t!]
     \centering
     \includegraphics[width=0.47\textwidth , height= 0.35\textwidth]{figures/fairness_comparison.pdf}
-    \caption{User's vs. Average Data rate}
+    \caption{Users vs. Average Data rate}
 \end{figure}
 
 \subsection{Exhaustive Power Allocation}
