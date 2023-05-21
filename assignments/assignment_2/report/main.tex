@@ -71,31 +71,23 @@ y = \sqrt{P_1} h_1 x_1 + \sqrt{P_2} h_2 x_2 + \sqrt{P_3} h_3 x_3 + \sqrt{P_4} h_
 
 where $y$ represents the received signal, $P_1$, $P_2$, $P_3$, and $P_4$ are the power levels allocated to U1, U2, U3, and U4, respectively. $h_1$, $h_2$, $h_3$, and $h_4$ are the channel gains of U1, U2, U3, and U4, respectively. $x_1$, $x_2$, $x_3$, and $x_4$ are the transmitted symbols of U1, U2, U3, and U4, respectively. $n$ represents the additive white Gaussian noise (AWGN).
 
-The transmitted symbols $x_1$, $x_2$, $x_3$, and $x_4$ can be decoded at the BS using successive interference cancellation (SIC). The decoded symbol for U4 (nearest) can be obtained as:
-
+The transmitted symbols $x_1$, $x_2$, $x_3$, and $x_4$ can be decoded at the BS using successive interference cancellation (SIC). The rate equation for U1 can be calculated by treating all other signals as interference and is as follows:
 \begin{equation*}
-\hat{x}_4 = \frac{\sqrt{P_1} h_1 x_1}{\sqrt{P_1} h_1 + \sqrt{P_2} h_2 + \sqrt{P_3} h_3 + \sqrt{P_4} h_4}
+R_1 = \log_2\left(1 + \frac{P_1|h_1|^2}{|h_1|^2\sum_{i=2}^{4} P_i + N_0}\right)
 \end{equation*}
 
-To decode the symbols for U3, we subtract the interference from U4:
-
+Similarly, assuming perfect SIC and that U1's signal has already been decoded and subtracted from the received signal, we compute the rate of U2 as:
 \begin{equation*}
-\hat{x}_3 = \frac{\sqrt{P_1} h_1 x_1 - \sqrt{P_4} h_4 \hat{x}_4}{\sqrt{P_1} h_1 + \sqrt{P_2} h_2 + \sqrt{P_3} h_3}
+R_2 = \log_2\left(1 + \frac{P_2|h_2|^2}{|h_2|^2\sum_{i=3}^{4} P_i + N_0}\right)
 \end{equation*}
 
-Next, we subtract the interference from U4 and U3 to decode the symbols for U2:
+In similar fashion, we compute the rates of U3 and U4 as:
+\begin{align*}
+R_3 &= \log_2\left(1 + \frac{P_3|h_3|^2}{|h_3|^2 P_4 + N_0}\right) \\
+R_4 &= \log_2\left(1 + \frac{P_4|h_4|^2}{N_0}\right)
+\end{align*}
 
-\begin{equation*}
-\hat{x}_2 = \frac{\sqrt{P_1} h_1 x_1 - \sqrt{P_4} h_4 \hat{x}_4 - \sqrt{P_3} h_3 \hat{x}_3}{\sqrt{P_1} h_1 + \sqrt{P_2} h_2}
-\end{equation*}
-
-Finally, we subtract the interference from U4, U3, and U2 to decode the symbols for U1 (furthest):
-
-\begin{equation*}
-\hat{x}_1 = \frac{\sqrt{P_1} h_1 x_1 - \sqrt{P_4} h_4 \hat{x}_4 - \sqrt{P_3} h_3 \hat{x}_3 - \sqrt{P_2} h_2 \hat{x}_2}{\sqrt{P_1} h_1}
-\end{equation*}
-
-In this NOMA system, the power levels $P_1$, $P_2$, $P_3$, and $P_4$ are optimized based on the channel conditions of each user to maximize the overall system performance.
+In this NOMA system, the power levels $P_1$, $P_2$, $P_3$, and $P_4$ are optimized based on the channel conditions of each user to maximize the overall system performance, considering the achievable rates $R_1$, $R_2$, $R_3$, and $R_4$.
 
 \subsection{Superposition Coding}
 The superposition coding equation in NOMA is given by:
@@ -109,7 +101,6 @@ where:
   \item $x_i$ is the transmitted signal for user $i$,
   \item $n$ denotes the additive white Gaussian noise (AWGN).
 \end{itemize}
-
 
 By leveraging power allocation based on channel conditions and employing SIC for signal decoding, NOMA offers significant advantages in terms of spectral efficiency and system capacity. This technique allows multiple users to efficiently share the same time, frequency, and code resources, paving the way for enhanced connectivity and improved system performance in wireless communication systems
 
