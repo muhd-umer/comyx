@@ -37,7 +37,7 @@ def calculate_noma_rate(M, K, Pt_lin, alpha, gain_mat, noise_lin):
                 + Pt_lin[u] * alpha[3] * gain_mat[0]
                 + noise_lin
             )
-        )  # User 1 (strongest user)
+        )  # User 1 (weakest user)
         rate_noma[1] = np.log2(
             1
             + Pt_lin[u]
@@ -58,7 +58,7 @@ def calculate_noma_rate(M, K, Pt_lin, alpha, gain_mat, noise_lin):
         )  # User 3
         rate_noma[3] = np.log2(
             1 + Pt_lin[u] * alpha[3] * gain_mat[3] / noise_lin
-        )  # User 4 (weakest user)
+        )  # User 4 (strongest user)
 
         # Calculate the sum rate of NOMA by taking the mean of the rate of all users
         rate_noma_sum[u] = np.mean(rate_noma)
