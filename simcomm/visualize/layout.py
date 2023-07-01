@@ -2,18 +2,22 @@
 Plotting functions for the layout of the network.
 """
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from matplotlib.image import imread
 
 
-def plot_network(area, bs_pos, user_pos, ris_pos=None):
+def plot_network(
+    area, radius, bs_pos, user_pos, ris_pos=None, save=False, save_path=None
+):
     """
     Plot the layout of the network.
 
     Args:
         area: The area of the network.
+        radius: The radius of the base stations.
         bs_pos: The positions of the base stations.
         user_pos: The positions of the users.
         ris_pos: The positions of the RISs. Defaults to None.
@@ -29,11 +33,11 @@ def plot_network(area, bs_pos, user_pos, ris_pos=None):
     plt.grid()
 
     for bs in bs_pos:
-        circle = Circle(bs, radius=350, fill=False, alpha=0.25)
+        circle = Circle(bs, radius=radius, fill=False, alpha=0.25)
         ax.add_patch(circle)
         bs_img = imread("../resources/bs.png")
         plt.imshow(
-            bs_img, extent=[bs[0] - 40, bs[0] + 40, bs[1] - 50, bs[1] + 50], zorder=2
+            bs_img, extent=[bs[0] - 30, bs[0] + 30, bs[1] - 40, bs[1] + 40], zorder=2
         )
 
     for i, bs in enumerate(bs_pos):
@@ -52,11 +56,12 @@ def plot_network(area, bs_pos, user_pos, ris_pos=None):
                 if (user == user_pos[1]).all():
                     plt.plot([bs[0], user[0]], [bs[1] + 25, user[1]], "b:", zorder=1)
                 else:
-                    plt.plot([bs[0], user[0]], [bs[1] + 25, user[1]], "r--", zorder=1)
+                    # plt.plot([bs[0], user[0]], [bs[1] + 25, user[1]], "r--", zorder=1)
+                    pass
         user_img = imread("../resources/user.png")
         plt.imshow(
             user_img,
-            extent=[user[0] - 35, user[0] + 35, user[1] - 35, user[1] + 35],
+            extent=[user[0] - 30, user[0] + 30, user[1] - 30, user[1] + 30],
             zorder=2,
         )
 
@@ -65,7 +70,7 @@ def plot_network(area, bs_pos, user_pos, ris_pos=None):
             ris_img = imread("../resources/starris.png")
             plt.imshow(
                 ris_img,
-                extent=[ris[0] - 60, ris[0] + 60, ris[1] - 80, ris[1] + 80],
+                extent=[ris[0] - 35, ris[0] + 35, ris[1] - 50, ris[1] + 50],
                 zorder=0,
             )
 
@@ -79,16 +84,19 @@ def plot_network(area, bs_pos, user_pos, ris_pos=None):
                     plt.plot([ris[0], user[0]], [ris[1], user[1]], "k--", zorder=1)
 
         plt.plot([], [], "g-", label="Direct Link", zorder=1)
-        plt.plot([], [], "r--", label="Interference Link", zorder=1)
+        # plt.plot([], [], "r--", label="Interference Link", zorder=1)
         plt.plot([], [], "b--", label="ICI Link", zorder=1)
         plt.plot([], [], "k--", label="Reflection Link", zorder=1)
         plt.plot([], [], "m--", label="Transmission Link", zorder=1)
 
     else:
         plt.plot([], [], "g-", label="Direct Link", zorder=1)
-        plt.plot([], [], "r--", label="Interference Link", zorder=1)
+        # plt.plot([], [], "r--", label="Interference Link", zorder=1)
         plt.plot([], [], "b--", label="ICI Link", zorder=1)
 
     plt.title("Network Layout")
     plt.legend()
+    if save:
+        assert save_path is not None, "Please specify a path to save the figure."
+        plt.savefig(os.path.join(save_path, "layout.pdf"), bbox_inches="tight")
     plt.show()
