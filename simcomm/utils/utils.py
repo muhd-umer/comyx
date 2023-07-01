@@ -3,6 +3,7 @@ Common functions for wireless communication simulation.
 """
 
 import numpy as np
+import pandas as pd
 from scipy.constants import Boltzmann
 
 
@@ -112,3 +113,20 @@ def snr(signal_power, noise_power):
         float: SNR in decibels.
     """
     return 10 * np.log10(signal_power / noise_power)
+
+
+def rolling_mean(data, window_size):
+    """
+    Compute the rolling mean of a curve.
+
+    Args:
+        data: The curve to filter.
+        window_size: The size of the window to use for the rolling mean.
+
+    Returns:
+        The filtered curve.
+    """
+
+    filtered_curve = pd.Series(data).rolling(window_size).mean()
+
+    return filtered_curve
