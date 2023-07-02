@@ -7,7 +7,8 @@ import numpy as np
 
 def rayleigh_fading(n=1):
     """
-    Generate the Rayleigh fading channel coefficients.
+    Generates a Rayleigh fading coefficient as a complex Gaussian
+    random variable with zero mean and unit variance.
 
     Args:
         n: The number of samples to generate. Defaults to 1.
