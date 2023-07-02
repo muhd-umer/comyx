@@ -4,12 +4,12 @@ from .rayleigh import *
 from .rician import *
 
 
-def generate_channel(channel_type, distance, eta, *args, **kwargs):
+def get_fading(type, *args, **kwargs):
     """
     Generates the fading channel coefficients.
 
     Args:
-        channel_type: The type of the channel.
+        type: The type of the fading.
         distance: The distance between the transmitter and receiver.
         eta: The path loss exponent.
         *args: The arguments to pass to the channel generator.
@@ -19,14 +19,29 @@ def generate_channel(channel_type, distance, eta, *args, **kwargs):
         A NumPy array of complex numbers representing the fading coefficients.
     """
 
-    if channel_type == "rayleigh":
+    if type == "rayleigh":
         small_scale_fading = rayleigh_fading(*args, **kwargs)
-    elif channel_type == "rician":
+    elif type == "rician":
         small_scale_fading = rician_fading(*args, **kwargs)
     else:
-        raise NotImplementedError(f"Channel type {channel_type} is not implemented")
+        raise NotImplementedError(f"Channel type {type} is not implemented")
 
-    large_scale_fading = np.sqrt(distance**eta)
-    channel_gain = np.abs(small_scale_fading / large_scale_fading) ** 2
+    return small_scale_fading
 
-    return channel_gain
+
+def get_channel(small_scale_fading, distance, eta):
+    """
+    Generates the channel coefficients.
+
+    Args:
+        small_scale_fading: The small scale fading coefficients.
+        distance: The distance between the transmitter and receiver.
+        eta: The path loss exponent.
+
+    Returns:
+        A NumPy array of complex numbers representing the channel coefficients.
+    """
+    large_scale_fading = np.sqrt(distance ** (-eta))
+    h = large_scale_fading * small_scale_fading
+
+    return h
