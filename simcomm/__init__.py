@@ -1,1 +1,1 @@
-from . import fading, metrics, visualize, utils
+from . import channel, metrics, visualize, utils
