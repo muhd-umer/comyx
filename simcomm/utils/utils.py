@@ -132,7 +132,7 @@ def rolling_mean(data, window_size):
     return filtered_curve
 
 
-def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=30, r_max=100):
+def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=[30], r_max=[100]):
     """
     Randomize the user positions in the network except the edge user.
 
@@ -140,8 +140,8 @@ def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=30, r_max=100):
         bs_pos: Position of the base stations.
         user_pos: Position of the users.
         edge_idx: Index of the edge user.
-        r_min: Minimum distance between the users and the base stations. Defaults to 30.
-        r_max: Maximum distance between the users and the base stations. Defaults to 100.
+        r_min: List of minimum distances between the users and the base stations. Defaults to [30].
+        r_max: List of maximum distances between the users and the base stations. Defaults to [100].
 
     Returns:
         numpy.ndarray: Position of the users.
@@ -150,7 +150,9 @@ def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=30, r_max=100):
         if i == edge_idx:
             continue
         bs_idx = np.argmin(np.linalg.norm(bs_pos - user_pos[i], axis=1))
-        r = np.random.uniform(r_min, r_max)
+        rm = r_min[i] if len(r_min) > i else r_min[-1]
+        rM = r_max[i] if len(r_max) > i else r_max[-1]
+        r = np.random.uniform(rm, rM)
         theta = np.random.uniform(0, 2 * np.pi)
         user_pos[i] = bs_pos[bs_idx] + r * np.array([np.cos(theta), np.sin(theta), 0])
     return user_pos
