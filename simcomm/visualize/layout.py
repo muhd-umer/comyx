@@ -43,8 +43,7 @@ def plot_network(
     for i, bs in enumerate(bs_pos):
         if ris_pos is not None:
             for j, ris in enumerate(ris_pos):
-                if i == j:
-                    plt.plot([bs[0], ris[0]], [bs[1], ris[1]], "k-", zorder=1)
+                plt.plot([bs[0], ris[0]], [bs[1], ris[1]], "k-", zorder=1)
 
     for user in user_pos:
         for bs in bs_pos:
@@ -74,14 +73,11 @@ def plot_network(
                 zorder=0,
             )
 
-        for i, ris in enumerate(ris_pos):
-            for j, user in enumerate(user_pos):
-                if j == 0 and i == 0:
-                    plt.plot([ris[0], user[0]], [ris[1], user[1]], "k--", zorder=1)
-                elif j == 1 and (i == 0 or i == 1):
-                    plt.plot([ris[0], user[0]], [ris[1], user[1]], "m--", zorder=1)
-                elif j == 2 and i == 1:
-                    plt.plot([ris[0], user[0]], [ris[1], user[1]], "k--", zorder=1)
+        for j, user in enumerate(user_pos):
+            if j == 0 or j == 2:
+                plt.plot([ris[0], user[0]], [ris[1], user[1]], "k--", zorder=1)
+            else:
+                plt.plot([ris[0], user[0]], [ris[1], user[1]], "m--", zorder=1)
 
         plt.plot([], [], "g-", label="Direct Link", zorder=1)
         # plt.plot([], [], "r--", label="Interference Link", zorder=1)
