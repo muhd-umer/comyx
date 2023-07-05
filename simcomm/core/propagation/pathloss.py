@@ -58,5 +58,5 @@ def log_distance(distance, frequency, d_break, alpha):
     """
     lambda_ = 3e8 / frequency
     loss_break = 20 * np.log10(4 * np.pi * d_break / lambda_)
-    loss = loss_break + 10 * alpha * np.log10(d_break / distance)
+    loss = loss_break + 10 * alpha * np.log10(distance / d_break)
     return loss
