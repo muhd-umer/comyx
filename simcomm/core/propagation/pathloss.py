@@ -1,0 +1,62 @@
+"""
+Implementation of path loss models.
+"""
+
+import numpy as np
+
+
+def get_pathloss(type, distance, frequency, *args, **kwargs):
+    """
+    Get path loss in dB.
+
+    Args:
+        type: Path loss model type.
+        distance: Distance between transmitter and receiver.
+        frequency: Frequency of the signal.
+        *args: Additional arguments for the path loss model.
+        **kwargs: Additional keyword arguments for the path loss model.
+
+    Returns:
+        Path loss in dB.
+    """
+    if type == "free-space":
+        return free_space(distance, frequency)
+    elif type == "log-distance":
+        return log_distance(distance, frequency, *args, **kwargs)
+    else:
+        raise NotImplementedError(f"Path loss model {type} not implemented.")
+
+
+def free_space(distance, frequency):
+    """
+    Free space path loss model.
+
+    Args:
+        distance: Distance between transmitter and receiver.
+        frequency: Frequency of the signal.
+
+    Returns:
+        Path loss in dB.
+    """
+    lambda_ = 3e8 / frequency
+    loss = 20 * np.log10(4 * np.pi * distance / lambda_)
+    return loss
+
+
+def log_distance(distance, frequency, d_break, alpha):
+    """
+    Log distance path loss model.
+
+    Args:
+        distance: Distance between transmitter and receiver.
+        frequency: Frequency of the signal.
+        d_break: Break distance.
+        alpha: Path loss exponent.
+
+    Returns:
+        Path loss in dB.
+    """
+    lambda_ = 3e8 / frequency
+    loss_break = 20 * np.log10(4 * np.pi * d_break / lambda_)
+    loss = loss_break + 10 * alpha * np.log10(d_break / distance)
+    return loss

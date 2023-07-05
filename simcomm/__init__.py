@@ -1,1 +1,1 @@
-from . import channel, metrics, visualize, utils
+from . import core, metrics, visualize, utils
