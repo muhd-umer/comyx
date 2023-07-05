@@ -1,5 +1,6 @@
 from .fading import *
 from .propagation import *
+import numpy as np
 
 
 def generate_channel(small_scale_fading, distance, eta):
