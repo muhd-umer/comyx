@@ -59,7 +59,7 @@ def pow2dbm(power):
     return 10 * np.log10(power * 1000)
 
 
-def distance(pt1, pt2, dim=2):
+def get_distance(pt1, pt2, dim=2):
     """
     Calculate the Euclidean distance between two points.
 
@@ -99,20 +99,6 @@ def get_noise(BW, T, F):
     N = kT + BW + F
 
     return N
-
-
-def snr(signal_power, noise_power):
-    """
-    Calculate the signal-to-noise ratio (SNR) in decibels.
-
-    Args:
-        signal_power (float): Signal power in watts.
-        noise_power (float): Noise power in watts.
-
-    Returns:
-        float: SNR in decibels.
-    """
-    return 10 * np.log10(signal_power / noise_power)
 
 
 def rolling_mean(data, window_size):
