@@ -81,36 +81,16 @@ def get_distance(pt1, pt2, dim=2):
         raise ValueError("Invalid dimension. Must be 2 or 3.")
 
 
-def get_noise(BW, T, F):
-    """
-    Calculates the total noise power in a system.
-
-    Args:
-        BW (float): The bandwidth of the system in Hz.
-        T (float): The temperature of the system in Kelvin.
-        F (float): The noise figure of the system in dB.
-
-    Returns:
-        float: The total noise power in dBm.
-    """
-    k = Boltzmann
-    kT = 10 * np.log10(k * T)
-    BW = 10 * np.log10(BW)
-    N = kT + BW + F
-
-    return N
-
-
 def rolling_mean(data, window_size):
     """
     Compute the rolling mean of a curve.
 
     Args:
-        data: The curve to filter.
-        window_size: The size of the window to use for the rolling mean.
+        data (list): The curve to filter.
+        window_size (int): The size of the window to use for the rolling mean.
 
     Returns:
-        The filtered curve.
+        list: The filtered curve.
     """
 
     filtered_curve = pd.Series(data).rolling(window_size).mean()
@@ -123,11 +103,11 @@ def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=[30], r_max=[100]):
     Randomize the user positions in the network except the edge user.
 
     Args:
-        bs_pos: Position of the base stations.
-        user_pos: Position of the users.
-        edge_idx: Index of the edge user.
-        r_min: List of minimum distances between the users and the base stations. Defaults to [30].
-        r_max: List of maximum distances between the users and the base stations. Defaults to [100].
+        bs_pos (numpy.ndarray): Position of the base stations.
+        user_pos (numpy.ndarray): Position of the users.
+        edge_idx (int): Index of the edge user.
+        r_min (list): List of minimum distances between the users and the base stations. Defaults to [30].
+        r_max (list): List of maximum distances between the users and the base stations. Defaults to [100].
 
     Returns:
         numpy.ndarray: Position of the users.
