@@ -10,11 +10,14 @@ def get_pathloss(type, distance, frequency, *args, **kwargs):
     Get path loss in dB.
 
     Args:
-        type: Path loss model type.
+        type: Path loss model type. ("free-space", "log-distance")
         distance: Distance between transmitter and receiver.
         frequency: Frequency of the signal.
-        *args: Additional arguments for the path loss model.
-        **kwargs: Additional keyword arguments for the path loss model.
+
+    Optional Args:
+        d_break: The breakpoint distance.
+        eta: The path loss exponent.
+        sigma: The shadow fading standard deviation.
 
     Returns:
         Path loss in dB.
