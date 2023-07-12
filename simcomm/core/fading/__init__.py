@@ -7,7 +7,7 @@ def get_fading(type, *args, **kwargs):
     Generates the fading channel coefficients.
 
     Args:
-        type: The type of the fading.
+        type: The type of the fading. ("rayleigh", "rician")
         distance: The distance between the transmitter and receiver.
         eta: The path loss exponent.
         *args: The arguments to pass to the channel generator.
