@@ -43,7 +43,7 @@ def free_space(distance, frequency):
     return loss
 
 
-def log_distance(distance, frequency, d_break, alpha):
+def log_distance(distance, frequency, d_break, alpha, sigma):
     """
     Log distance path loss model.
 
@@ -52,11 +52,16 @@ def log_distance(distance, frequency, d_break, alpha):
         frequency: Frequency of the signal.
         d_break: Break distance.
         alpha: Path loss exponent.
+        sigma: Shadow fading standard deviation.
 
     Returns:
         Path loss in dB.
     """
     lambda_ = 3e8 / frequency
     loss_break = 20 * np.log10(4 * np.pi * d_break / lambda_)
-    loss = loss_break + 10 * alpha * np.log10(distance / d_break)
+    loss = (
+        loss_break
+        + 10 * alpha * np.log10(distance / d_break)
+        + np.random.normal(0, sigma)
+    )
     return loss
