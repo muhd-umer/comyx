@@ -3,20 +3,33 @@ Implementation of the reciever class.
 """
 
 import numpy as np
+from .system import SystemObject
+from .transmitter import Transmitter
+from ...utils import qfunc, inverse_qfunc
 
 
-class Reciever:
+class Reciever(SystemObject):
     """
-    A class representing a receiver.
+    A class representing a receiver. Inherits from SystemObject.
 
     Attributes:
-        rx_antenna_gain (float): The gain of the receiver antenna.
-        rx_sensitivity (float): The sensitivity of the receiver in dBm.
+        sensitivity: The sensitivity of the receiver.
+        margin: The margin of the receiver.
+
+    Inherited Attributes:
+        name: The name of the system object.
+        position: [x, y] coordinates of the system object.
+                  [x, y, z] coordinates if 3D.
+        antenna_gain: G, the gain of the antenna.
+        losses: Lf, the losses of the system object.
     """
 
-    def __init__(self, rx_antenna_gain, rx_frequency):
-        self.rx_antenna_gain = rx_antenna_gain
-        self.rx_frequency = rx_frequency
+    def __init__(self, name, position, antenna_gain, losses, sensitivity, margin):
+        super().__init__(name, position, antenna_gain, losses)
+        self.sensitivity = sensitivity
+        self.margin = margin
+        self.link_budget = None
+        self.outage_probability = None
 
     def demodulate(self, modulation_type, received_signal, *args, **kwargs):
         """
@@ -94,3 +107,16 @@ class Reciever:
             demodulated_data[i * m : (i + 1) * m] = symbol_bits
 
         return demodulated_data
+
+    def get_outage_probability(self, sigma):
+        """
+        Get the outage probability of the receiver
+
+        Args:
+            received_power: The received power at the receiver.
+            sigma: The shadow fading standard deviation.
+
+        Returns:
+            The outage probability of the receiver.
+        """
+        self.outage_probability = qfunc((self.link_budget - self.sensitivity) / sigma)
