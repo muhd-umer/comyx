@@ -4,22 +4,27 @@ Implementation of the transmitter class
 
 import numpy as np
 import scipy.signal as signal
+from .system import SystemObject
 
 
-class Transmitter:
+class Transmitter(SystemObject):
     """
-    A class representing a transmitter.
+    A class representing a receiver. Inherits from SystemObject.
 
     Attributes:
-        tx_power (float): The transmission power of the transmitter.
-        tx_antenna_gain (float): The gain of the transmitter antenna.
-        tx_frequency (float): The frequency of the transmitter.
+        transmit_power: The transmit power of the transmitter.
+
+    Inherited Attributes:
+        name: The name of the system object.
+        position: [x, y] coordinates of the system object.
+                  [x, y, z] coordinates if 3D.
+        antenna_gain: G, the gain of the antenna.
+        losses: Lf, the losses of the system object.
     """
 
-    def __init__(self, tx_power, tx_antenna_gain, tx_frequency):
-        self.tx_power = tx_power
-        self.tx_antenna_gain = tx_antenna_gain
-        self.tx_frequency = tx_frequency
+    def __init__(self, name, position, antenna_gain, losses, transmit_power):
+        super().__init__(name, position, antenna_gain, losses)
+        self.transmit_power = transmit_power
 
     def modulate(self, modulation_type, data, *args, **kwargs):
         """

@@ -4,6 +4,7 @@ Common functions for wireless communication simulation.
 
 import numpy as np
 import pandas as pd
+import scipy as sp
 from scipy.constants import Boltzmann
 
 
@@ -122,3 +123,29 @@ def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=[30], r_max=[100]):
         theta = np.random.uniform(0, 2 * np.pi)
         user_pos[i] = bs_pos[bs_idx] + r * np.array([np.cos(theta), np.sin(theta), 0])
     return user_pos
+
+
+def qfunc(x):
+    """
+    Compute the Q function.
+
+    Args:
+        x (float): The input.
+
+    Returns:
+        float: The output.
+    """
+    return 0.5 * sp.special.erfc(x / np.sqrt(2))
+
+
+def inverse_qfunc(x):
+    """
+    Compute the inverse Q function.
+
+    Args:
+        x (float): The input.
+
+    Returns:
+        float: The output.
+    """
+    return np.sqrt(2) * sp.special.erfcinv(2 * x)
