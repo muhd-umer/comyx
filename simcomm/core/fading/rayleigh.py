@@ -17,7 +17,7 @@ class Rayleigh:
     - RMS value := sqrt(2) * sigma
 
     Attributes:
-        sigma: The scale parameter of the Rayleigh distribution.
+        sigma (float): The scale parameter of the Rayleigh distribution.
 
     Reference:
         https://en.wikipedia.org/wiki/Rayleigh_distribution

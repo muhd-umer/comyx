@@ -19,10 +19,12 @@ class Rician:
     - RMS value := sigma * sqrt(2 + pi / 2)
 
     Attributes:
-        K: Rician factor := ratio between the power of direct path and the power of scattered paths.
-        omega: Scale parameter := total power from both line-of-sight and scattered paths.
-        sigma: Scale parameter := standard deviation of the distribution.
-        nu: Location parameter := shift of the distribution.
+        K (float): The Rician factor, which is the ratio between the power of the direct path and the power of the scattered paths.
+        omega (float): The scale parameter, which is the total power from both the line-of-sight and scattered paths.
+        sigma (float): The scale parameter, which is the standard deviation of the distribution.
+        nu (float): The location parameter, which is the shift of the distribution.
+
+        Specify either omega or sigma, and the other will be calculated automatically.
 
     Reference:
         https://en.wikipedia.org/wiki/Rice_distribution
