@@ -3,33 +3,91 @@ Implementation of Rician fading channel.
 """
 
 import numpy as np
+import scipy.stats as stats
 
-from .rayleigh import *
+from ...utils import i0, laguerre
 
 
-def rician_fading(K, P_los, n=1, link=True):
+class Rician:
     """
-    Generate the Rician fading channel coefficients.
+    A class representing a Rician distribution.
 
-    Args:
-        K: The Rician K-factor.
-        P_los: The power of the line-of-sight component.
-        n: The number of samples to generate. Defaults to 1.
+    Properties
+    - Density function := f(x) = (x / sigma^2) * exp(-(x^2 + nu^2) / (2 * sigma^2)) * I_0(x * nu / sigma^2)
+    - Expected value := sigma * sqrt(pi / 2) * exp(-nu^2 / (2 * sigma^2))
+    - Variance := 2 * sigma^2 + nu^2 - pi * sigma^2 / 2
+    - RMS value := sigma * sqrt(2 + pi / 2)
 
-    Returns:
-        A NumPy array of complex numbers representing the fading coefficients.
+    Attributes:
+        K: Rician factor := ratio between the power of direct path and the power of scattered paths.
+        omega: Scale parameter := total power from both line-of-sight and scattered paths.
+        sigma: Scale parameter := standard deviation of the distribution.
+        nu: Location parameter := shift of the distribution.
+
+    Reference:
+        https://en.wikipedia.org/wiki/Rice_distribution
     """
 
-    s = np.sqrt(K / (K + 1) * P_los)  # Non-centrality parameter
-    sigma = P_los / np.sqrt(2 * (K + 1))  # Standard deviation
-    if link:
-        los = np.sqrt(
-            (np.random.normal(s, sigma) ** 2) + 1j * (np.random.normal(0, sigma) ** 2)
+    def __init__(self, K, param, is_omega=False):
+        """
+        Initialize the Rician distribution with the given parameters.
+
+        Args:
+            K: Rician factor := ratio between the power of direct path and the power of scattered paths.
+            param: Scale parameter := either omega or sigma depending on the value of is_omega.
+            is_omega: bool := True if param is omega, False if param is sigma.
+        """
+        self.K = K
+        if is_omega:
+            self.omega = param
+            self.sigma = np.sqrt(self.omega / (2 * self.K + 2))
+        else:
+            self.sigma = param
+            self.omega = (2 * self.K + 2) * self.sigma**2
+        self.nu = np.sqrt((K / (1 + K)) * self.omega)
+
+    def pdf(self, x):
+        """
+        Return the probability density function of the Rician distribution.
+        """
+        return (
+            (x / self.sigma**2)
+            * np.exp(-(x**2 + self.nu**2) / (2 * self.sigma**2))
+            * i0(x * self.nu / self.sigma**2)
         )
-        nlos = rayleigh_fading(n)
-        h = np.sqrt(K / (K + 1)) * los + np.sqrt(1 / (K + 1)) * nlos
-    else:
-        h = np.sqrt(
-            (np.random.normal(s, sigma) ** 2) + 1j * (np.random.normal(0, sigma) ** 2)
+
+    def cdf(self, x):
+        """
+        Return the cumulative distribution function of the Rician distribution.
+        """
+        return stats.rice.cdf(x, self.nu / self.sigma)
+
+    def expected_value(self):
+        """
+        Return the expected value of the Rician distribution.
+        """
+        arg = -self.nu**2 / (2 * self.sigma**2)
+        return self.sigma * np.sqrt(np.pi / 2) * laguerre(arg, 1 / 2)
+
+    def variance(self):
+        """
+        Return the variance of the Rician distribution.
+        """
+        arg = -self.nu**2 / (2 * self.sigma**2)
+        return (
+            2 * self.sigma**2
+            + self.nu**2
+            - ((np.pi * self.sigma**2 / 2) * (laguerre(arg, 1 / 2) ** 2))
         )
-    return h
+
+    def rms_value(self):
+        """
+        Return the RMS value of the Rician distribution.
+        """
+        return self.sigma * np.sqrt(2 + np.pi / 2)
+
+    def generate(self, size):
+        """
+        Generate random variables from the Rician distribution.
+        """
+        return stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
