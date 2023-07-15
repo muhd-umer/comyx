@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import scipy as sp
 from scipy.constants import Boltzmann
+from scipy.special import i0, i1
 
 
 def db2pow(db):
@@ -149,3 +150,25 @@ def inverse_qfunc(x):
         float: The output.
     """
     return np.sqrt(2) * sp.special.erfcinv(2 * x)
+
+
+def laguerre(x, n):
+    """
+    Compute the Laguerre polynomial of degree n.
+
+    Args:
+        x (float): The input.
+        n (float): The degree of the polynomial.
+
+    Returns:
+        float: The output.
+    """
+
+    if n == 0:
+        return 1
+    elif n == 1 / 2:
+        return np.exp(x / 2) * ((1 - x) * i0(-x / 2) - x * i1(-x / 2))
+    elif n == 1:
+        return 1 - x
+    else:
+        return ((2 * n - 1 - x) * laguerre(x, n - 1) - (n - 1) * laguerre(x, n - 2)) / n
