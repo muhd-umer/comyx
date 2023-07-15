@@ -162,3 +162,4 @@ cython_debug/
 assignments/assignment_2/experimental/
 baseline_simulator/
 simulations/experimental.ipynb
+.vscode/
