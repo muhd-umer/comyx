@@ -3,9 +3,9 @@ Implementation of the reciever class.
 """
 
 import numpy as np
-from .system import SystemObject
-from .transmitter import Transmitter
-from ...utils import qfunc, inverse_qfunc
+
+from ...utils import qfunc
+from . import SystemObject
 
 
 class Reciever(SystemObject):
@@ -15,6 +15,8 @@ class Reciever(SystemObject):
     Attributes:
         sensitivity: The sensitivity of the receiver.
         margin: The margin of the receiver.
+        self.link_budget: The link budget of the receiver.
+        self.outage_probability: The outage probability of the receiver.
 
     Inherited Attributes:
         name: The name of the system object.
