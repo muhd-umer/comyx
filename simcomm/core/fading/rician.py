@@ -30,7 +30,7 @@ class Rician:
         https://en.wikipedia.org/wiki/Rice_distribution
     """
 
-    def __init__(self, K, param, is_omega=False):
+    def __init__(self, K, sigma):
         """
         Initialize the Rician distribution with the given parameters.
 
@@ -40,12 +40,8 @@ class Rician:
             is_omega: bool := True if param is omega, False if param is sigma.
         """
         self.K = K
-        if is_omega:
-            self.omega = param
-            self.sigma = np.sqrt(self.omega / (2 * self.K + 2))
-        else:
-            self.sigma = param
-            self.omega = (2 * self.K + 2) * self.sigma**2
+        self.sigma = sigma
+        self.omega = (2 * self.K + 2) * self.sigma**2
         self.nu = np.sqrt((K / (1 + K)) * self.omega)
 
     def pdf(self, x):
