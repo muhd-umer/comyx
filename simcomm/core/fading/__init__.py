@@ -16,9 +16,7 @@ def get_multipath_fading(type, size, *args, **kwargs):
 
     Rician Args:
         K: The shape parameter of the Rician distribution.
-        param: Can be either the scale parameter or the non-centrality parameter.
-               [Scale] omega: The scale parameter of the Rician distribution.
-               [Variance] sigma: The variance of the Rician distribution.
+        sigma: The scale parameter of the Rician distribution.
 
     Returns:
         A NumPy array of complex numbers representing the fading coefficients.
