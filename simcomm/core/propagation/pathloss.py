@@ -4,6 +4,8 @@ Implementation of path loss models.
 
 import numpy as np
 
+from ...utils import pow2db
+
 
 def get_pathloss(type, distance, frequency, *args, **kwargs):
     """
@@ -14,20 +16,40 @@ def get_pathloss(type, distance, frequency, *args, **kwargs):
         distance: Distance between transmitter and receiver.
         frequency: Frequency of the signal.
 
-    Optional Args:
+    Simple Args:
+        alpha: Path loss exponent.
+
+    Log Distance Args:
         d_break: The breakpoint distance.
-        eta: The path loss exponent.
+        alpha: The path loss exponent.
         sigma: The shadow fading standard deviation.
 
     Returns:
         Path loss in dB.
     """
+    if type == "simple":
+        return pow2db(distance, *args, **kwargs)
     if type == "free-space":
         return free_space(distance, frequency)
     elif type == "log-distance":
         return log_distance(distance, frequency, *args, **kwargs)
     else:
         raise NotImplementedError(f"Path loss model {type} not implemented.")
+
+
+def simple(distance, alpha):
+    """
+    Simple path loss model.
+
+    Args:
+        distance: Distance between transmitter and receiver.
+        alpha: Path loss exponent.
+
+    Returns:
+        Path loss in dB.
+    """
+    loss = pow2db(distance**alpha)
+    return loss
 
 
 def free_space(distance, frequency):
