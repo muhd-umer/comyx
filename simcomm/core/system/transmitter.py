@@ -1,10 +1,11 @@
 """
-Implementation of the transmitter class
+Implementation of the transmitter class.
 """
 
 import numpy as np
 import scipy.signal as signal
-from .system import SystemObject
+
+from . import Receiver, SystemObject
 
 
 class Transmitter(SystemObject):
@@ -25,6 +26,26 @@ class Transmitter(SystemObject):
     def __init__(self, name, position, antenna_gain, losses, transmit_power):
         super().__init__(name, position, antenna_gain, losses)
         self.transmit_power = transmit_power
+        self.allocations = {}
+
+    def set_allocation(self, receiver, allocation):
+        """
+        Sets the allocation for a given receiver.
+
+        Args:
+            receiver (Receiver): The receiver object.
+            allocation (dict): The allocation for the receiver.
+        """
+        self.allocations[receiver.name] = allocation
+
+    def get_allocation(self, receiver):
+        """
+        Gets the allocation for a given receiver.
+
+        Args:
+            receiver (Receiver): The receiver object.
+        """
+        return self.allocations[receiver.name]
 
     def modulate(self, modulation_type, data, *args, **kwargs):
         """
