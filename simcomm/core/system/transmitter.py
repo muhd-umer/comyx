@@ -1,55 +1,51 @@
-"""
-Implementation of the transmitter class.
-"""
-
 import numpy as np
-import scipy.signal as signal
 
-from . import Receiver, SystemObject
+from .system import SystemObject
 
 
 class Transmitter(SystemObject):
-    """
-    A class representing a receiver. Inherits from SystemObject.
+    """A class representing a transmitter.
+
+    This class inherits from SystemObject and represents a transmitter object in a wireless communication system.
 
     Attributes:
-        transmit_power: The transmit power of the transmitter.
+        name (str): The name of the transmitter.
+        position (list): The position of the transmitter in 2D or 3D space.
+        antenna_gain (float): The gain of the transmitter's antenna.
+        losses (float): The losses of the transmitter.
+        transmit_power (float): The transmit power of the transmitter.
+        allocations (dict): A dictionary of power allocations for the receivers.
 
     Inherited Attributes:
-        name: The name of the system object.
-        position: [x, y] coordinates of the system object.
-                  [x, y, z] coordinates if 3D.
-        antenna_gain: G, the gain of the antenna.
-        losses: Lf, the losses of the system object.
+        name (str): The name of the system object.
+        position (list): The position of the system object in 2D or 3D space.
+        antenna_gain (float): The gain of the system object's antenna.
+        losses (float): The losses of the system object.
     """
 
     def __init__(self, name, position, antenna_gain, losses, transmit_power):
+        """
+        Initializes a Transmitter object with the given parameters.
+        """
         super().__init__(name, position, antenna_gain, losses)
         self.transmit_power = transmit_power
         self.allocations = {}
 
     def set_allocation(self, receiver, allocation):
         """
-        Sets the allocation for a given receiver.
-
-        Args:
-            receiver (Receiver): The receiver object.
-            allocation (dict): The allocation for the receiver.
+        Sets the power allocation for a given receiver.
         """
         self.allocations[receiver.name] = allocation
 
     def get_allocation(self, receiver):
         """
-        Gets the allocation for a given receiver.
-
-        Args:
-            receiver (Receiver): The receiver object.
+        Gets the power allocation for a given receiver.
         """
         return self.allocations[receiver.name]
 
     def modulate(self, modulation_type, data, *args, **kwargs):
         """
-        Modulate the data with the given modulation type
+        Modulates the input data with the given modulation type.
         """
         if modulation_type == "bpsk":
             return self.bpsk_modulation(data)
@@ -65,7 +61,7 @@ class Transmitter(SystemObject):
 
     def bpsk_modulation(self, data):
         """
-        Perform BPSK modulation on the input data
+        Performs BPSK modulation on the input data.
         """
         modulated_data = np.zeros(len(data), dtype=np.complex64)
         for i, bit in enumerate(data):
@@ -77,7 +73,7 @@ class Transmitter(SystemObject):
 
     def qpsk_modulation(self, data):
         """
-        Perform QPSK modulation on the input data
+        Performs QPSK modulation on the input data.
         """
         modulated_data = np.zeros(len(data) // 2, dtype=np.complex64)
         for i in range(len(data) // 2):
@@ -95,7 +91,7 @@ class Transmitter(SystemObject):
 
     def nqam_modulation(self, data, n):
         """
-        Perform N-QAM modulation on the input data with the specified value of n
+        Performs N-QAM modulation on the input data with the specified value of n.
         """
         if n < 4 or n % 2 != 0:
             raise ValueError("Invalid value of n for N-QAM modulation")
@@ -115,4 +111,5 @@ class Transmitter(SystemObject):
                 modulated_data[i] = (2 * symbol - n + 1) / np.sqrt(n)
             else:
                 modulated_data[i] = (2 * (symbol - n // 2) - n + 2) / np.sqrt(n)
+        return modulated_data
         return modulated_data
