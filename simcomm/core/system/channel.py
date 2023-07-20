@@ -1,77 +1,93 @@
-"""
-Implements the channel class.
-"""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import numpy as np
 
 from ...utils import db2pow, get_distance
 from ..fading import *
 from ..propagation import *
-from . import Reciever, Transmitter
+
+if TYPE_CHECKING:
+    from .receiver import Receiver
+    from .transmitter import Transmitter
 
 
 class Channel:
-    """
-    A class representing a wireless channel.
+    """A class representing a wireless channel.
+
+    Args:
+        transmitter: The transmitter object.
+        receiver: The receiver object.
+        frequency: The frequency of the channel.
+        fading_args: The arguments for the fading model.
+        pathloss_args: The arguments for the pathloss model.
+        size: The number of channel gains to generate.
 
     Attributes:
-        transmitter (Transmitter): The transmitter object.
-        receiver (Receiver): The receiver object.
-        frequency (float): The frequency of the channel.
-        fading_args (dict): The arguments for the fading model.
-        pathloss_args (dict): The arguments for the pathloss model.
-        size (int): The number of channel gains to generate.
+        transmitter: The transmitter object.
+        receiver: The receiver object.
+        frequency: The frequency of the channel.
+        fading_args: The arguments for the fading model.
+        pathloss_args: The arguments for the pathloss model.
+        size: The number of channel gains to generate.
+        distance: The distance between the transmitter and receiver.
+        pathloss: The pathloss value.
+        multipath_fading: The multipath fading values.
+
+    Raises:
+        ValueError: If the size is less than or equal to 0.
 
     Fading Args:
-        type (str): The type of fading model to use.
-        size (int): The number of channel gains to generate.
-        library (str): The library to use for the fading model.
+        type: The type of fading model to use.
+        size: The number of channel gains to generate.
+        ret: The return type, either "gains" or "coefficients".
 
         Rayleigh Fading Args:
-            sigma (float): The scale factor of the Rayleigh distribution.
+            sigma: The scale factor of the Rayleigh distribution.
 
         Rician Fading Args:
-            K (float): The K factor of the Rician distribution.
-            sigma (float): The scale factor of the Rician distribution.
+            K: The K factor of the Rician distribution.
+            sigma: The scale factor of the Rician distribution.
 
     Pathloss Args:
-        type (str): The type of pathloss model to use.
+        type: The type of pathloss model to use.
 
         Simple Args:
-            alpha (float): The pathloss exponent.
+            alpha: The pathloss exponent.
 
         Log Distance Args:
-            alpha (float): The pathloss exponent.
-            d_break (float): The breakpoint distance.
-            sigma (float): The standard deviation of the shadowing.
+            alpha: The pathloss exponent.
+            d_break: The breakpoint distance.
+            sigma: The standard deviation of the shadowing.
     """
 
     def __init__(
         self,
         transmitter: Transmitter,
-        receiver: Reciever,
-        frequency,
-        fading_args,
-        pathloss_args,
-        size,
-    ):
+        receiver: Receiver,
+        frequency: float,
+        fading_args: dict,
+        pathloss_args: dict,
+        size: int,
+    ) -> None:
         self.transmitter = transmitter
         self.receiver = receiver
         self.frequency = frequency
-        self.pathloss_args = get_pathloss(
-            **pathloss_args, distance=self.distance, frequency=self.frequency
-        )
-        self.multipath_fading = get_multipath_fading(**fading_args)
         self.size = size
         self.distance = get_distance(self.transmitter.position, self.receiver.position)
+        self.pathloss = get_pathloss(
+            **pathloss_args, distance=self.distance, frequency=self.frequency
+        )
+        self.multipath_fading = get_multipath_fading(**fading_args, size=self.size)
 
-    def generate_channel(self):
-        """
-        Generates the channel gains from the multipath fading and pathloss values.
+    def generate_channel(self) -> np.ndarray:
+        """Generates the channel coefficients from the multipath fading and pathloss values.
 
         Returns:
-            Channel gains in linear scale.
+            The channel coefficients.
         """
-        channel_gains = np.sqrt(db2pow(-1 * self.pathloss)) * self.multipath_fading
+        coefficients = np.sqrt(db2pow(-1 * self.pathloss)) * self.multipath_fading
 
-        return channel_gains
+        return coefficients
+        return coefficients
