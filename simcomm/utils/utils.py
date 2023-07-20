@@ -1,77 +1,67 @@
-"""
-Common functions for wireless communication simulation.
-"""
-
 import numpy as np
 import pandas as pd
 import scipy as sp
-from scipy.constants import Boltzmann
 from scipy.special import i0, i1
 
 
-def db2pow(db):
-    """
-    Convert decibels to power.
+def db2pow(db: float) -> float:
+    """Convert decibels to power.
 
     Args:
-        db (float): Power in decibels.
+        db: Power in decibels.
 
     Returns:
-        float: Power.
+        Power.
     """
     return 10 ** (db / 10)
 
 
-def pow2db(power):
-    """
-    Convert power to decibels.
+def pow2db(power: float) -> float:
+    """Convert power to decibels.
 
     Args:
-        power (float): Power.
+        power: Power.
 
     Returns:
-        float: Power in decibels.
+        Power in decibels.
     """
     return 10 * np.log10(power)
 
 
-def dbm2pow(dbm):
-    """
-    Convert decibels relative to 1 milliwatt to power.
+def dbm2pow(dbm: float) -> float:
+    """Convert decibels relative to 1 milliwatt to power.
 
     Args:
-        dbm (float): Power in decibels relative to 1 milliwatt.
+        dbm: Power in decibels relative to 1 milliwatt.
 
     Returns:
-        float: Power in watts.
+        Power in watts.
     """
     return 10 ** ((dbm - 30) / 10)
 
 
-def pow2dbm(power):
-    """
-    Convert power to decibels relative to 1 milliwatt.
+def pow2dbm(power: float) -> float:
+    """Convert power to decibels relative to 1 milliwatt.
 
     Args:
-        power (float): Power in watts.
+        power: Power in watts.
 
     Returns:
-        float: Power in decibels relative to 1 milliwatt.
+        Power in decibels relative to 1 milliwatt.
     """
     return 10 * np.log10(power * 1000)
 
 
-def get_distance(pt1, pt2, dim=2):
-    """
-    Calculate the Euclidean distance between two points.
+def get_distance(pt1: tuple, pt2: tuple, dim: int = 2) -> float:
+    """Calculate the Euclidean distance between two points.
 
     Args:
-        pt1 (tuple): First point as a tuple of (x, y) or (x, y, z) coordinates.
-        pt2 (tuple): Second point as a tuple of (x, y) or (x, y, z) coordinates.
-        dim (int): Dimension of the points. Default is 2.
+        pt1: First point as a tuple of (x, y) or (x, y, z) coordinates.
+        pt2: Second point as a tuple of (x, y) or (x, y, z) coordinates.
+        dim: Dimension of the points. Default is 2.
 
     Returns:
-        float: Euclidean distance between the two points.
+        Euclidean distance between the two points.
     """
     if dim == 2:
         return np.sqrt((pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2)
@@ -83,36 +73,40 @@ def get_distance(pt1, pt2, dim=2):
         raise ValueError("Invalid dimension. Must be 2 or 3.")
 
 
-def rolling_mean(data, window_size):
-    """
-    Compute the rolling mean of a curve.
+def rolling_mean(data: list, window_size: int) -> list:
+    """Compute the rolling mean of a curve.
 
     Args:
-        data (list): The curve to filter.
-        window_size (int): The size of the window to use for the rolling mean.
+        data: The curve to filter.
+        window_size: The size of the window to use for the rolling mean.
 
     Returns:
-        list: The filtered curve.
+        The filtered curve.
     """
 
     filtered_curve = pd.Series(data).rolling(window_size).mean()
 
-    return filtered_curve
+    return filtered_curve.tolist()
 
 
-def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=[30], r_max=[100]):
-    """
-    Randomize the user positions in the network except the edge user.
+def randomize_user_pos(
+    bs_pos: np.ndarray,
+    user_pos: np.ndarray,
+    edge_idx: int,
+    r_min: list = [30],
+    r_max: list = [100],
+) -> np.ndarray:
+    """Randomize the user positions in the network except the edge user.
 
     Args:
-        bs_pos (numpy.ndarray): Position of the base stations.
-        user_pos (numpy.ndarray): Position of the users.
-        edge_idx (int): Index of the edge user.
-        r_min (list): List of minimum distances between the users and the base stations. Defaults to [30].
-        r_max (list): List of maximum distances between the users and the base stations. Defaults to [100].
+        bs_pos: Position of the base stations.
+        user_pos: Position of the users.
+        edge_idx: Index of the edge user.
+        r_min: List of minimum distances between the users and the base stations. Defaults to [30].
+        r_max: List of maximum distances between the users and the base stations. Defaults to [100].
 
     Returns:
-        numpy.ndarray: Position of the users.
+        Position of the users.
     """
     for i in range(len(user_pos)):
         if i == edge_idx:
@@ -126,42 +120,39 @@ def randomize_user_pos(bs_pos, user_pos, edge_idx, r_min=[30], r_max=[100]):
     return user_pos
 
 
-def qfunc(x):
-    """
-    Compute the Q function.
+def qfunc(x: float) -> float:
+    """Compute the Q function.
 
     Args:
-        x (float): The input.
+        x: The input.
 
     Returns:
-        float: The output.
+        The output.
     """
     return 0.5 * sp.special.erfc(x / np.sqrt(2))
 
 
-def inverse_qfunc(x):
-    """
-    Compute the inverse Q function.
+def inverse_qfunc(x: float) -> float:
+    """Compute the inverse Q function.
 
     Args:
-        x (float): The input.
+        x: The input.
 
     Returns:
-        float: The output.
+        The output.
     """
     return np.sqrt(2) * sp.special.erfcinv(2 * x)
 
 
-def laguerre(x, n):
-    """
-    Compute the Laguerre polynomial of degree n.
+def laguerre(x: float, n: float) -> float:
+    """Compute the Laguerre polynomial of degree n.
 
     Args:
-        x (float): The input.
-        n (float): The degree of the polynomial.
+        x: The input.
+        n: The degree of the polynomial.
 
     Returns:
-        float: The output.
+        The output.
     """
 
     if n == 0:
@@ -172,3 +163,16 @@ def laguerre(x, n):
         return 1 - x
     else:
         return ((2 * n - 1 - x) * laguerre(x, n - 1) - (n - 1) * laguerre(x, n - 2)) / n
+
+
+def fix_range(phase: np.ndarray) -> np.ndarray:
+    """Convert phase to the range [-pi, pi].
+
+    Args:
+        phase: The phase array.
+
+    Returns:
+        The phase array in the range [-pi, pi].
+    """
+    phi = np.where(phase > np.pi, phase - 2 * np.pi, phase)
+    return np.where(phi < -np.pi, phi + 2 * np.pi, phi)
