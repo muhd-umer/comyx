@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Union
 
 import numpy as np
 
@@ -153,7 +153,7 @@ class STAR(SystemObject):
     def update_link(
         self,
         links: LinkCollection,
-        transmitter: Transmitter,
+        transmitter: Union[Transmitter, List[Transmitter]],
         receiver: Receiver,
     ) -> None:
         """Updates the link between the Transmitter and Receiver with combined channel.
@@ -161,23 +161,36 @@ class STAR(SystemObject):
 
         Args:
             links (LinkCollection): The collection of links in the system.
-            transmitters (Transmitter): The transmitter in the system.
+            transmitters (Union[Transmitter, List[Transmitter]]): The transmitter(s) in the system. Pass a list of transmitters if link type between Transmitter and Receiver is "E".
             receiver (Receiver): The receiver in the system.
 
         Raises:
             AssertionError: If there are not exactly 2 base stations or 3 receivers.
         """
-        ris_addition = np.zeros((links.size, 1), dtype=np.complex128)
+        ris_1h_val = np.zeros((links.size, 1), dtype=np.complex128)
+        ris_2h_val = np.zeros((links.size, 1), dtype=np.complex128)
 
-        if links.get_link_type(transmitter, receiver) == "E":
+        if isinstance(transmitter, list):
+            assert (links.get_link_type(transmitter[0], receiver) == "E") and (
+                links.get_link_type(transmitter[1], receiver) == "E"
+            ), "Both BS1 -> UF and BS2 -> UF must be E links."
+
             for i in range(self.elements):
-                ris_addition += (
+                ris_1h_val += (
                     np.conj(links.get_link(self, receiver)[i])
                     * np.sqrt(self.beta_t[i])
                     * np.exp(1j * self.theta_t[i])
-                    * links.get_link(transmitter, self)[i]
+                    * links.get_link(transmitter[0], self)[i]
                 )
-            links.update_link(transmitter, receiver, ris_addition)
+                ris_2h_val += (
+                    np.conj(links.get_link(self, receiver)[i])
+                    * np.sqrt(self.beta_t[i + self.elements_per_bs])
+                    * np.exp(1j * self.theta_t[i + self.elements_per_bs])
+                    * links.get_link(transmitter[1], self)[i]
+                )
+
+            links.update_link(transmitter[0], receiver, ris_1h_val)
+            links.update_link(transmitter[1], receiver, ris_2h_val)
 
         elif links.get_link_type(transmitter, receiver) == "1C":
             for i in range(self.elements_per_bs):
