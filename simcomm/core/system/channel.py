@@ -53,12 +53,13 @@ class Channel:
     Pathloss Args:
         type: The type of pathloss model to use.
 
-        Simple Args:
+        FSPL Args:
             alpha: The pathloss exponent.
+            p0: The reference pathloss at 1m.
 
         Log Distance Args:
             alpha: The pathloss exponent.
-            d_break: The breakpoint distance.
+            d0: The breakpoint distance.
             sigma: The standard deviation of the shadowing.
     """
 

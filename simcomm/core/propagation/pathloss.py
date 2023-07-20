@@ -19,43 +19,45 @@ def get_pathloss(
         distance: Distance between transmitter and receiver.
         frequency: Frequency of the signal.
 
-    Simple Args:
+    FSPL Args:
         alpha: Path loss exponent.
+        p0: Reference path loss at 1m.
 
     Log Distance Args:
-        d_break: The breakpoint distance.
+        d0: The breakpoint distance.
         alpha: The path loss exponent.
         sigma: The shadow fading standard deviation.
 
     Returns:
         Path loss in dB.
     """
-    if type == "simple":
-        return simple(distance, *args, **kwargs)
     if type == "free-space":
-        return free_space(distance, frequency)
+        return free_space(distance, *args, **kwargs)
+    if type == "friis":
+        return friis(distance, frequency)
     elif type == "log-distance":
         return log_distance(distance, frequency, *args, **kwargs)
     else:
         raise NotImplementedError(f"Path loss model {type} not implemented.")
 
 
-def simple(distance: float, alpha: float) -> float:
-    """Simple path loss model.
+def free_space(distance: float, alpha: float, p0: float) -> float:
+    """Free space path loss model.
 
     Args:
         distance: Distance between transmitter and receiver.
         alpha: Path loss exponent.
+        p0: Reference path loss at 1m.
 
     Returns:
         Path loss in dB.
     """
-    loss = pow2db(distance**alpha)
+    loss = pow2db(distance**alpha) + p0
     return loss
 
 
-def free_space(distance: float, frequency: float) -> float:
-    """Free space path loss model.
+def friis(distance: float, frequency: float) -> float:
+    """Friis path loss model.
 
     Args:
         distance: Distance between transmitter and receiver.
@@ -70,14 +72,14 @@ def free_space(distance: float, frequency: float) -> float:
 
 
 def log_distance(
-    distance: float, frequency: float, d_break: float, alpha: float, sigma: float
+    distance: float, frequency: float, d0: float, alpha: float, sigma: float
 ) -> float:
     """Log distance path loss model.
 
     Args:
         distance: Distance between transmitter and receiver.
         frequency: Frequency of the signal.
-        d_break: Break distance.
+        d0: Break distance.
         alpha: Path loss exponent.
         sigma: Shadow fading standard deviation.
 
@@ -85,10 +87,8 @@ def log_distance(
         Path loss in dB.
     """
     lambda_ = 3e8 / frequency
-    loss_break = 20 * np.log10(4 * np.pi * d_break / lambda_)
+    loss_break = 20 * np.log10(4 * np.pi * d0 / lambda_)
     loss = (
-        loss_break
-        + 10 * alpha * np.log10(distance / d_break)
-        + np.random.normal(0, sigma)
+        loss_break + 10 * alpha * np.log10(distance / d0) + np.random.normal(0, sigma)
     )
     return loss
