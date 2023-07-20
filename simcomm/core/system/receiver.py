@@ -17,13 +17,10 @@ class Receiver(SystemObject):
         name (str): The name of the system object.
         position (List[float]): [x, y] coordinates of the system object.
                                 [x, y, z] coordinates if 3D.
-        antenna_gain (float): G, the gain of the antenna.
-        losses (float): Lf, the losses of the system object.
-
     """
 
-    def __init__(self, name, position, antenna_gain, losses, margin, sensitivity):
-        super().__init__(name, position, antenna_gain, losses)
+    def __init__(self, name, position, margin, sensitivity):
+        super().__init__(name, position)
         self.sensitivity = sensitivity
         self.margin = margin
         self.rate = None
