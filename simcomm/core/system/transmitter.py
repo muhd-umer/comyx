@@ -19,15 +19,13 @@ class Transmitter(SystemObject):
     Inherited Attributes:
         name (str): The name of the system object.
         position (list): The position of the system object in 2D or 3D space.
-        antenna_gain (float): The gain of the system object's antenna.
-        losses (float): The losses of the system object.
     """
 
-    def __init__(self, name, position, antenna_gain, losses, transmit_power):
+    def __init__(self, name, position, transmit_power):
         """
         Initializes a Transmitter object with the given parameters.
         """
-        super().__init__(name, position, antenna_gain, losses)
+        super().__init__(name, position)
         self.transmit_power = transmit_power
         self.allocations = {}
 
