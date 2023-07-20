@@ -1,15 +1,18 @@
-"""
-Implementation of path loss models.
-"""
+from typing import Union
 
 import numpy as np
 
 from ...utils import pow2db
 
 
-def get_pathloss(type, distance, frequency, *args, **kwargs):
-    """
-    Get path loss in dB.
+def get_pathloss(
+    type: str,
+    distance: float,
+    frequency: float,
+    *args: Union[float, int],
+    **kwargs: Union[float, int],
+) -> float:
+    """Get path loss in dB.
 
     Args:
         type: Path loss model type. ("free-space", "log-distance")
@@ -28,7 +31,7 @@ def get_pathloss(type, distance, frequency, *args, **kwargs):
         Path loss in dB.
     """
     if type == "simple":
-        return pow2db(distance, *args, **kwargs)
+        return simple(distance, *args, **kwargs)
     if type == "free-space":
         return free_space(distance, frequency)
     elif type == "log-distance":
@@ -37,9 +40,8 @@ def get_pathloss(type, distance, frequency, *args, **kwargs):
         raise NotImplementedError(f"Path loss model {type} not implemented.")
 
 
-def simple(distance, alpha):
-    """
-    Simple path loss model.
+def simple(distance: float, alpha: float) -> float:
+    """Simple path loss model.
 
     Args:
         distance: Distance between transmitter and receiver.
@@ -52,9 +54,8 @@ def simple(distance, alpha):
     return loss
 
 
-def free_space(distance, frequency):
-    """
-    Free space path loss model.
+def free_space(distance: float, frequency: float) -> float:
+    """Free space path loss model.
 
     Args:
         distance: Distance between transmitter and receiver.
@@ -68,9 +69,10 @@ def free_space(distance, frequency):
     return loss
 
 
-def log_distance(distance, frequency, d_break, alpha, sigma):
-    """
-    Log distance path loss model.
+def log_distance(
+    distance: float, frequency: float, d_break: float, alpha: float, sigma: float
+) -> float:
+    """Log distance path loss model.
 
     Args:
         distance: Distance between transmitter and receiver.

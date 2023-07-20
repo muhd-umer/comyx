@@ -1,19 +1,22 @@
-"""
-Plotting functions for the layout of the network.
-"""
-
 import os
-import numpy as np
+from typing import List, Tuple
+
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
+import numpy as np
 from matplotlib.image import imread
+from matplotlib.patches import Circle
 
 
 def plot_network(
-    area, radius, bs_pos, user_pos, ris_pos=None, save=False, save_path=None
-):
-    """
-    Plot the layout of the network.
+    area: float,
+    radius: float,
+    bs_pos: List[Tuple[float, float]],
+    user_pos: List[Tuple[float, float]],
+    ris_pos: List[Tuple[float, float]] = None,
+    save: bool = False,
+    save_path: str = None,
+) -> None:
+    """Plot the layout of the network.
 
     Args:
         area: The area of the network.
@@ -21,6 +24,8 @@ def plot_network(
         bs_pos: The positions of the base stations.
         user_pos: The positions of the users.
         ris_pos: The positions of the RISs. Defaults to None.
+        save: Whether to save the figure. Defaults to False.
+        save_path: The path to save the figure. Required if save is True.
 
     Returns:
         None
@@ -95,4 +100,5 @@ def plot_network(
     if save:
         assert save_path is not None, "Please specify a path to save the figure."
         plt.savefig(os.path.join(save_path, "layout.pdf"), bbox_inches="tight")
+    plt.show()
     plt.show()
