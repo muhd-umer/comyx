@@ -163,3 +163,4 @@ assignments/assignment_2/experimental/
 baseline_simulator/
 .vscode/
 *.ipynb
+simulations/pyclean.sh
