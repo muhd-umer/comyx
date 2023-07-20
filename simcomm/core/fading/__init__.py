@@ -19,16 +19,16 @@ def get_multipath_fading(type, size, *args, **kwargs):
         sigma: The scale parameter of the Rician distribution.
 
     Returns:
-        A NumPy array of complex numbers representing the fading coefficients.
+        Channel gains.
     """
 
     if type == "rayleigh":
         distribution = Rayleigh(*args, **kwargs)
-        coefficients = distribution.generate(size=size)
+        coefficients = distribution.generate_coefficients(size=size)
 
     elif type == "rician":
         distribution = Rician(*args, **kwargs)
-        coefficients = distribution.generate(size=size)
+        coefficients = distribution.generate_coefficients(size=size)
 
     else:
         raise NotImplementedError(f"Channel type {type} is not implemented")
