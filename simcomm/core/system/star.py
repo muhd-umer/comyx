@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, List, Union
 
 import numpy as np
 
+from ...utils import wrapTo2Pi
 from .system import SystemObject
 
 if TYPE_CHECKING:
@@ -19,10 +20,10 @@ class STAR(SystemObject):
 
     Attributes:
         elements (int): The number of elements in the RIS.
-        beta_r (float): The reflection coefficient of the RIS.
-        theta_r (float): The reflection angle of the RIS.
-        beta_t (float): The transmission coefficient of the RIS.
-        theta_t (float): The transmission angle of the RIS.
+        beta_r (np.ndarray): The reflection coefficients of the RIS.
+        theta_r (np.ndarray): The phase shifts of the RIS.
+        beta_t (np.ndarray): The transmission coefficients of the RIS.
+        theta_t (np.ndarray): The phase shifts of the RIS.
         transmission_matrix (np.ndarray): The transmission matrix of the RIS.
         reflection_matrix (np.ndarray): The reflection matrix of the RIS.
 
@@ -39,11 +40,10 @@ class STAR(SystemObject):
 
     Raises:
         AssertionError: If the number of elements is not even.
-
     """
 
     def __init__(self, name: str, position: List[float], elements: int) -> None:
-        super().__init__(name, position, None, None)
+        super().__init__(name, position)
         assert elements % 2 == 0, "The number of elements must be even."
         self.elements = elements
         self.elements_per_bs = self.elements // 2
@@ -51,8 +51,6 @@ class STAR(SystemObject):
         self.theta_r = None
         self.beta_t = None
         self.theta_t = None
-        self.transmission_matrix = None
-        self.reflection_matrix = None
 
     def set_reflection_parameters(
         self,
@@ -89,20 +87,16 @@ class STAR(SystemObject):
 
         self.theta_r = np.zeros((self.elements, links.size, 1))
 
-        for i in range(self.elements_per_bs):
-            self.theta_r[i] = np.angle(bs1_u1c) - np.angle(bs1_ris * ris_u1c)
-            self.theta_r[i + self.elements_per_bs] = np.angle(bs2_u2c) - np.angle(
-                bs2_ris * ris_u2c
-            )
-
-        self.beta_r = np.ones((self.elements, links.size, 1)) * 0.5
-
-        self.reflection_matrix = np.zeros(
-            (self.elements, self.elements, links.size, 1), dtype=np.complex128
+        self.theta_r[: self.elements_per_bs] = wrapTo2Pi(
+            wrapTo2Pi(np.angle(bs1_u1c))
+            - (wrapTo2Pi(np.angle(bs1_ris)) + wrapTo2Pi(np.angle(ris_u1c)))
+        )
+        self.theta_r[self.elements_per_bs :] = wrapTo2Pi(
+            wrapTo2Pi(np.angle(bs2_u2c))
+            - (wrapTo2Pi(np.angle(bs2_ris)) + wrapTo2Pi(np.angle(ris_u2c)))
         )
 
-        for i in range(self.elements):
-            self.reflection_matrix[i, i] = self.beta_r[i] * np.exp(1j * self.theta_r[i])
+        self.beta_r = np.ones((self.elements, links.size, 1)) * 0.5
 
     def set_transmission_parameters(
         self,
@@ -128,29 +122,28 @@ class STAR(SystemObject):
         bs1_ris, bs2_ris = links.get_link(transmitters[0], receiver), links.get_link(
             transmitters[1], self
         )
-        ris_uf = links.get_link(self, receiver)[1]
+        ris_uf = links.get_link(self, receiver)
 
         self.theta_t = np.zeros((self.elements, links.size, 1))
 
-        self.theta_t[: self.elements_per_bs] = np.angle(bs1_uf) - np.angle(
-            bs1_ris * ris_uf
+        self.theta_t[: self.elements_per_bs] = wrapTo2Pi(
+            wrapTo2Pi(np.angle(bs1_uf))
+            - (
+                wrapTo2Pi(np.angle(bs1_ris))
+                + wrapTo2Pi(np.angle(ris_uf[: self.elements_per_bs]))
+            )
         )
-        self.theta_t[self.elements_per_bs :] = np.angle(bs2_uf) - np.angle(
-            bs2_ris * ris_uf
+        self.theta_t[self.elements_per_bs :] = wrapTo2Pi(
+            wrapTo2Pi(np.angle(bs2_uf))
+            - (
+                wrapTo2Pi(np.angle(bs2_ris))
+                + wrapTo2Pi(np.angle(ris_uf[self.elements_per_bs :]))
+            )
         )
 
         self.beta_t = np.ones((self.elements, links.size, 1)) * 0.5
 
-        self.transmission_matrix = np.zeros(
-            (self.elements, self.elements, links.size, 1), dtype=np.complex128
-        )
-
-        for i in range(self.elements):
-            self.transmission_matrix[i, i] = self.beta_t[i] * np.exp(
-                1j * self.theta_t[i]
-            )
-
-    def update_link(
+    def merge_link(
         self,
         links: LinkCollection,
         transmitter: Union[Transmitter, List[Transmitter]],
@@ -167,22 +160,26 @@ class STAR(SystemObject):
         Raises:
             AssertionError: If there are not exactly 2 base stations or 3 receivers.
         """
-        ris_1h_val = np.zeros((links.size, 1), dtype=np.complex128)
-        ris_2h_val = np.zeros((links.size, 1), dtype=np.complex128)
-
         if isinstance(transmitter, list):
-            assert (links.get_link_type(transmitter[0], receiver) == "E") and (
+            assert (
+                links.get_link_type(transmitter[0], receiver) == "E"
+                or links.get_link_type(transmitter[0], receiver) == "DNE"
+            ) and (
                 links.get_link_type(transmitter[1], receiver) == "E"
-            ), "Both BS1 -> UF and BS2 -> UF must be E links."
+                or links.get_link_type(transmitter[1], receiver) == "DNE"
+            ), "Both BS1 -> UF and BS2 -> UF must be 'E' or 'DNE' links."
 
-            for i in range(self.elements):
-                ris_1h_val += (
+            ris_1h_val = np.zeros((links.size, 1), dtype=np.float64)
+            ris_2h_val = np.zeros((links.size, 1), dtype=np.float64)
+
+            for i in range(self.elements_per_bs):
+                ris_1h_val += np.abs(
                     np.conj(links.get_link(self, receiver)[i])
                     * np.sqrt(self.beta_t[i])
                     * np.exp(1j * self.theta_t[i])
                     * links.get_link(transmitter[0], self)[i]
                 )
-                ris_2h_val += (
+                ris_2h_val += np.abs(
                     np.conj(links.get_link(self, receiver)[i])
                     * np.sqrt(self.beta_t[i + self.elements_per_bs])
                     * np.exp(1j * self.theta_t[i + self.elements_per_bs])
@@ -193,22 +190,30 @@ class STAR(SystemObject):
             links.update_link(transmitter[1], receiver, ris_2h_val)
 
         elif links.get_link_type(transmitter, receiver) == "1C":
+            ris_addition = np.zeros((links.size, 1), dtype=np.float64)
+
             for i in range(self.elements_per_bs):
-                ris_addition += (
+                ris_addition += np.abs(
                     np.conj(links.get_link(self, receiver)[i])
                     * np.sqrt(self.beta_r[i])
                     * np.exp(1j * self.theta_r[i])
                     * links.get_link(transmitter, self)[i]
                 )
 
+            links.update_link(transmitter, receiver, ris_addition)
+
         elif links.get_link_type(transmitter, receiver) == "2C":
+            ris_addition = np.zeros((links.size, 1), dtype=np.float64)
+
             for i in range(self.elements_per_bs):
-                ris_addition += (
+                ris_addition += np.abs(
                     np.conj(links.get_link(self, receiver)[i])
                     * np.sqrt(self.beta_r[i + self.elements_per_bs])
                     * np.exp(1j * self.theta_r[i + self.elements_per_bs])
                     * links.get_link(transmitter, self)[i]
                 )
+
+            links.update_link(transmitter, receiver, ris_addition)
 
         else:
             raise NotImplementedError("Invalid link type.")
