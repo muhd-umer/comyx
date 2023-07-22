@@ -165,14 +165,13 @@ def laguerre(x: float, n: float) -> float:
         return ((2 * n - 1 - x) * laguerre(x, n - 1) - (n - 1) * laguerre(x, n - 2)) / n
 
 
-def fix_range(phase: np.ndarray) -> np.ndarray:
-    """Convert phase to the range [-pi, pi].
+def wrapTo2Pi(theta: np.ndarray) -> np.ndarray:
+    """Wrap an angle to the interval [0, 2pi].
 
     Args:
-        phase: The phase array.
+        theta: The angle to wrap.
 
     Returns:
-        The phase array in the range [-pi, pi].
+        The wrapped angle.
     """
-    phi = np.where(phase > np.pi, phase - 2 * np.pi, phase)
-    return np.where(phi < -np.pi, phi + 2 * np.pi, phi)
+    return np.mod(theta, 2 * np.pi)
