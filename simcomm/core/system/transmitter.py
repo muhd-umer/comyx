@@ -22,8 +22,18 @@ class Transmitter(SystemObject):
     """
 
     def __init__(self, name, position, transmit_power):
-        """
-        Initializes a Transmitter object with the given parameters.
+        """Initializes a Transmitter object with the given parameters.
+
+        Args:
+            name: The name of the transmitter.
+            position: The position of the transmitter in 2D or 3D space.
+            transmit_power: The transmit power of the transmitter.
+
+        Attributes:
+            name (str): The name of the transmitter.
+            position (list): The position of the transmitter in 2D or 3D space.
+            transmit_power (float): The transmit power of the transmitter.
+            allocations (dict): A dictionary of power allocations for the receivers.
         """
         super().__init__(name, position)
         self.transmit_power = transmit_power
