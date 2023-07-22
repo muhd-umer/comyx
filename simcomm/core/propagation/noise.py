@@ -17,14 +17,14 @@ def thermal_noise(bandwidth: float, temperature: float = 300) -> float:
 
 
 def get_noise_power(
-    noise_figure: float, bandwidth: float, temperature: float = 300
+    bandwidth: float, temperature: float = 300, noise_figure: float = 0
 ) -> float:
     """Compute the noise power in dBm.
 
     Args:
-        noise_figure: Noise figure in dB.
         bandwidth: Bandwidth in Hz.
         temperature: Temperature in Kelvin.
+        noise_figure: Noise figure in dB.
 
     Returns:
         Noise power in dBm.
