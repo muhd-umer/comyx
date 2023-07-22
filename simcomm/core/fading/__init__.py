@@ -2,13 +2,13 @@ from .rayleigh import *
 from .rician import *
 
 
-def get_multipath_fading(type, size, *args, **kwargs):
+def get_rvs(type, shape, *args, **kwargs):
     """
-    Generates the multipath fading coefficients.
+    Generates random variables from a distribution.
 
     Args:
         type: The type of the fading. ("rayleigh", "rician")
-        size: The number of fading coefficients to generate.
+        shape: The number of fading coefficients to generate.
         library: The library to use for generating the fading coefficients.
 
     Rayleigh Args:
@@ -24,11 +24,11 @@ def get_multipath_fading(type, size, *args, **kwargs):
 
     if type == "rayleigh":
         distribution = Rayleigh(*args, **kwargs)
-        coefficients = distribution.generate_coefficients(size=size)
+        coefficients = distribution.generate_samples(size=shape)
 
     elif type == "rician":
         distribution = Rician(*args, **kwargs)
-        coefficients = distribution.generate_coefficients(size=size)
+        coefficients = distribution.generate_samples(size=shape)
 
     else:
         raise NotImplementedError(f"Channel type {type} is not implemented")
