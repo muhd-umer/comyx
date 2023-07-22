@@ -103,7 +103,7 @@ class Rician:
         """
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
-    def generate(self, size: int) -> np.ndarray:
+    def generate_samples(self, size: int) -> np.ndarray:
         """Generate random variables from the Rician distribution.
 
         Args:

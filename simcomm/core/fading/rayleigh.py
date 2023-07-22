@@ -63,7 +63,7 @@ class Rayleigh:
         """
         return np.sqrt(2) * self.sigma
 
-    def generate(self, size: int) -> np.ndarray:
+    def generate_samples(self, size: int) -> np.ndarray:
         """Generates random variables from the Rayleigh distribution.
 
         Args:
