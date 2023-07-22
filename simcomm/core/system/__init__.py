@@ -15,25 +15,34 @@ class LinkCollection:
         links (dict): A dictionary of links.
         link_types (dict): A dictionary of link types.
         size (int): The size of the links.
+        frequency (float): The frequency of the carrier signal in Hz.
     """
 
-    def __init__(self, size: int):
+    def __init__(
+        self,
+        size: int,
+        frequency: float,
+    ):
         """
         Initializes a new instance of the LinkCollection class.
 
         Args:
             size (int): The size of the links.
+            frequency (float): The frequency of the carrier signal in Hz.
         """
         self.links = {}
         self.link_types = {}
         self.size = size
+        self.frequency = frequency
 
     def add_link(
         self,
         transmitter: Union[Transmitter, STAR],
         receiver: Receiver,
-        channel: Channel,
+        fading_args: dict,
+        pathloss_args: dict,
         type: str,
+        elements: int = None,
     ) -> None:
         """
         Adds a link to the collection.
@@ -41,15 +50,40 @@ class LinkCollection:
         Args:
             transmitter (Transmitter or STAR): The transmitter object.
             receiver (Receiver): The receiver object.
-            channel (Channel): The channel object.
-            type (str): The type of link. ("1C", "2C") for center users, "E" for edge users, "RIS" for RIS.
+            fading_args (dict): The arguments for the fading model.
+            pathloss_args (dict): The arguments for the pathloss model.
+            type (str): The type of link. Can be "1C", "2C", "E", "RIS", or "DNE".
+            elements (int): The number of elements in the link.
         """
-        assert type in ["1C", "2C", "E", "RIS"], "Invalid link type."
-        self.links[transmitter.name, receiver.name] = channel.generate_channel()
+        assert type in ["1C", "2C", "E", "RIS", "DNE"], "Invalid link type."
+
+        no_link = False
+        if type == "RIS":
+            assert (
+                elements is not None
+            ), "Number of elements must be specified for RIS links."
+            link_size = (elements, self.size, 1)
+        elif type == "DNE":
+            no_link = True
+            link_size = (self.size, 1)
+        else:
+            link_size = (self.size, 1)
+
+        self.links[transmitter.name, receiver.name] = Channel(
+            transmitter,
+            receiver,
+            self.frequency,
+            fading_args,
+            pathloss_args,
+            link_size,
+            no_link,
+        )
         self.link_types[transmitter.name, receiver.name] = type
 
     def get_link(
-        self, transmitter: Union[Transmitter, STAR], receiver: Receiver
+        self,
+        transmitter: Union[Transmitter, STAR],
+        receiver: Receiver,
     ) -> np.ndarray:
         """
         Gets the channel between a transmitter and receiver.
@@ -61,7 +95,21 @@ class LinkCollection:
         Returns:
             The channel between the transmitter and receiver.
         """
-        return self.links[transmitter.name, receiver.name]
+
+        return self.links[transmitter.name, receiver.name].coefficients
+
+    def get_gain(self, transmitter: Transmitter, receiver: Receiver) -> float:
+        """
+        Gets the gain between a transmitter and receiver.
+
+        Args:
+            transmitter (Transmitter): The transmitter object.
+            receiver (Receiver): The receiver object.
+
+        Returns:
+            The gain between the transmitter and receiver.
+        """
+        return np.abs(self.links[transmitter.name, receiver.name].coefficients) ** 2
 
     def get_link_type(
         self, transmitter: Union[Transmitter, STAR], receiver: Receiver
@@ -95,9 +143,14 @@ class LinkCollection:
         Returns:
             The combined channel between the transmitter and receiver.
         """
-        assert value.shape == self.links[transmitter.name, receiver.name].shape
-        self.links[transmitter.name, receiver.name] = (
-            self.links[transmitter.name, receiver.name] + value
+        assert (
+            value.shape
+            == self.links[transmitter.name, receiver.name].coefficients.shape
+        ), "Value to combine must have the same shape as the channel."
+
+        phase = wrapTo2Pi(np.angle(self.get_link(transmitter, receiver)))
+        self.links[transmitter.name, receiver.name].update_channel(
+            value * np.exp(1j * phase)
         )
 
     def __str__(self):
@@ -105,6 +158,13 @@ class LinkCollection:
         Returns a string representation of the LinkCollection.
 
         Returns:
-            A string representation of the LinkCollection.
+            A string representation of the LinkCollection. Displays links as "Transmitter -> Receiver" along with the type of link and shape of the channel.
         """
-        return "\n".join([f"{k[0]} -> {k[1]}" for k in self.links.keys()])
+        string = ""
+        for link in self.links:
+            string += (
+                f"{link[0]} -> {link[1]} | Type: ({self.link_types[link]}) | Shape: "
+                f"{self.links[link].coefficients.shape}\n"
+            )
+
+        return string
