@@ -1,5 +1,8 @@
+from typing import List
+
 import numpy as np
 
+from ...utils import qfunc
 from .system import SystemObject
 
 
@@ -11,7 +14,7 @@ class Receiver(SystemObject):
         margin (float): The margin of the receiver.
         rate (float): The rate of the receiver.
         snr (float): The signal-to-noise ratio of the receiver.
-        outage_probability (float): The outage probability of the receiver.
+        outage (float): The outage probability of the receiver.
 
     Attributes:
         name (str): The name of the system object.
@@ -19,13 +22,30 @@ class Receiver(SystemObject):
                                 [x, y, z] coordinates if 3D.
     """
 
-    def __init__(self, name, position, margin, sensitivity):
+    def __init__(
+        self, name: str, position: List[float], margin: float, sensitivity: float
+    ) -> None:
+        """
+        Initializes a Receiver object with the given parameters.
+
+        Args:
+            name: The name of the receiver.
+            position: The position of the receiver in 2D or 3D space.
+            margin: The margin of the receiver.
+            sensitivity: The sensitivity of the receiver.
+
+        Attributes:
+            name (str): The name of the receiver.
+            position (list): The position of the receiver in 2D or 3D space.
+            margin (float): The margin of the receiver.
+            rate (float): The rate of the receiver.
+            outage (float): The outage probability of the receiver.
+        """
         super().__init__(name, position)
-        self.sensitivity = sensitivity
         self.margin = margin
+        self.sensitivity = sensitivity
         self.rate = None
-        self.snr = None
-        self.outage_probability = None
+        self.outage = None
 
     def demodulate(self, modulation_type, received_signal, *args, **kwargs):
         """
@@ -103,3 +123,14 @@ class Receiver(SystemObject):
             demodulated_data[i * m : (i + 1) * m] = symbol_bits
 
         return demodulated_data
+
+    def compute_outage(self, noise_power, sigma):
+        """
+        Compute the outage probability of the receiver
+
+        Args:
+            sigma: Shadowing standard deviation.
+        """
+        self.outage = qfunc(
+            np.mean((self.snr + noise_power - self.sensitivity) / sigma, axis=0)
+        )
