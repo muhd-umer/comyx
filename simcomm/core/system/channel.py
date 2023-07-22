@@ -16,51 +16,17 @@ if TYPE_CHECKING:
 class Channel:
     """A class representing a wireless channel.
 
-    Args:
-        transmitter: The transmitter object.
-        receiver: The receiver object.
-        frequency: The frequency of the channel.
-        fading_args: The arguments for the fading model.
-        pathloss_args: The arguments for the pathloss model.
-        size: The number of channel gains to generate.
-
     Attributes:
         transmitter: The transmitter object.
         receiver: The receiver object.
         frequency: The frequency of the channel.
         fading_args: The arguments for the fading model.
         pathloss_args: The arguments for the pathloss model.
-        size: The number of channel gains to generate.
+        shape: The shape of the channel coefficients.
         distance: The distance between the transmitter and receiver.
-        pathloss: The pathloss value.
-        multipath_fading: The multipath fading values.
-
-    Raises:
-        ValueError: If the size is less than or equal to 0.
-
-    Fading Args:
-        type: The type of fading model to use.
-        size: The number of channel gains to generate.
-        ret: The return type, either "gains" or "coefficients".
-
-        Rayleigh Fading Args:
-            sigma: The scale factor of the Rayleigh distribution.
-
-        Rician Fading Args:
-            K: The K factor of the Rician distribution.
-            sigma: The scale factor of the Rician distribution.
-
-    Pathloss Args:
-        type: The type of pathloss model to use.
-
-        FSPL Args:
-            alpha: The pathloss exponent.
-            p0: The reference pathloss at 1m.
-
-        Log Distance Args:
-            alpha: The pathloss exponent.
-            d0: The breakpoint distance.
-            sigma: The standard deviation of the shadowing.
+        pathloss: The pathloss between the transmitter and receiver.
+        ext_coefficients: The external coefficients of the channel.
+        coefficients: The channel coefficients.
     """
 
     def __init__(
@@ -70,25 +36,78 @@ class Channel:
         frequency: float,
         fading_args: dict,
         pathloss_args: dict,
-        size: int,
+        shape: tuple,
+        no_link=False,
     ) -> None:
+        """Initializes the channel object.
+
+        Args:
+        transmitter: The transmitter object.
+        receiver: The receiver object.
+        frequency: The frequency of the channel.
+        fading_args: The arguments for the fading model.
+        pathloss_args: The arguments for the pathloss model.
+        shape: The number of channel gains to generate.
+        no_link: If True, the complex fading is zero.
+
+        Fading Args:
+            type: The type of fading model to use.
+            shape: The number of channel gains to generate.
+            ret: The return type, either "gains" or "coefficients".
+
+            Rayleigh Fading Args:
+                sigma: The scale factor of the Rayleigh distribution.
+
+            Rician Fading Args:
+                K: The K factor of the Rician distribution.
+                sigma: The scale factor of the Rician distribution.
+
+        Pathloss Args:
+            type: The type of pathloss model to use.
+
+            FSPL Args:
+                alpha: The pathloss exponent.
+                p0: The reference pathloss at 1m.
+
+            Log Distance Args:
+                alpha: The pathloss exponent.
+                d0: The breakpoint distance.
+                sigma: The standard deviation of the shadowing.
+        """
         self.transmitter = transmitter
         self.receiver = receiver
         self.frequency = frequency
-        self.size = size
+        self.shape = shape
+        self.fading_args = fading_args
+        self.no_link = no_link
         self.distance = get_distance(self.transmitter.position, self.receiver.position)
         self.pathloss = get_pathloss(
             **pathloss_args, distance=self.distance, frequency=self.frequency
         )
-        self.multipath_fading = get_multipath_fading(**fading_args, size=self.size)
+        self.generate_channel()
 
-    def generate_channel(self) -> np.ndarray:
+    def generate_channel(self) -> None:
         """Generates the channel coefficients from the multipath fading and pathloss values.
+
+        Args:
+            no_link: If True, the complex fading is zero.
 
         Returns:
             The channel coefficients.
         """
-        coefficients = np.sqrt(db2pow(-1 * self.pathloss)) * self.multipath_fading
+        if not self.no_link:
+            dist_samples = get_rvs(**self.fading_args, shape=self.shape)
+            phase = np.random.uniform(0, 2 * np.pi, self.shape)
+            complex_fading = dist_samples * np.exp(1j * phase)
+            self.coefficients = np.sqrt(db2pow(-1 * self.pathloss)) * complex_fading
+        else:
+            self.coefficients = np.zeros(self.shape, dtype=np.complex128)
 
-        return coefficients
-        return coefficients
+    def update_channel(self, value) -> None:
+        """
+        Updates the channel coefficients from the multipath fading and pathloss values.
+
+        Args:
+            value: The value to add to the channel coefficients.
+        """
+        self.coefficients += value
