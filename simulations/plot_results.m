@@ -1,4 +1,6 @@
 % Define data
+clear;
+close all;
 Pt = load("results\tx_power_-50.0dB_30.0dB").tx_power;
 
 %% Links
@@ -184,8 +186,8 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Export Graphics
-exportgraphics(fig1, '../resources/figs/links.pdf')
-exportgraphics(fig2, '../resources/figs/outage.pdf')
-exportgraphics(fig3, '../resources/figs/se_vs_ee.pdf')
-exportgraphics(fig4, '../resources/figs/rates.pdf')
-exportgraphics(fig5, '../resources/figs/sumrate.pdf')
+exportgraphics(fig1, '../resources/links.pdf')
+exportgraphics(fig2, '../resources/outage.pdf')
+exportgraphics(fig3, '../resources/se_vs_ee.pdf')
+exportgraphics(fig4, '../resources/rates.pdf')
+exportgraphics(fig5, '../resources/sumrate.pdf')
