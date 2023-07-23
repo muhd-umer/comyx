@@ -39,14 +39,14 @@ Shadowing (sigma):
 The rest of the parameters are variable in nature, and are defined when creating system objects.
 """
 
-configs = {
+environment = {
     "positions": {
-        "BS1": [-50, 0, 25],
-        "BS2": [50, 0, 25],
+        "BS1": [-50, 0, 30],
+        "BS2": [50, 0, 30],
         "RIS": [0, 25, 10],
-        "UF": [0, 35, 1],
-        "U1C": [-40, 18, 3],
-        "U2C": [30, 21, 1],
+        "Uf": [0, 35, 1],
+        "U1c": [-40, 18, 3],
+        "U2c": [30, 21, 1],
     },
     "fading": {
         "rayleigh": {"type": "rayleigh", "sigma": 1},
@@ -60,5 +60,33 @@ configs = {
         "risOE": {"type": "free-space", "alpha": 2.2, "p0": 30},
         "edge": {"type": "free-space", "alpha": 3.5, "p0": 30},
         "inter": {"type": "free-space", "alpha": 4, "p0": 30},
+    },
+}
+
+setting = {
+    "both": {
+        "ris_enhanced": True,
+        "bs1_uf_link": "E",
+        "bs2_uf_link": "E",
+    },
+    "bs1_only": {
+        "ris_enhanced": True,
+        "bs1_uf_link": "E",
+        "bs2_uf_link": "DNE",
+    },
+    "bs2_only": {
+        "ris_enhanced": True,
+        "bs1_uf_link": "DNE",
+        "bs2_uf_link": "E",
+    },
+    "none": {
+        "ris_enhanced": True,
+        "bs1_uf_link": "DNE",
+        "bs2_uf_link": "DNE",
+    },
+    "no_ris": {
+        "ris_enhanced": False,
+        "bs1_uf_link": "E",
+        "bs2_uf_link": "E",
     },
 }
