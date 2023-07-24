@@ -4,34 +4,34 @@ close all;
 Pt = load("results\tx_power_-50.0dB_30.0dB").tx_power;
 
 %% Links
-link_both = load("results\res_32ris_enhanced_link_both.mat");
-link_bs1 = load("results\res_32ris_enhanced_link_bs1_only.mat");
-link_bs2 = load("results\res_32ris_enhanced_link_bs2_only.mat");
-link_none = load("results\res_32ris_enhanced_link_none.mat");
-
-fig1 = figure();
-% Plot data
-plot(Pt, link_both.sum_rate, 'LineWidth', 1.25, 'Marker', 'o', ...
-    'MarkerIndices', 1:5:length(Pt));
-hold on;
-plot(Pt, link_bs1.sum_rate, 'LineWidth', 1.25, 'Marker', 's', ...
-    'MarkerIndices', 1:5:length(Pt));
-plot(Pt, link_bs2.sum_rate, 'LineWidth', 1.25, 'Marker', 'd', ...
-    'MarkerIndices', 1:5:length(Pt));
-plot(Pt, link_none.sum_rate, 'LineWidth', 1.25, 'Marker', 'p', ...
-    'MarkerIndices', 1:5:length(Pt));
-
-% Add labels and legend
-xlabel('Transmit Power (dBm)');
-ylim([0 18])
-xlim([-30 0])
-ylabel('Network Sum Rate (bits/s/Hz)');
-legend('Both BS_{1} and BS_{2} Links', 'BS_{1} Link Only', ...
-    'BS_{2} Link Only', 'No Direct Links', 'Location', 'southeast');
-
-% Add grid
-grid('on');
-set(gca, 'GridAlpha', 0.15);
+% link_both = load("results\res_32ris_enhanced_link_both.mat");
+% link_bs1 = load("results\res_32ris_enhanced_link_bs1_only.mat");
+% link_bs2 = load("results\res_32ris_enhanced_link_bs2_only.mat");
+% link_none = load("results\res_32ris_enhanced_link_none.mat");
+% 
+% fig1 = figure();
+% % Plot data
+% plot(Pt, link_both.sum_rate, 'LineWidth', 1.25, 'Marker', 'o', ...
+%     'MarkerIndices', 1:5:length(Pt));
+% hold on;
+% plot(Pt, link_bs1.sum_rate, 'LineWidth', 1.25, 'Marker', 's', ...
+%     'MarkerIndices', 1:5:length(Pt));
+% plot(Pt, link_bs2.sum_rate, 'LineWidth', 1.25, 'Marker', 'd', ...
+%     'MarkerIndices', 1:5:length(Pt));
+% plot(Pt, link_none.sum_rate, 'LineWidth', 1.25, 'Marker', 'p', ...
+%     'MarkerIndices', 1:5:length(Pt));
+% 
+% % Add labels and legend
+% xlabel('Transmit Power (dBm)');
+% ylim([0 18])
+% xlim([-30 0])
+% ylabel('Network Sum Rate (bits/s/Hz)');
+% legend('Both BS_{1} and BS_{2} Links', 'BS_{1} Link Only', ...
+%     'BS_{2} Link Only', 'No Direct Links', 'Location', 'southeast');
+% 
+% % Add grid
+% grid('on');
+% set(gca, 'GridAlpha', 0.15);
 
 %% Outage
 no_ris = load("results\res_no_ris.mat");
@@ -94,7 +94,7 @@ plot(ris32.se, ris32.ee, 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', i);
 [~, i] = max(ris70.ee);
 plot(ris70.se, ris70.ee, 'LineWidth', 1.25, ...
-'Marker', 'o', 'MarkerIndices', i + 1);
+'Marker', 'o', 'MarkerIndices', i);
     
 % Add labels and legend
 xlabel('Spectral Efficiency (bits/s/Hz)');
@@ -158,7 +158,7 @@ set(gca, 'GridAlpha', 0.15);
 no_ris = load("results\res_no_ris.mat");
 ris32 = load("results\res_32ris_enhanced_link_both.mat");
 ris70 = load("results\res_70ris_enhanced_link_both.mat");
-custom = load("results\res_70ris_enhanced_link_both_custom.mat");
+custom = load("results\res_70ris_enhanced_link_both_oPA.mat");
 
 fig5 = figure();
 
@@ -179,14 +179,14 @@ xlabel('Transmit Power (dBm)');
 xlim([-30 -10])
 ylabel('Network Sum Rate (bits/s/Hz)');
 legend('No STAR-RIS', '{M = 32} Elements', '{M = 70} Elements', ...
-    '{M = 70} Elements + Optimized PA', 'Location', 'northwest');
+    '{M = 70} Elements + Optimal PA', 'Location', 'northwest');
 
 % Add grid
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Export Graphics
-exportgraphics(fig1, '../resources/links.pdf')
+% exportgraphics(fig1, '../resources/links.pdf')
 exportgraphics(fig2, '../resources/outage.pdf')
 exportgraphics(fig3, '../resources/se_vs_ee.pdf')
 exportgraphics(fig4, '../resources/rates.pdf')
