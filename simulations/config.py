@@ -41,12 +41,12 @@ The rest of the parameters are variable in nature, and are defined when creating
 
 environment = {
     "positions": {
-        "BS1": [-50, 0, 30],
-        "BS2": [50, 0, 30],
-        "RIS": [0, 25, 10],
+        "BS1": [-50, 0, 25],
+        "BS2": [50, 0, 25],
+        "RIS": [0, 25, 5],
         "Uf": [0, 35, 1],
-        "U1c": [-40, 18, 3],
-        "U2c": [30, 21, 1],
+        "U1c": [-40, 18, 1],
+        "U2c": [30, 22, 1],
     },
     "fading": {
         "rayleigh": {"type": "rayleigh", "sigma": 1},
@@ -56,8 +56,8 @@ environment = {
     "pathloss": {
         "center": {"type": "free-space", "alpha": 3, "p0": 30},
         "ris": {"type": "free-space", "alpha": 3, "p0": 30},
-        "risOC": {"type": "free-space", "alpha": 2.6, "p0": 30},
-        "risOE": {"type": "free-space", "alpha": 2.2, "p0": 30},
+        "risOC": {"type": "free-space", "alpha": 2.7, "p0": 30},
+        "risOE": {"type": "free-space", "alpha": 2.3, "p0": 30},
         "edge": {"type": "free-space", "alpha": 3.5, "p0": 30},
         "inter": {"type": "free-space", "alpha": 4, "p0": 30},
     },
