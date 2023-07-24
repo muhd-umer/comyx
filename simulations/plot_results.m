@@ -1,7 +1,7 @@
 % Define data
 clear;
 close all;
-Pt = load("results\tx_power_-50.0dB_30.0dB").tx_power;
+Pt = load("results\tx_power_dB.mat").tx_power;
 
 %% Links
 % link_both = load("results\res_32ris_enhanced_link_both.mat");
@@ -34,15 +34,18 @@ Pt = load("results\tx_power_-50.0dB_30.0dB").tx_power;
 % set(gca, 'GridAlpha', 0.15);
 
 %% Outage
-no_ris = load("results\res_no_ris.mat");
-ris32 = load("results\res_32ris_enhanced_link_both.mat");
-ris70 = load("results\res_70ris_enhanced_link_both.mat");
+no_ris_non_comp = load("results\results_no_ris_non_comp.mat");
+no_ris = load("results\results_no_ris.mat");
+ris32 = load("results\results_ris32.mat");
+ris70 = load("results\results_ris70.mat");
 
 fig2 = figure();
 
+semilogy(Pt, no_ris_non_comp.outage(3, :), 'LineWidth', 1.25, ...
+    'Marker', '>', 'MarkerIndices', 1:5:length(Pt));
+hold on;
 semilogy(Pt, no_ris.outage(1, :), 'LineWidth', 1.25, ...
     'Marker', 'v', 'MarkerIndices', 1:5:length(Pt));
-hold on;
 semilogy(Pt, no_ris.outage(2, :), 'LineWidth', 1.25, ...
     'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
 semilogy(Pt, no_ris.outage(3, :), 'LineWidth', 1.25, ...
@@ -64,23 +67,24 @@ semilogy(Pt, ris70.outage(3, :), 'LineWidth', 1.25, ...
     
 % Add labels and legend
 xlabel('Transmit Power per BS (dBm)');
-ylim([5e-4 1])
-xlim([-50 0])
+ylim([9e-4 1])
+xlim([-45 0])
 ylabel('Outage Probability');
-legend('No STAR-RIS, User U_{1c}', 'No STAR-RIS, User U_{2c}', ...
-    'No STAR-RIS, User U_{f}', '{M = 32}, User U_{1c}', ...
-    '{M = 32}, User U_{2c}', '{M = 32}, User U_{f}', ...
-    '{M = 70}, User U_{1c}', '{M = 70}, User U_{2c}', ...
-    '{M = 70}, User U_{f}', 'Location', 'southwest');
+legend('User U_{f}, Non-CoMP, without RIS', ...
+    'User U_{1c}, without RIS', 'User U_{2c}, without RIS', ...
+    'User U_{f}, without RIS', 'User U_{1c}, {M = 32} Elements', ...
+    'User U_{2c}, {M = 32} Elements', 'User U_{f}, {M = 32} Elements', ...
+    'User U_{1c}, {M = 70} Elements', 'User U_{2c}, {M = 70} Elements', ...
+    'User U_{f}, {M = 70} Elements', 'Location', 'southwest');
 
 % Add grid
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% SE - EE
-no_ris = load("results\res_no_ris.mat");
-ris32 = load("results\res_32ris_enhanced_link_both.mat");
-ris70 = load("results\res_70ris_enhanced_link_both.mat");
+no_ris = load("results\results_no_ris.mat");
+ris32 = load("results\results_ris32.mat");
+ris70 = load("results\results_ris70.mat");
 
 fig3 = figure();
 
@@ -101,7 +105,7 @@ xlabel('Spectral Efficiency (bits/s/Hz)');
 % ylim([5000 10000])
 xlim([10 16])
 ylabel('Energy Efficiency (bit/J)');
-legend('No STAR-RIS', '{M = 32} Elements', '{M = 70} Elements', 'Location', 'southwest')
+legend('Without RIS', '{M = 32} Elements', '{M = 70} Elements', 'Location', 'southwest')
 
 % Add grid
 ax = gca;
@@ -110,25 +114,28 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% User Rates
-no_ris = load("results\res_no_ris.mat");
-ris32 = load("results\res_32ris_enhanced_link_both.mat");
-ris70 = load("results\res_70ris_enhanced_link_both.mat");
+no_ris_non_comp = load("results\results_no_ris_non_comp.mat");
+no_ris = load("results\results_no_ris.mat");
+ris32 = load("results\results_ris32.mat");
+ris70 = load("results\results_ris70.mat");
 
 fig4 = figure();
 
 % Plot data
+plot(Pt, no_ris_non_comp.rates(3, :), 'LineWidth', 1.25, ...
+    'Marker', '+', 'MarkerIndices', 1:5:length(Pt));
+hold on;
 plot(Pt, no_ris.rates(1, :), 'LineWidth', 1.25, ...
     'Marker', 'v', 'MarkerIndices', 1:5:length(Pt));
-hold on;
 plot(Pt, no_ris.rates(2, :), 'LineWidth', 1.25, ...
-    'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', '<', 'MarkerIndices', 1:5:length(Pt));
 plot(Pt, no_ris.rates(3, :), 'LineWidth', 1.25, ...
     'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
 
 plot(Pt, ris32.rates(1, :), 'LineWidth', 1.25, ...
     'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
 plot(Pt, ris32.rates(2, :), 'LineWidth', 1.25, ...
-    'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', '>', 'MarkerIndices', 1:5:length(Pt));
 plot(Pt, ris32.rates(3, :), 'LineWidth', 1.25, ...
 'Marker', 'o', 'MarkerIndices', 1:5:length(Pt));
 
@@ -138,27 +145,28 @@ plot(Pt, ris70.rates(2, :), 'LineWidth', 1.25, ...
     'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
 plot(Pt, ris70.rates(3, :), 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', 1:5:length(Pt));
-    
+
 % Add labels and legend
 xlabel('Transmit Power per BS (dBm)');
-ylim([0 10])
-xlim([-50 10])
+ylim([0 7])
+xlim([-45 0])
 ylabel('Rates (bits/s/Hz)');
-legend('No STAR-RIS, User U_{1c}', 'No STAR-RIS, User U_{2c}', ...
-    'No STAR-RIS, User U_{f}', '{M = 32}, User U_{1c}', ...
-    '{M = 32}, User U_{2c}', '{M = 32}, User U_{f}', ...
-    '{M = 70}, User U_{1c}', '{M = 70}, User U_{2c}', ...
-    '{M = 70}, User U_{f}', 'Location', 'northwest');
+legend('User U_{f}, Non-CoMP, without RIS', ...
+    'User U_{1c}, without RIS', 'User U_{2c}, without RIS', ...
+    'User U_{f}, without RIS', 'User U_{1c}, {M = 32} Elements', ...
+    'User U_{2c}, {M = 32} Elements', 'User U_{f}, {M = 32} Elements', ...
+    'User U_{1c}, {M = 70} Elements', 'User U_{2c}, {M = 70} Elements', ...
+    'User U_{f}, {M = 70} Elements', 'Location', 'northwest');
 
 % Add grid
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Sum Rate
-no_ris = load("results\res_no_ris.mat");
-ris32 = load("results\res_32ris_enhanced_link_both.mat");
-ris70 = load("results\res_70ris_enhanced_link_both.mat");
-custom = load("results\res_70ris_enhanced_link_both_oPA.mat");
+no_ris = load("results\results_no_ris.mat");
+ris32 = load("results\results_ris32.mat");
+ris70 = load("results\results_ris70.mat");
+custom = load("results\results_ris70_oPA.mat");
 
 fig5 = figure();
 
@@ -175,10 +183,10 @@ plot(Pt, custom.sum_rate, 'LineWidth', 1.25, ...
 
 % Add labels and legend
 xlabel('Transmit Power per BS (dBm)');
-% ylim([0 20])
-xlim([-30 -10])
+ylim([0 12.5])
+xlim([-35 -10])
 ylabel('Network Sum Rate (bits/s/Hz)');
-legend('No STAR-RIS', '{M = 32} Elements', '{M = 70} Elements', ...
+legend('Without RIS', '{M = 32} Elements', '{M = 70} Elements', ...
     '{M = 70} Elements + Optimal PA', 'Location', 'northwest');
 
 % Add grid
