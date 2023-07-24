@@ -165,3 +165,4 @@ baseline_simulator/
 *.ipynb
 simulations/pyclean.sh
 *.bkp
+resources/*.pdf
