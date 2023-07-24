@@ -22,7 +22,7 @@ Pt = load("results\tx_power_-50.0dB_30.0dB").tx_power;
 %     'MarkerIndices', 1:5:length(Pt));
 % 
 % % Add labels and legend
-% xlabel('Transmit Power (dBm)');
+% xlabel('Transmit Power per BS (dBm)');
 % ylim([0 18])
 % xlim([-30 0])
 % ylabel('Network Sum Rate (bits/s/Hz)');
@@ -63,7 +63,7 @@ semilogy(Pt, ris70.outage(3, :), 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', 1:5:length(Pt));
     
 % Add labels and legend
-xlabel('Transmit Power (dBm)');
+xlabel('Transmit Power per BS (dBm)');
 ylim([5e-4 1])
 xlim([-50 0])
 ylabel('Outage Probability');
@@ -140,7 +140,7 @@ plot(Pt, ris70.rates(3, :), 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', 1:5:length(Pt));
     
 % Add labels and legend
-xlabel('Transmit Power (dBm)');
+xlabel('Transmit Power per BS (dBm)');
 ylim([0 10])
 xlim([-50 10])
 ylabel('Rates (bits/s/Hz)');
@@ -174,7 +174,7 @@ plot(Pt, custom.sum_rate, 'LineWidth', 1.25, ...
     'Marker', '>', 'MarkerIndices', 1:2:length(Pt));
 
 % Add labels and legend
-xlabel('Transmit Power (dBm)');
+xlabel('Transmit Power per BS (dBm)');
 % ylim([0 20])
 xlim([-30 -10])
 ylabel('Network Sum Rate (bits/s/Hz)');
