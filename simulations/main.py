@@ -32,7 +32,7 @@ from simcomm.core import STAR, LinkCollection, Receiver, Transmitter
 from simcomm.utils import dbm2pow, pow2db, qfunc
 
 
-def main(N, link_option, M, custom_run, save_path):
+def main(N, link_option, custom_run, save_path):
     # Load the environment
     pathloss_cfg = environment["pathloss"]
     fading_cfg = environment["fading"]
@@ -54,6 +54,7 @@ def main(N, link_option, M, custom_run, save_path):
     ris_enhanced = params["ris_enhanced"]  # Whether to use RIS-enhanced transmission
     bs1_uf_link = params["bs1_uf_link"]  # Whether to use BS1-Uf link
     bs2_uf_link = params["bs2_uf_link"]  # Whether to use BS2-Uf link
+    M = params["ris_elements"]  # Number of RIS elements
 
     # Create the base stations
     BS1 = Transmitter("BS1", positions["BS1"], transmit_power=Pt_lin)
@@ -64,8 +65,18 @@ def main(N, link_option, M, custom_run, save_path):
     U2c = Receiver("U2c", positions["U2c"], sensitivity=-110)
     Uf = Receiver("Uf", positions["Uf"], sensitivity=-110)
 
+    bs1_assignment = M // 2
+    bs2_assignment = M - bs1_assignment
+
     # Create the STAR-RIS element
-    RIS = STAR("RIS", positions["RIS"], elements=M)
+    RIS = STAR(
+        "RIS",
+        positions["RIS"],
+        elements=M,
+        # beta_r=0.01,
+        # beta_t=0.01,
+        # custom_assignment={"bs1": bs1_assignment, "bs2": bs2_assignment},
+    )
 
     # Initialize the link collection (containing channel information)
     links = LinkCollection(N, FREQ)
@@ -79,13 +90,17 @@ def main(N, link_option, M, custom_run, save_path):
     links.add_link(BS2, Uf, fading_cfg["rayleigh"], pathloss_cfg["edge"], bs2_uf_link)
 
     # Add the RIS links to the collection
-    links.add_link(BS1, RIS, fading_cfg["ricianC"], pathloss_cfg["ris"], "RIS", M // 2)
-    links.add_link(BS2, RIS, fading_cfg["ricianC"], pathloss_cfg["ris"], "RIS", M // 2)
     links.add_link(
-        RIS, U1c, fading_cfg["ricianC"], pathloss_cfg["risOC"], "RIS", M // 2
+        BS1, RIS, fading_cfg["ricianC"], pathloss_cfg["ris"], "RIS", bs1_assignment
     )
     links.add_link(
-        RIS, U2c, fading_cfg["ricianC"], pathloss_cfg["risOC"], "RIS", M // 2
+        BS2, RIS, fading_cfg["ricianC"], pathloss_cfg["ris"], "RIS", bs2_assignment
+    )
+    links.add_link(
+        RIS, U1c, fading_cfg["ricianC"], pathloss_cfg["risOC"], "RIS", bs1_assignment
+    )
+    links.add_link(
+        RIS, U2c, fading_cfg["ricianC"], pathloss_cfg["risOC"], "RIS", bs2_assignment
     )
     links.add_link(RIS, Uf, fading_cfg["ricianE"], pathloss_cfg["risOE"], "RIS", M)
 
@@ -127,8 +142,17 @@ def main(N, link_option, M, custom_run, save_path):
     )
     U2c.rate = np.log2(1 + U2c.snr)
 
-    Uf.snr_BS1 = (Pt_lin * links.get_gain(BS1, Uf)) / N0_lin
-    Uf.snr_BS2 = (Pt_lin * links.get_gain(BS2, Uf)) / N0_lin
+    # Uf.snr_BS1 = (Pt_lin * links.get_gain(BS1, Uf)) / N0_lin
+    # Uf.snr_BS2 = (Pt_lin * links.get_gain(BS2, Uf)) / N0_lin
+
+    # NonCOMP
+    Uf.snr_BS1 = (Pt_lin * links.get_gain(BS1, Uf)) / (
+        N0_lin + Pt_lin * links.get_gain(BS2, Uf)
+    )
+    Uf.snr_BS2 = (Pt_lin * links.get_gain(BS2, Uf)) / (
+        N0_lin + Pt_lin * links.get_gain(BS1, Uf)
+    )
+
     Uf.snr = (
         BS1.get_allocation(Uf) * Uf.snr_BS1 + BS2.get_allocation(Uf) * Uf.snr_BS2
     ) / (
@@ -152,25 +176,12 @@ def main(N, link_option, M, custom_run, save_path):
 
     print(f"{Fore.CYAN}Done!{Style.RESET_ALL}")
 
-    if ris_enhanced:
-        res_file = os.path.join(
-            save_path,
-            f"res_{M}ris_enhanced_link_{link_option}.mat",
-        )
+    if not custom_run:
+        res_file = os.path.join(save_path, f"results_{link_option}.mat")
     else:
-        res_file = os.path.join(
-            save_path,
-            f"res_{link_option}.mat",
-        )
+        res_file = os.path.join(save_path, f"results_{link_option}_custom.mat")
 
-    # For custom power allocation
-    if custom_run:
-        res_file = os.path.join(
-            save_path,
-            f"res_{M}ris_enhanced_link_{link_option}_custom.mat",
-        )
-
-    tx_power = os.path.join(save_path, f"tx_power_{min(Pt)}dB_{max(Pt)}dB.mat")
+    tx_power = os.path.join(save_path, f"tx_power_dB.mat")
 
     # Save the results
     io.savemat(
@@ -197,24 +208,22 @@ if __name__ == "__main__":
         description="Simulate a wireless network with three users and two base stations."
     )
     parser.add_argument(
-        "--N", "-N", type=int, default=2000, help="Number of simulations"
+        "--realizations",
+        type=int,
+        default=2000,
+        help="Number of channel realizations",
     )
     parser.add_argument(
         "--setting",
-        "-S",
         type=str,
-        default="both",
+        default="ris32",
         choices=setting.keys(),
         help="Link option",
     )
     parser.add_argument(
-        "--M", "-M", type=int, default=32, help="Number of RIS elements"
-    )
-    parser.add_argument(
         "--custom",
-        "-C",
         action="store_true",
         help="Whether to use custom power allocation",
     )
     args = parser.parse_args()
-    main(args.N, args.setting, args.M, args.custom, save_path)
+    main(args.realizations, args.setting, args.custom, save_path)

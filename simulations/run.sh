@@ -22,8 +22,8 @@ keys=$(python -c "$from; print('\n'.join(setting.keys()))")
 for key in $keys
 do
     if [ "$current_dir" == "simulations" ]; then
-        python main.py -S $key
+        python main.py --setting $key
     elif [ "$current_dir" == "comm-fyp" ]; then
-        python simulations/main.py -S $key
+        python simulations/main.py --setting $key
     fi
 done
