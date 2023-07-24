@@ -41,7 +41,7 @@ def main(N, link_option, M, custom_run, save_path):
     # Additional parameters
     BANDWIDTH = 1e6  # Bandwidth in Hz
     TEMP = 300  # Temperature in Kelvin
-    FREQ = 27e9  # Frequency of carrier signal in Hz
+    FREQ = 2.4e9  # Frequency of carrier signal in Hz
     SIGMA = 5.67  # Shadowing standard deviation in dB
 
     Pt = np.linspace(-50, 30, 81)  # Transmit power in dBm
