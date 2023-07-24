@@ -164,3 +164,4 @@ baseline_simulator/
 .vscode/
 *.ipynb
 simulations/pyclean.sh
+*.bkp
