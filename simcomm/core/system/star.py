@@ -75,6 +75,10 @@ class STAR(SystemObject):
             self.elements = elements
             self.elements_per_bs1 = custom_assignment["bs1"]
             self.elements_per_bs2 = custom_assignment["bs2"]
+            assert self.elements_per_bs1 + self.elements_per_bs2 == self.elements, (
+                "The number of elements in the RIS must be equal to the sum of"
+                "the number of elements assigned to BS1 and BS2."
+            )
 
         assert beta_r + beta_t == 1, "beta_r + beta_t must be equal to 1."
 
@@ -207,12 +211,13 @@ class STAR(SystemObject):
                     * np.exp(1j * self.theta_t[i])
                     * links.get_link(transmitter[0], self)[i]
                 )
-            for k in range(self.elements_per_bs2):
+            # Start from i = elements_per_bs1 for the second half of the RIS
+            for i in range(self.elements_per_bs1, self.elements):
                 ris_2h_val += np.abs(
-                    np.conj(links.get_link(self, receiver)[k + self.elements_per_bs1])
-                    * np.sqrt(self.beta_t[k + self.elements_per_bs1])
-                    * np.exp(1j * self.theta_t[k + self.elements_per_bs1])
-                    * links.get_link(transmitter[1], self)[k]
+                    np.conj(links.get_link(self, receiver)[i - self.elements_per_bs1])
+                    * np.sqrt(self.beta_t[i])
+                    * np.exp(1j * self.theta_t[i])
+                    * links.get_link(transmitter[1], self)[i - self.elements_per_bs1]
                 )
 
             links.update_link(transmitter[0], receiver, ris_1h_val)
@@ -234,12 +239,12 @@ class STAR(SystemObject):
         elif links.get_link_type(transmitter, receiver) == "2C":
             ris_addition = np.zeros((links.size, 1), dtype=np.float64)
 
-            for i in range(self.elements_per_bs2):
+            for i in range(self.elements_per_bs1, self.elements):
                 ris_addition += np.abs(
-                    np.conj(links.get_link(self, receiver)[i])
-                    * np.sqrt(self.beta_r[i + self.elements_per_bs2])
-                    * np.exp(1j * self.theta_r[i + self.elements_per_bs2])
-                    * links.get_link(transmitter, self)[i]
+                    np.conj(links.get_link(self, receiver)[i - self.elements_per_bs1])
+                    * np.sqrt(self.beta_r[i])
+                    * np.exp(1j * self.theta_r[i])
+                    * links.get_link(transmitter, self)[i - self.elements_per_bs1]
                 )
 
             links.update_link(transmitter, receiver, ris_addition)
