@@ -193,9 +193,37 @@ legend('Without RIS', '{M = 32} Elements', '{M = 70} Elements', ...
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
+%% Contour Plot
+load("results\results_exhaustive_es_aa.mat");
+[X,Y] = meshgrid(bs2_assignment, beta_t);
+sum_rate_smooth = movmean(sum_rate, [25 25]);
+[Xq, Yq] = meshgrid(linspace(double(min(X(:))), double(max(X(:))), 15), ...
+    linspace(min(Y(:)), max(Y(:)), 15));
+sum_rate_interp = interp2(double(X), double(Y), sum_rate_smooth, Xq, Yq, "linear");
+
+fig6 = figure(6);
+contourf(Xq, Yq, sum_rate_interp, 250, 'EdgeColor', 'flat')
+shading interp;
+colormap jet
+h = colorbar;
+h.Label.String = "Network Sum-Rate (bits/s/Hz)";
+h.Label.FontSize = 11;
+xlabel('Element Splitting Ratio BS_{1} / BS_{2}', ...
+    'Interpreter', 'tex')
+ylabel('Amplitude Coefficients Ratio \beta_{r} / \beta_{t}', ...
+    'Interpreter', 'tex')
+xtick = linspace(0, 70, 8);
+ytick = linspace(0, 1, 11); % changed from 12 to 11
+set(gca, 'XTickLabel', {"0/70", "10/60", "20/50", "30/40", "40/30", ...
+    "50/20", "60/10", "70/0"}, 'XTick', xtick);
+set(gca,'YTickLabel',{"0/1", "0.1/0.9", "0.2/0.8", "0.3/0.7", ...
+    "0.4/0.6", "0.5/0.5", "0.6/0.4", "0.7/0.3", "0.8/0.2", "0.9/0.1", "1/0"}, ...
+    'YTick', ytick)
+
 %% Export Graphics
 % exportgraphics(fig1, '../resources/links.pdf')
 exportgraphics(fig2, '../resources/outage.pdf')
 exportgraphics(fig3, '../resources/se_vs_ee.pdf')
 exportgraphics(fig4, '../resources/rates.pdf')
 exportgraphics(fig5, '../resources/sumrate.pdf')
+exportgraphics(fig6, '../resources/dynamic.pdf')
