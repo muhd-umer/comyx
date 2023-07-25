@@ -166,3 +166,4 @@ baseline_simulator/
 simulations/pyclean.sh
 *.bkp
 resources/*.pdf
+*.asv
