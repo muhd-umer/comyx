@@ -70,24 +70,6 @@ setting = {
         "bs1_uf_link": "E",
         "bs2_uf_link": "E",
     },
-    # "bs1_only": {
-    #     "ris_elements": 32,
-    #     "ris_enhanced": True,
-    #     "bs1_uf_link": "E",
-    #     "bs2_uf_link": "DNE",
-    # },
-    # "bs2_only": {
-    #     "ris_elements": 32,
-    #     "ris_enhanced": True,
-    #     "bs1_uf_link": "DNE",
-    #     "bs2_uf_link": "E",
-    # },
-    # "none": {
-    #     "ris_elements": 32,
-    #     "ris_enhanced": True,
-    #     "bs1_uf_link": "DNE",
-    #     "bs2_uf_link": "DNE",
-    # },
     "no_ris": {
         "ris_elements": 32,
         "ris_enhanced": False,
