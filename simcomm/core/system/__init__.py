@@ -52,18 +52,18 @@ class LinkCollection:
             receiver (Receiver): The receiver object.
             fading_args (dict): The arguments for the fading model.
             pathloss_args (dict): The arguments for the pathloss model.
-            type (str): The type of link. Can be "1C", "2C", "E", "RIS", or "DNE".
+            type (str): The type of link. Can be "1,m", "2,n", "f", "ris", or "dne".
             elements (int): The number of elements in the link.
         """
-        assert type in ["1C", "2C", "E", "RIS", "DNE"], "Invalid link type."
+        assert type in ["1,m", "2,n", "f", "ris", "dne"], "Invalid link type."
 
         no_link = False
-        if type == "RIS":
+        if type == "ris":
             assert (
                 elements is not None
             ), "Number of elements must be specified for RIS links."
             link_size = (elements, self.size, 1)
-        elif type == "DNE":
+        elif type == "dne":
             no_link = True
             link_size = (self.size, 1)
         else:
