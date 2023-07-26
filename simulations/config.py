@@ -21,12 +21,12 @@ The 3D position components for each element of the system are generated as follo
 Note that the distances can be within +- 5m of the given distance.
 
 Path Loss Exponents (alpha):
-- BS1-U1C and BS2-U2C Links = 3
-- {BS1, BS2}-UF Links = 3.5
+- BS1-U1m and BS2-U2n Links = 3
+- {BS1, BS2}-Uf Links = 3.5
 - {BS1, BS2}-RIS Links = 3
-- RIS-{U1C, U2C} Links = 2.7
-- RIS-UF Link = 2.4
-- BS2-U1C and BS1-U2C Links = 4
+- RIS-{U1m, U2n} Links = 2.7
+- RIS-Uf Link = 2.4
+- BS2-U1m and BS1-U2n Links = 4
 
 Rician K Factors:
 - K1 = 5 dB for RIS-UF Link
@@ -45,8 +45,8 @@ environment = {
         "BS2": [50, 0, 25],
         "RIS": [0, 25, 5],
         "Uf": [0, 35, 1],
-        "U1c": [-40, 18, 1],
-        "U2c": [30, 22, 1],
+        "U1m": [-40, 18, 1],
+        "U2n": [30, 22, 1],
     },
     "fading": {
         "rayleigh": {"type": "rayleigh", "sigma": 1},
@@ -67,19 +67,19 @@ setting = {
     "ris32": {
         "ris_elements": 32,
         "ris_enhanced": True,
-        "bs1_uf_link": "E",
-        "bs2_uf_link": "E",
+        "bs1_uf_link": "f",
+        "bs2_uf_link": "f",
     },
     "no_ris": {
         "ris_elements": 32,
         "ris_enhanced": False,
-        "bs1_uf_link": "E",
-        "bs2_uf_link": "E",
+        "bs1_uf_link": "f",
+        "bs2_uf_link": "f",
     },
     "ris70": {
         "ris_elements": 70,
         "ris_enhanced": True,
-        "bs1_uf_link": "E",
-        "bs2_uf_link": "E",
+        "bs1_uf_link": "f",
+        "bs2_uf_link": "f",
     },
 }

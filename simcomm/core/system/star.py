@@ -194,12 +194,12 @@ class STAR(SystemObject):
         """
         if isinstance(transmitter, list):
             assert (
-                links.get_link_type(transmitter[0], receiver) == "E"
-                or links.get_link_type(transmitter[0], receiver) == "DNE"
+                links.get_link_type(transmitter[0], receiver) == "f"
+                or links.get_link_type(transmitter[0], receiver) == "dne"
             ) and (
-                links.get_link_type(transmitter[1], receiver) == "E"
-                or links.get_link_type(transmitter[1], receiver) == "DNE"
-            ), "Both BS1 -> UF and BS2 -> UF must be 'E' or 'DNE' links."
+                links.get_link_type(transmitter[1], receiver) == "f"
+                or links.get_link_type(transmitter[1], receiver) == "dne"
+            ), "Both BS1 -> Uf and BS2 -> Uf must be 'f' or 'dne' links."
 
             ris_1h_val = np.zeros((links.size, 1), dtype=np.float64)
             ris_2h_val = np.zeros((links.size, 1), dtype=np.float64)
@@ -223,7 +223,7 @@ class STAR(SystemObject):
             links.update_link(transmitter[0], receiver, ris_1h_val)
             links.update_link(transmitter[1], receiver, ris_2h_val)
 
-        elif links.get_link_type(transmitter, receiver) == "1C":
+        elif links.get_link_type(transmitter, receiver) == "1,m":
             ris_addition = np.zeros((links.size, 1), dtype=np.float64)
 
             for i in range(self.elements_per_bs1):
@@ -236,7 +236,7 @@ class STAR(SystemObject):
 
             links.update_link(transmitter, receiver, ris_addition)
 
-        elif links.get_link_type(transmitter, receiver) == "2C":
+        elif links.get_link_type(transmitter, receiver) == "2,n":
             ris_addition = np.zeros((links.size, 1), dtype=np.float64)
 
             for i in range(self.elements_per_bs1, self.elements):
