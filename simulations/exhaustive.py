@@ -1,7 +1,7 @@
 """
-Simulates a wireless network with three users and two base stations. The users are U1c, U2c, and Uf, and the base stations are BS1 and BS2. There is also an RIS element at the boundary of the transmission radius of both base stations.
+Simulates a wireless network with three users and two base stations. The users are U1m, U2n, and Uf, and the base stations are BS1 and BS2. There is also an RIS element at the boundary of the transmission radius of both base stations.
 
-BS1 serves U1c and Uf NOMA pair, and BS2 serves U2c and Uf NOMA pair. The RIS element is used to improve the signal quality of the Uf user. The RIS transmits the signals from the base stations to the Uf user. It also reflects the impinging signals from the base stations to the corresponding center users.
+BS1 serves U1m and Uf NOMA pair, and BS2 serves U2n and Uf NOMA pair. The RIS element is used to improve the signal quality of the Uf user. The RIS transmits the signals from the base stations to the Uf user. It also reflects the impinging signals from the base stations to the corresponding center users.
 
 Exhaustive search for Element Splitting (ES) and Amplitude Coefficients (Beta) for RIS-enhanced transmission.
 """
@@ -54,24 +54,24 @@ def main(N, save_path):
     ris_enhanced = params["ris_enhanced"]  # Whether to use RIS-enhanced transmission
     bs1_uf_link = params["bs1_uf_link"]  # Whether to use BS1-Uf link
     bs2_uf_link = params["bs2_uf_link"]  # Whether to use BS2-Uf link
-    M = params["ris_elements"]  # Number of RIS elements
+    K = params["ris_elements"]  # Number of RIS elements
 
     # Create the base stations
     BS1 = Transmitter("BS1", positions["BS1"], transmit_power=Pt_lin)
     BS2 = Transmitter("BS2", positions["BS2"], transmit_power=Pt_lin)
 
     # Create the users (identical)
-    U1c = Receiver("U1c", positions["U1c"], sensitivity=-110)
-    U2c = Receiver("U2c", positions["U2c"], sensitivity=-110)
+    U1m = Receiver("U1m", positions["U1m"], sensitivity=-110)
+    U2n = Receiver("U2n", positions["U2n"], sensitivity=-110)
     Uf = Receiver("Uf", positions["Uf"], sensitivity=-110)
 
     # Simulate the system
     print(f"{Fore.GREEN}Simulating the system ...{Style.RESET_ALL}")
 
-    beta_r = np.linspace(0, 1, M * 2 + 1)
+    beta_r = np.linspace(0, 1, K * 2 + 1)
     beta_t = 1 - beta_r
-    bs1_assignment = np.arange(0, M + 1)
-    bs2_assignment = M - bs1_assignment
+    bs1_assignment = np.arange(0, K + 1)
+    bs2_assignment = K - bs1_assignment
     sum_rate = np.zeros((len(beta_r), len(bs1_assignment)))
 
     for i in range(len(beta_r)):
@@ -79,8 +79,8 @@ def main(N, save_path):
             # Create the STAR-RIS element
             RIS = STAR(
                 "RIS",
-                positions["RIS"],
-                elements=M,
+                positions["ris"],
+                elements=K,
                 beta_r=beta_r[i],
                 beta_t=1 - beta_r[i],
                 custom_assignment={"bs1": bs1_assignment[k], "bs2": bs2_assignment[k]},
@@ -91,10 +91,10 @@ def main(N, save_path):
 
             # Add the center links to the collection
             links.add_link(
-                BS1, U1c, fading_cfg["rayleigh"], pathloss_cfg["center"], "1C"
+                BS1, U1m, fading_cfg["rayleigh"], pathloss_cfg["center"], "1,m"
             )
             links.add_link(
-                BS2, U2c, fading_cfg["rayleigh"], pathloss_cfg["center"], "2C"
+                BS2, U2n, fading_cfg["rayleigh"], pathloss_cfg["center"], "2,n"
             )
 
             # Add the edge links to the collection
@@ -111,7 +111,7 @@ def main(N, save_path):
                 RIS,
                 fading_cfg["ricianC"],
                 pathloss_cfg["ris"],
-                "RIS",
+                "ris",
                 bs1_assignment[k],
             )
             links.add_link(
@@ -119,65 +119,65 @@ def main(N, save_path):
                 RIS,
                 fading_cfg["ricianC"],
                 pathloss_cfg["ris"],
-                "RIS",
+                "ris",
                 bs2_assignment[k],
             )
             links.add_link(
                 RIS,
-                U1c,
+                U1m,
                 fading_cfg["ricianC"],
                 pathloss_cfg["risOC"],
-                "RIS",
+                "ris",
                 bs1_assignment[k],
             )
             links.add_link(
                 RIS,
-                U2c,
+                U2n,
                 fading_cfg["ricianC"],
                 pathloss_cfg["risOC"],
-                "RIS",
+                "ris",
                 bs2_assignment[k],
             )
             links.add_link(
-                RIS, Uf, fading_cfg["ricianE"], pathloss_cfg["risOE"], "RIS", M
+                RIS, Uf, fading_cfg["ricianE"], pathloss_cfg["risOE"], "ris", K
             )
 
             # Add interference links to the collection
             links.add_link(
-                BS1, U2c, fading_cfg["rayleigh"], pathloss_cfg["inter"], "1C"
+                BS1, U2n, fading_cfg["rayleigh"], pathloss_cfg["inter"], "1,m"
             )
             links.add_link(
-                BS2, U1c, fading_cfg["rayleigh"], pathloss_cfg["inter"], "2C"
+                BS2, U1m, fading_cfg["rayleigh"], pathloss_cfg["inter"], "2,n"
             )
 
             # Set the NOMA power allocation
-            BS1.set_allocation(U1c, 0.25)
+            BS1.set_allocation(U1m, 0.25)
             BS1.set_allocation(Uf, 0.75)
-            BS2.set_allocation(U2c, 0.25)
+            BS2.set_allocation(U2n, 0.25)
             BS2.set_allocation(Uf, 0.75)
 
             # Set the RIS phase shifts
-            RIS.set_reflection_parameters(links, [BS1, BS2], [U1c, U2c])
+            RIS.set_reflection_parameters(links, [BS1, BS2], [U1m, U2n])
             RIS.set_transmission_parameters(links, [BS1, BS2], Uf)
 
             # Update the link collection
             if ris_enhanced:
-                RIS.merge_link(links, BS1, U1c)
-                RIS.merge_link(links, BS2, U2c)
+                RIS.merge_link(links, BS1, U1m)
+                RIS.merge_link(links, BS2, U2n)
                 RIS.merge_link(links, [BS1, BS2], Uf)
 
             # Compute the SNRs
-            U1c.snr = BS2.get_allocation(U2c) * (
-                (Pt_lin * links.get_gain(BS1, U1c))
-                / (Pt_lin * links.get_gain(BS2, U1c) + N0_lin)
+            U1m.snr = BS2.get_allocation(U2n) * (
+                (Pt_lin * links.get_gain(BS1, U1m))
+                / (Pt_lin * links.get_gain(BS2, U1m) + N0_lin)
             )
-            U1c.rate = np.log2(1 + U1c.snr)
+            U1m.rate = np.log2(1 + U1m.snr)
 
-            U2c.snr = BS2.get_allocation(U2c) * (
-                (Pt_lin * links.get_gain(BS2, U2c))
-                / (Pt_lin * links.get_gain(BS1, U2c) + N0_lin)
+            U2n.snr = BS2.get_allocation(U2n) * (
+                (Pt_lin * links.get_gain(BS2, U2n))
+                / (Pt_lin * links.get_gain(BS1, U2n) + N0_lin)
             )
-            U2c.rate = np.log2(1 + U2c.snr)
+            U2n.rate = np.log2(1 + U2n.snr)
 
             Uf.snr_BS1 = (Pt_lin * links.get_gain(BS1, Uf)) / N0_lin
             Uf.snr_BS2 = (Pt_lin * links.get_gain(BS2, Uf)) / N0_lin
@@ -185,17 +185,27 @@ def main(N, save_path):
                 BS1.get_allocation(Uf) * Uf.snr_BS1
                 + BS2.get_allocation(Uf) * Uf.snr_BS2
             ) / (
-                BS1.get_allocation(U1c) * Uf.snr_BS1
-                + BS2.get_allocation(U2c) * Uf.snr_BS2
+                BS1.get_allocation(U1m) * Uf.snr_BS1
+                + BS2.get_allocation(U2n) * Uf.snr_BS2
                 + 1
             )
             Uf.rate = np.log2(1 + Uf.snr)
 
-            sum_rate[i, k] = np.mean(U1c.rate + U2c.rate + Uf.rate)
+            sum_rate[i, k] = np.mean(U1m.rate + U2n.rate + Uf.rate)
 
     print(f"{Fore.CYAN}Done!{Style.RESET_ALL}")
 
     res_file = os.path.join(save_path, f"results_exhaustive_es_aa.mat")
+    io.savemat(
+        "results/contour_plot.mat",
+        {
+            "sum_rate": sum_rate,
+            "beta_r": beta_r,
+            "beta_t": beta_t,
+            "bs1_assignment": bs1_assignment,
+            "bs2_assignment": bs2_assignment,
+        },
+    )
     print(f"{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
 
 
