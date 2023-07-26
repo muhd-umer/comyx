@@ -223,7 +223,7 @@ class STAR(SystemObject):
             links.update_link(transmitter[0], receiver, ris_1h_val)
             links.update_link(transmitter[1], receiver, ris_2h_val)
 
-        elif links.get_link_type(transmitter, receiver) == "1,m":
+        elif links.get_link_type(transmitter, receiver) == "1,c":
             ris_addition = np.zeros((links.size, 1), dtype=np.float64)
 
             for i in range(self.elements_per_bs1):
@@ -236,7 +236,7 @@ class STAR(SystemObject):
 
             links.update_link(transmitter, receiver, ris_addition)
 
-        elif links.get_link_type(transmitter, receiver) == "2,n":
+        elif links.get_link_type(transmitter, receiver) == "2,c":
             ris_addition = np.zeros((links.size, 1), dtype=np.float64)
 
             for i in range(self.elements_per_bs1, self.elements):

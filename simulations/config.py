@@ -45,13 +45,13 @@ environment = {
         "BS2": [50, 0, 25],
         "RIS": [0, 25, 5],
         "Uf": [0, 35, 1],
-        "U1m": [-40, 18, 1],
-        "U2n": [30, 22, 1],
+        "U1c": [-40, 18, 1],
+        "U2c": [30, 22, 1],
     },
     "fading": {
         "rayleigh": {"type": "rayleigh", "sigma": 1},
-        "ricianE": {"type": "rician", "K": 4, "sigma": 1},
-        "ricianC": {"type": "rician", "K": 2, "sigma": 1},
+        "ricianE": {"type": "rician", "K": 5, "sigma": 1},
+        "ricianC": {"type": "rician", "K": 3, "sigma": 1},
     },
     "pathloss": {
         "center": {"type": "free-space", "alpha": 3, "p0": 30},
