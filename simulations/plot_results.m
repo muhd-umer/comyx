@@ -1,13 +1,13 @@
 % Define data
 clear;
 close all;
-Pt = load("results\tx_power_dB.mat").tx_power;
+Pt = load("..\resources\data\tx_power_dB.mat").tx_power;
 
 %% Links
-% link_both = load("results\res_32ris_enhanced_link_both.mat");
-% link_bs1 = load("results\res_32ris_enhanced_link_bs1_only.mat");
-% link_bs2 = load("results\res_32ris_enhanced_link_bs2_only.mat");
-% link_none = load("results\res_32ris_enhanced_link_none.mat");
+% link_both = load("..\resources\data\res_32ris_enhanced_link_both.mat");
+% link_bs1 = load("..\resources\data\res_32ris_enhanced_link_bs1_only.mat");
+% link_bs2 = load("..\resources\data\res_32ris_enhanced_link_bs2_only.mat");
+% link_none = load("..\resources\data\res_32ris_enhanced_link_none.mat");
 % 
 % fig1 = figure();
 % % Plot data
@@ -34,10 +34,10 @@ Pt = load("results\tx_power_dB.mat").tx_power;
 % set(gca, 'GridAlpha', 0.15);
 
 %% Outage
-no_ris_non_comp = load("results\results_no_ris_non_comp.mat");
-no_ris = load("results\results_no_ris.mat");
-ris32 = load("results\results_ris32.mat");
-ris70 = load("results\results_ris70.mat");
+no_ris_non_comp = load("..\resources\data\results_no_ris_non_comp.mat");
+no_ris = load("..\resources\data\results_no_ris.mat");
+ris32 = load("..\resources\data\results_ris32.mat");
+ris70 = load("..\resources\data\results_ris70.mat");
 
 fig2 = figure();
 
@@ -71,10 +71,10 @@ ylim([9e-4 1])
 xlim([-45 0])
 ylabel('Outage Probability');
 legend('User U_{f}, Non-CoMP, without RIS', ...
-    'User U_{1,m}, without RIS', 'User U_{2,n}, without RIS', ...
-    'User U_{f}, without RIS', 'User U_{1,m}, {K = 32} Elements', ...
-    'User U_{2,n}, {K = 32} Elements', 'User U_{f}, {K = 32} Elements', ...
-    'User U_{1,m}, {K = 70} Elements', 'User U_{2,n}, {K = 70} Elements', ...
+    'User U_{1,c}, without RIS', 'User U_{2,c}, without RIS', ...
+    'User U_{f}, without RIS', 'User U_{1,c}, {K = 32} Elements', ...
+    'User U_{2,c}, {K = 32} Elements', 'User U_{f}, {K = 32} Elements', ...
+    'User U_{1,c}, {K = 70} Elements', 'User U_{2,c}, {K = 70} Elements', ...
     'User U_{f}, {K = 70} Elements', 'Location', 'southwest');
 
 % Add grid
@@ -82,9 +82,9 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% SE - EE
-no_ris = load("results\results_no_ris.mat");
-ris32 = load("results\results_ris32.mat");
-ris70 = load("results\results_ris70.mat");
+no_ris = load("..\resources\data\results_no_ris.mat");
+ris32 = load("..\resources\data\results_ris32.mat");
+ris70 = load("..\resources\data\results_ris70.mat");
 
 fig3 = figure();
 
@@ -98,7 +98,7 @@ plot(ris32.se, ris32.ee, 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', i);
 [~, i] = max(ris70.ee);
 plot(ris70.se, ris70.ee, 'LineWidth', 1.25, ...
-'Marker', 'o', 'MarkerIndices', i);
+'Marker', 'o', 'MarkerIndices', i + 1);
     
 % Add labels and legend
 xlabel('Spectral Efficiency (bits/s/Hz)');
@@ -114,10 +114,10 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% User Rates
-no_ris_non_comp = load("results\results_no_ris_non_comp.mat");
-no_ris = load("results\results_no_ris.mat");
-ris32 = load("results\results_ris32.mat");
-ris70 = load("results\results_ris70.mat");
+no_ris_non_comp = load("..\resources\data\results_no_ris_non_comp.mat");
+no_ris = load("..\resources\data\results_no_ris.mat");
+ris32 = load("..\resources\data\results_ris32.mat");
+ris70 = load("..\resources\data\results_ris70.mat");
 
 fig4 = figure();
 
@@ -152,10 +152,10 @@ ylim([0 7])
 xlim([-45 0])
 ylabel('Rates (bits/s/Hz)');
 legend('User U_{f}, Non-CoMP, without RIS', ...
-    'User U_{1,m}, without RIS', 'User U_{2,n}, without RIS', ...
-    'User U_{f}, without RIS', 'User U_{1,m}, {K = 32} Elements', ...
-    'User U_{2,n}, {K = 32} Elements', 'User U_{f}, {K = 32} Elements', ...
-    'User U_{1,m}, {K = 70} Elements', 'User U_{2,n}, {K = 70} Elements', ...
+    'User U_{1,c}, without RIS', 'User U_{2,c}, without RIS', ...
+    'User U_{f}, without RIS', 'User U_{1,c}, {K = 32} Elements', ...
+    'User U_{2,c}, {K = 32} Elements', 'User U_{f}, {K = 32} Elements', ...
+    'User U_{1,c}, {K = 70} Elements', 'User U_{2,c}, {K = 70} Elements', ...
     'User U_{f}, {K = 70} Elements', 'Location', 'northwest');
 
 % Add grid
@@ -163,10 +163,10 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Sum Rate
-no_ris = load("results\results_no_ris.mat");
-ris32 = load("results\results_ris32.mat");
-ris70 = load("results\results_ris70.mat");
-custom = load("results\results_ris70_oPA.mat");
+no_ris = load("..\resources\data\results_no_ris.mat");
+ris32 = load("..\resources\data\results_ris32.mat");
+ris70 = load("..\resources\data\results_ris70.mat");
+custom = load("..\resources\data\results_ris70_oPA.mat");
 
 fig5 = figure();
 
@@ -183,8 +183,8 @@ plot(Pt, custom.sum_rate, 'LineWidth', 1.25, ...
 
 % Add labels and legend
 xlabel('Transmit Power per BS (dBm)');
-ylim([0 12.5])
-xlim([-35 -10])
+ylim([2 12.5])
+xlim([-26 -10])
 ylabel('Network Sum Rate (bits/s/Hz)');
 legend('Without RIS', '{K = 32} Elements', '{K = 70} Elements', ...
     '{K = 70} Elements + Optimal PA', 'Location', 'northwest');
@@ -194,26 +194,28 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Contour Plot
-load("results\results_exhaustive_es_aa.mat");
+load("..\resources\data\results_exhaustive_es_aa.mat");
 [X,Y] = meshgrid(bs2_assignment, beta_t);
-sum_rate_smooth = movmean(sum_rate, [20 20]);
-[Xq, Yq] = meshgrid(linspace(double(min(X(:))), double(max(X(:))), 15), ...
-    linspace(min(Y(:)), max(Y(:)), 15));
+sum_rate_smooth = movmean(sum_rate, [16 16]);
+[Xq, Yq] = meshgrid(linspace(double(min(X(:))), double(max(X(:))), 16), ...
+    linspace(min(Y(:)), max(Y(:)), 16));
 sum_rate_interp = interp2(double(X), double(Y), sum_rate_smooth, Xq, Yq, "linear");
 
 fig6 = figure(6);
-contourf(Xq, Yq, sum_rate_interp, 250, 'EdgeColor', 'flat')
+contour(Xq, Yq, sum_rate_interp, 13, 'LineWidth', 1.25)
 shading interp;
 % colormap jet
 h = colorbar;
-h.Label.String = "Network Sum-Rate (bits/s/Hz)";
+% h.Label.String = "Network Sum-Rate (bits/s/Hz)";
 h.Label.FontSize = 11;
+h.Ticks = 7.9:0.1:8.4;
 xlabel('Element Splitting Ratio BS_{1} / BS_{2}', ...
     'Interpreter', 'tex')
 ylabel('Amplitude Coefficients Ratio \beta_{t} / \beta_{r}', ...
     'Interpreter', 'tex')
 xtick = linspace(0, 70, 8);
 ytick = linspace(0, 1, 11); % changed from 12 to 11
+legend('Network Sum-Rate (bits/s/Hz)', 'Location', 'northeast')
 set(gca, 'XTickLabel', {"0/70", "10/60", "20/50", "30/40", "40/30", ...
     "50/20", "60/10", "70/0"}, 'XTick', xtick);
 set(gca,'YTickLabel',{"0/1", "0.1/0.9", "0.2/0.8", "0.3/0.7", ...
