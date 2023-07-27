@@ -167,7 +167,7 @@ def main(N, save_path):
                 RIS.merge_link(links, [BS1, BS2], Uf)
 
             # Compute the SNRs
-            U1c.snr = BS2.get_allocation(U2c) * (
+            U1c.snr = BS1.get_allocation(U1c) * (
                 (Pt_lin * links.get_gain(BS1, U1c))
                 / (Pt_lin * links.get_gain(BS2, U1c) + N0_lin)
             )
