@@ -11,32 +11,26 @@ Positions (x, y, z):
     - BS2 to U1C and BS1 to U2C distance ≈ 90m
 
 The 3D position components for each element of the system are generated as follows:
-- BS1 = np.array([-50, 0, 25])
-- BS2 = np.array([50, 0, 25])
-- RIS = np.array([0, 25, 10])
-- UF = np.array([0, 40, 1])
-- U1C = np.array([-40, 20, 1])
-- U2C = np.array([40, 20, 1])
+- BS1: [-50, 0, 25]
+- BS2: [50, 0, 25]
+- RIS: [0, 25, 5]
+- Uf: [0, 35, 1]
+- U1c: [-40, 18, 1]
+- U2c: [30, 22, 1]
 
 Note that the distances can be within +- 5m of the given distance.
 
 Path Loss Exponents (alpha):
-- BS1-U1m and BS2-U2n Links = 3
+- BS1-U1c and BS2-U2c Links = 3
 - {BS1, BS2}-Uf Links = 3.5
 - {BS1, BS2}-RIS Links = 3
-- RIS-{U1m, U2n} Links = 2.7
+- RIS-{U1c, U2c} Links = 2.7
 - RIS-Uf Link = 2.4
-- BS2-U1m and BS1-U2n Links = 4
+- BS2-U1c and BS1-U2c Links = 4
 
 Rician K Factors:
 - K1 = 5 dB for RIS-UF Link
 - K2 = 3 dB for RIS-{U1C, U2C} Links
-
-Shadowing (sigma):
-- NLOS Links = 7.8 dB
-- LOS Links = 3.5 dB
-
-The rest of the parameters are variable in nature, and are defined when creating system objects.
 """
 
 environment = {
