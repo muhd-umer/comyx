@@ -42,9 +42,9 @@ def main(N, link_option, custom_run, save_path):
     BANDWIDTH = 1e6  # Bandwidth in Hz
     TEMP = 300  # Temperature in Kelvin
     FREQ = 2.4e9  # Frequency of carrier signal in Hz
-    SIGMA = 5.67  # Shadowing standard deviation in dB
+    SIGMA = 6.32  # Shadowing standard deviation in dB
 
-    Pt = np.linspace(-50, 30, 81)  # Transmit power in dBm
+    Pt = np.linspace(-50, 30, 161)  # Transmit power in dBm
     Pt_lin = dbm2pow(Pt)  # Transmit power in linear scale
     N0 = prop.get_noise_power(BANDWIDTH, TEMP, 12)  # Noise power in dBm
     N0_lin = dbm2pow(N0)  # Noise power in linear scale
@@ -129,7 +129,7 @@ def main(N, link_option, custom_run, save_path):
     sum_rate = np.zeros((N, len(Pt)))
 
     # Compute the SNRs
-    U1c.snr = BS2.get_allocation(U2c) * (
+    U1c.snr = BS1.get_allocation(U1c) * (
         (Pt_lin * links.get_gain(BS1, U1c))
         / (Pt_lin * links.get_gain(BS2, U1c) + N0_lin)
     )
@@ -164,14 +164,14 @@ def main(N, link_option, custom_run, save_path):
     energy_efficiency = sum_rate / (Pt_lin * 2 + P_circuit)
     spectral_efficiency = sum_rate
 
-    U1c.outage = qfunc(
-        np.mean((pow2db(U1c.snr) - (-N0) - U1c.sensitivity) / SIGMA, axis=0)
+    U1c.outage = np.mean(
+        qfunc((pow2db(U1c.snr) - (-N0) - U1c.sensitivity) / SIGMA), axis=0
     )
-    U2c.outage = qfunc(
-        np.mean((pow2db(U2c.snr) - (-N0) - U2c.sensitivity) / SIGMA, axis=0)
+    U2c.outage = np.mean(
+        qfunc((pow2db(U2c.snr) - (-N0) - U2c.sensitivity) / SIGMA), axis=0
     )
-    Uf.outage = qfunc(
-        np.mean((pow2db(Uf.snr) - (-N0) - Uf.sensitivity) / SIGMA, axis=0)
+    Uf.outage = np.mean(
+        qfunc((pow2db(Uf.snr) - (-N0) - Uf.sensitivity) / SIGMA), axis=0
     )
 
     print(f"{Fore.CYAN}Done!{Style.RESET_ALL}")
