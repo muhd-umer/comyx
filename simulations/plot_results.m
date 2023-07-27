@@ -12,14 +12,14 @@ Pt = load("..\resources\data\tx_power_dB.mat").tx_power;
 % fig1 = figure();
 % % Plot data
 % plot(Pt, link_both.sum_rate, 'LineWidth', 1.25, 'Marker', 'o', ...
-%     'MarkerIndices', 1:5:length(Pt));
+%     'MarkerIndices', 1:10:length(Pt));
 % hold on;
 % plot(Pt, link_bs1.sum_rate, 'LineWidth', 1.25, 'Marker', 's', ...
-%     'MarkerIndices', 1:5:length(Pt));
+%     'MarkerIndices', 1:10:length(Pt));
 % plot(Pt, link_bs2.sum_rate, 'LineWidth', 1.25, 'Marker', 'd', ...
-%     'MarkerIndices', 1:5:length(Pt));
+%     'MarkerIndices', 1:10:length(Pt));
 % plot(Pt, link_none.sum_rate, 'LineWidth', 1.25, 'Marker', 'p', ...
-%     'MarkerIndices', 1:5:length(Pt));
+%     'MarkerIndices', 1:10:length(Pt));
 % 
 % % Add labels and legend
 % xlabel('Transmit Power per BS (dBm)');
@@ -42,28 +42,28 @@ ris70 = load("..\resources\data\results_ris70.mat");
 fig2 = figure();
 
 semilogy(Pt, no_ris_non_comp.outage(3, :), 'LineWidth', 1.25, ...
-    'Marker', '>', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', '>', 'MarkerIndices', 1:10:length(Pt));
 hold on;
 semilogy(Pt, no_ris.outage(1, :), 'LineWidth', 1.25, ...
-    'Marker', 'v', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'v', 'MarkerIndices', 1:10:length(Pt));
 semilogy(Pt, no_ris.outage(2, :), 'LineWidth', 1.25, ...
-    'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'x', 'MarkerIndices', 1:10:length(Pt));
 semilogy(Pt, no_ris.outage(3, :), 'LineWidth', 1.25, ...
-    'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 's', 'MarkerIndices', 1:10:length(Pt));
 
 semilogy(Pt, ris32.outage(1, :), 'LineWidth', 1.25, ...
-    'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'x', 'MarkerIndices', 1:10:length(Pt));
 semilogy(Pt, ris32.outage(2, :), 'LineWidth', 1.25, ...
-    'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 's', 'MarkerIndices', 1:10:length(Pt));
 semilogy(Pt, ris32.outage(3, :), 'LineWidth', 1.25, ...
-'Marker', 'o', 'MarkerIndices', 1:5:length(Pt));
+'Marker', 'o', 'MarkerIndices', 1:10:length(Pt));
 
 semilogy(Pt, ris70.outage(1, :), 'LineWidth', 1.25, ...
-    'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'x', 'MarkerIndices', 1:10:length(Pt));
 semilogy(Pt, ris70.outage(2, :), 'LineWidth', 1.25, ...
-    'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 's', 'MarkerIndices', 1:10:length(Pt));
 semilogy(Pt, ris70.outage(3, :), 'LineWidth', 1.25, ...
-    'Marker', 'd', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'd', 'MarkerIndices', 1:10:length(Pt));
     
 % Add labels and legend
 xlabel('Transmit Power per BS (dBm)');
@@ -98,12 +98,12 @@ plot(ris32.se, ris32.ee, 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', i);
 [~, i] = max(ris70.ee);
 plot(ris70.se, ris70.ee, 'LineWidth', 1.25, ...
-'Marker', 'o', 'MarkerIndices', i + 1);
+'Marker', 'o', 'MarkerIndices', i);
     
 % Add labels and legend
 xlabel('Spectral Efficiency (bits/s/Hz)');
-% ylim([5000 10000])
-xlim([10 16])
+ylim([9000 11000])
+xlim([11 17])
 ylabel('Energy Efficiency (bit/J)');
 legend('Without RIS', '{K = 32} Elements', '{K = 70} Elements', 'Location', 'southwest')
 
@@ -123,28 +123,28 @@ fig4 = figure();
 
 % Plot data
 plot(Pt, no_ris_non_comp.rates(3, :), 'LineWidth', 1.25, ...
-    'Marker', '+', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', '+', 'MarkerIndices', 1:10:length(Pt));
 hold on;
 plot(Pt, no_ris.rates(1, :), 'LineWidth', 1.25, ...
-    'Marker', 'v', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'v', 'MarkerIndices', 1:10:length(Pt));
 plot(Pt, no_ris.rates(2, :), 'LineWidth', 1.25, ...
-    'Marker', '<', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', '<', 'MarkerIndices', 1:10:length(Pt));
 plot(Pt, no_ris.rates(3, :), 'LineWidth', 1.25, ...
-    'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 's', 'MarkerIndices', 1:10:length(Pt));
 
 plot(Pt, ris32.rates(1, :), 'LineWidth', 1.25, ...
-    'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'x', 'MarkerIndices', 1:10:length(Pt));
 plot(Pt, ris32.rates(2, :), 'LineWidth', 1.25, ...
-    'Marker', '>', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', '>', 'MarkerIndices', 1:10:length(Pt));
 plot(Pt, ris32.rates(3, :), 'LineWidth', 1.25, ...
-'Marker', 'o', 'MarkerIndices', 1:5:length(Pt));
+'Marker', 'o', 'MarkerIndices', 1:10:length(Pt));
 
 plot(Pt, ris70.rates(1, :), 'LineWidth', 1.25, ...
-    'Marker', 'x', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'x', 'MarkerIndices', 1:10:length(Pt));
 plot(Pt, ris70.rates(2, :), 'LineWidth', 1.25, ...
-    'Marker', 's', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 's', 'MarkerIndices', 1:10:length(Pt));
 plot(Pt, ris70.rates(3, :), 'LineWidth', 1.25, ...
-    'Marker', 'd', 'MarkerIndices', 1:5:length(Pt));
+    'Marker', 'd', 'MarkerIndices', 1:10:length(Pt));
 
 % Add labels and legend
 xlabel('Transmit Power per BS (dBm)');
@@ -172,19 +172,19 @@ fig5 = figure();
 
 % Plot data
 plot(Pt, no_ris.sum_rate, 'LineWidth', 1.25, ...
-    'Marker', 'v', 'MarkerIndices', 1:2:length(Pt));
+    'Marker', 'v', 'MarkerIndices', 1:4:length(Pt));
 hold on;
 plot(Pt, ris32.sum_rate, 'LineWidth', 1.25, ...
-    'Marker', 'x', 'MarkerIndices', 1:2:length(Pt));
+    'Marker', 'x', 'MarkerIndices', 1:4:length(Pt));
 plot(Pt, ris70.sum_rate, 'LineWidth', 1.25, ...
-    'Marker', 's', 'MarkerIndices', 1:2:length(Pt));
+    'Marker', 's', 'MarkerIndices', 1:4:length(Pt));
 plot(Pt, custom.sum_rate, 'LineWidth', 1.25, ...
-    'Marker', '>', 'MarkerIndices', 1:2:length(Pt));
+    'Marker', '>', 'MarkerIndices', 1:4:length(Pt));
 
 % Add labels and legend
 xlabel('Transmit Power per BS (dBm)');
 ylim([2 12.5])
-xlim([-26 -10])
+xlim([-30 -10])
 ylabel('Network Sum Rate (bits/s/Hz)');
 legend('Without RIS', '{K = 32} Elements', '{K = 70} Elements', ...
     '{K = 70} Elements + Optimal PA', 'Location', 'northwest');
