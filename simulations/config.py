@@ -25,7 +25,7 @@ Path Loss Exponents (alpha):
 - {BS1, BS2}-Uf Links = 3.5
 - {BS1, BS2}-RIS Links = 3
 - RIS-{U1c, U2c} Links = 2.7
-- RIS-Uf Link = 2.4
+- RIS-Uf Link = 2.3
 - BS2-U1c and BS1-U2c Links = 4
 
 Rician K Factors:
