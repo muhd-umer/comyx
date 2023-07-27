@@ -200,15 +200,14 @@ set(gca, 'GridAlpha', 0.15);
 %% Contour Plot
 load("..\resources\data\results_exhaustive_es_aa.mat");
 [X,Y] = meshgrid(bs2_assignment, beta_t);
-smooth_factor = 999; % You can adjust this parameter for desired smoothness
-sum_rate_smooth = smoothdata(sum_rate, 'lowess', smooth_factor);
-% sum_rate_smooth = movmean(sum_rate, [50 50]);
-[Xq, Yq] = meshgrid(linspace(double(min(X(:))), double(max(X(:))), 132), ...
+smooth_factor = 9999; % You can adjust this parameter for desired smoothness
+sum_rate_smooth = movmean(sum_rate, [52 30]);
+[Xq, Yq] = meshgrid(linspace(double(min(X(:))), double(max(X(:))), 26), ...
     linspace(min(Y(:)), max(Y(:)), 1000));
-sum_rate_interp = interp2(double(X), double(Y), sum_rate_smooth, Xq, Yq, "cubic");
-
+sum_rate_interp = interp2(double(X), double(Y), sum_rate_smooth, Xq, Yq, "linear");
+sum_rate_smooth = smoothdata(sum_rate_interp, 'loess', smooth_factor);
 fig6 = figure(6);
-[c, b] = contour(Xq, Yq, sum_rate_interp, 11, 'LineWidth', 1.25);
+[c, b] = contour(Xq, Yq, sum_rate_smooth, 10, 'LineWidth', 1.5);
 shading interp;
 % colormap jet
 h = colorbar;
