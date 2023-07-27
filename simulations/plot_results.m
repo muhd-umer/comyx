@@ -1,6 +1,9 @@
 % Define data
 clear;
 close all;
+set(groot,'defaulttextinterpreter','latex');
+set(groot, 'defaultLegendInterpreter','latex');
+set(groot, 'defaultAxesTickLabelInterpreter','latex');
 Pt = load("..\resources\data\tx_power_dB.mat").tx_power;
 
 %% Links
@@ -22,10 +25,10 @@ Pt = load("..\resources\data\tx_power_dB.mat").tx_power;
 %     'MarkerIndices', 1:10:length(Pt));
 % 
 % % Add labels and legend
-% xlabel('Transmit Power per BS, $P_t$ (dBm)');
+% xlabel('Transmit power per BS, $P_t$ (dBm)');
 % ylim([0 18])
 % xlim([-30 0])
-% ylabel('Network Sum Rate (bits/s/Hz)');
+% ylabel('Network sum-rate (bits/s/Hz)');
 % legend('Both BS_{1} and BS_{2} Links', 'BS_{1} Link Only', ...
 %     'BS_{2} Link Only', 'No Direct Links', 'Location', 'southeast');
 % 
@@ -66,10 +69,10 @@ semilogy(Pt, ris70.outage(3, :), 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', 1:10:length(Pt));
     
 % Add labels and legend
-xlabel('Transmit Power per BS, $P_t$ (dBm)');
+xlabel('Transmit power per BS, $P_t$ (dBm)');
 ylim([9e-4 1])
 xlim([-45 0])
-ylabel('Outage Probability');
+ylabel('Outage probability');
 legend('U$_{f}$, Non-CoMP, without RIS', ...
     'U$_{1,c}$, without RIS', 'U$_{2,c}$, without RIS', ...
     'U$_{f}$, without RIS', 'U$_{1,c}$, {K = 32} Elements', ...
@@ -101,10 +104,10 @@ plot(ris70.se, ris70.ee, 'LineWidth', 1.25, ...
 'Marker', 'o', 'MarkerIndices', i);
     
 % Add labels and legend
-xlabel('Spectral Efficiency (bits/s/Hz)');
+xlabel('Spectral efficiency (bits/s/Hz)');
 ylim([9000 11000])
 xlim([11 17])
-ylabel('Energy Efficiency (bit/J)');
+ylabel('Energy efficiency (bit/J)');
 legend('Without RIS', '{K = 32} Elements', '{K = 70} Elements', ...
     'Location', 'southwest', 'FontSize', 10)
 
@@ -148,10 +151,10 @@ plot(Pt, ris70.rates(3, :), 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', 1:10:length(Pt));
 
 % Add labels and legend
-xlabel('Transmit Power per BS, $P_t$ (dBm)');
+xlabel('Transmit power per BS, $P_t$ (dBm)');
 ylim([0 7])
 xlim([-45 0])
-ylabel('Rates (bits/s/Hz)');
+ylabel('User rates (bits/s/Hz)');
 legend('U$_{f}$, Non-CoMP, without RIS', ...
     'U$_{1,c}$, without RIS', 'U$_{2,c}$, without RIS', ...
     'U$_{f}$, without RIS', 'U$_{1,c}$, {K = 32} Elements', ...
@@ -163,7 +166,7 @@ legend('U$_{f}$, Non-CoMP, without RIS', ...
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
-%% Sum Rate
+%% Sum-rate
 no_ris = load("..\resources\data\results_no_ris.mat");
 ris32 = load("..\resources\data\results_ris32.mat");
 ris70 = load("..\resources\data\results_ris70.mat");
@@ -183,10 +186,10 @@ plot(Pt, custom.sum_rate, 'LineWidth', 1.25, ...
     'Marker', '>', 'MarkerIndices', 1:4:length(Pt));
 
 % Add labels and legend
-xlabel('Transmit Power per BS, $P_t$ (dBm)');
+xlabel('Transmit power per BS, $P_t$ (dBm)');
 ylim([2 12.5])
 xlim([-30 -10])
-ylabel('Network Sum Rate (bits/s/Hz)');
+ylabel('Network sum-rate (bits/s/Hz)');
 legend('Without RIS', '{K = 32} Elements', '{K = 70} Elements', ...
     '{K = 70} Elements + Optimal PA', 'Location', 'northwest', 'FontSize', 10);
 
@@ -197,26 +200,29 @@ set(gca, 'GridAlpha', 0.15);
 %% Contour Plot
 load("..\resources\data\results_exhaustive_es_aa.mat");
 [X,Y] = meshgrid(bs2_assignment, beta_t);
-sum_rate_smooth = movmean(sum_rate, [16 16]);
-[Xq, Yq] = meshgrid(linspace(double(min(X(:))), double(max(X(:))), 16), ...
-    linspace(min(Y(:)), max(Y(:)), 16));
-sum_rate_interp = interp2(double(X), double(Y), sum_rate_smooth, Xq, Yq, "linear");
+smooth_factor = 999; % You can adjust this parameter for desired smoothness
+sum_rate_smooth = smoothdata(sum_rate, 'lowess', smooth_factor);
+% sum_rate_smooth = movmean(sum_rate, [50 50]);
+[Xq, Yq] = meshgrid(linspace(double(min(X(:))), double(max(X(:))), 132), ...
+    linspace(min(Y(:)), max(Y(:)), 1000));
+sum_rate_interp = interp2(double(X), double(Y), sum_rate_smooth, Xq, Yq, "cubic");
 
 fig6 = figure(6);
-contour(Xq, Yq, sum_rate_interp, 13, 'LineWidth', 1.25)
+[c, b] = contour(Xq, Yq, sum_rate_interp, 11, 'LineWidth', 1.25);
 shading interp;
 % colormap jet
 h = colorbar;
+h.FontSize = 10;
+h.TickLabelInterpreter = "latex";
+h.Ticks = 8:0.1:8.5;
+h.TickLabels = {"8", "8.1", "8.2", "8.3", "8.4", "8.5"};
 % h.Label.String = "Network Sum-Rate (bits/s/Hz)";
-h.Label.FontSize = 11;
-h.Ticks = 7.9:0.1:8.4;
-xlabel('Element Splitting Ratio $\mathrm{BS}_{1}$ / $\mathrm{BS}_{2}$', ...
-    'Interpreter', 'latex')
-ylabel('Amplitude Coefficients Ratio $\beta_{t} / \beta_{r}$', ...
-    'Interpreter', 'latex')
+clabel(c, b, 'manual', 'backgroundcolor', 'w');
+xlabel('Element splitting ratio $\mathrm{BS}_{1}$ / $\mathrm{BS}_{2}$')
+ylabel('Amplitude adjustments ratio $\beta_{t} / \beta_{r}$')
 xtick = linspace(0, 70, 8);
 ytick = linspace(0, 1, 11); % changed from 12 to 11
-legend('Network Sum-Rate (bits/s/Hz)', 'Location', 'northeast', 'FontSize', 10)
+legend('Network sum-rate (bits/s/Hz)', 'Location', 'northwest', 'FontSize', 10)
 set(gca, 'XTickLabel', {"0/70", "10/60", "20/50", "30/40", "40/30", ...
     "50/20", "60/10", "70/0"}, 'XTick', xtick);
 set(gca,'YTickLabel',{"0/1", "0.1/0.9", "0.2/0.8", "0.3/0.7", ...
@@ -225,8 +231,8 @@ set(gca,'YTickLabel',{"0/1", "0.1/0.9", "0.2/0.8", "0.3/0.7", ...
 
 %% Export Graphics
 % exportgraphics(fig1, '../resources/links.pdf')
-exportgraphics(fig2, '../resources/outage.pdf')
-exportgraphics(fig3, '../resources/se_vs_ee.pdf')
-exportgraphics(fig4, '../resources/rates.pdf')
-exportgraphics(fig5, '../resources/sumrate.pdf')
-exportgraphics(fig6, '../resources/dynamic.pdf')
+% exportgraphics(fig2, '../resources/outage.pdf')
+% exportgraphics(fig3, '../resources/se_vs_ee.pdf')
+% exportgraphics(fig4, '../resources/rates.pdf')
+% exportgraphics(fig5, '../resources/sumrate.pdf')
+% exportgraphics(fig6, '../resources/dynamic.pdf')
