@@ -111,10 +111,10 @@ def main(N, link_option, custom_run, save_path):
     print(f"{Fore.GREEN}Simulating the system ...{Style.RESET_ALL}")
 
     # Set the NOMA power allocation
-    BS1.set_allocation(U1c, 0.25)
-    BS1.set_allocation(Uf, 0.75)
-    BS2.set_allocation(U2c, 0.25)
-    BS2.set_allocation(Uf, 0.75)
+    BS1.set_allocation(U1c, 0.3)
+    BS1.set_allocation(Uf, 0.7)
+    BS2.set_allocation(U2c, 0.3)
+    BS2.set_allocation(Uf, 0.7)
 
     # Set the RIS phase shifts
     RIS.set_reflection_parameters(links, [BS1, BS2], [U1c, U2c])
