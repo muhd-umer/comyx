@@ -161,7 +161,7 @@ As the CSI is fully estimated at the BSs, the optimal phase shift for each eleme
 \begin{equation}
     \theta_k^p = \text{mod}[\arg(\textbf{h}_{i,q}) - \arg(\textbf{h}_{i,R}\cdot \textbf{h}_{R, q}),\,2\pi],
 \end{equation}
-where $\arg(\cdot)$ is the argument function and is utilized to compute the phase of the channels, while $p \in \{t, r\}$ representing transmission and reflection regions of STAR-RIS, respectively. Also, $q \in \mathcal{C}$ when $p=t$, or $q \in \mathcal{F}$ when $p=r$. We adopt fixed empirical optimizations to address the joint network sum-rate optimization problem \ref{eq:opt}. Furthermore, we analyze the impact of distributing the STAR-RIS elements among the BSs by systematically exploring all conceivable splitting configurations through an exhaustive iteration process.
+where $\arg(\cdot)$ is the argument function and is utilized to compute the phase of the channels, while $p \in \{t, r\}$ represents transmission and reflection regions of STAR-RIS, respectively. Also, $q \in \mathcal{C}$ when $p=t$, or $q \in \mathcal{F}$ when $p=r$. We adopt fixed empirical optimizations to address the joint network sum-rate optimization problem \ref{eq:opt}. Furthermore, we analyze the impact of distributing the STAR-RIS elements among the BSs by systematically exploring all conceivable splitting configurations through an exhaustive iteration process.
 
 Advanced optimization techniques could potentially offer further improvements. However, the primary focus of this work is to showcase the fundamental enhancements attained by strategically deploying the STAR-RIS and distributing its resources among the Base Stations (BSs) within the coordinated NOMA cluster.
 
@@ -170,7 +170,7 @@ This section presents numerical results for assessing the STAR-RIS enhancements 
 \subsection{Simulation Setup}
 We consider an outdoor environment where the transmission bandwidth of the network is set to $B = 1$ MHz, and the power of AWGN is set to $\sigma^2 = -174 + 10\log_{10}\left(B\right)$ (dBm) with a noise figure $N_F$ of $12$ dB. For simplicity, we assume that the transmit powers of both BS$_1$ and BS$_2$ are identical, expressed as $P_1 = P_2 = P_t$. Moreover, the PA factors for U$_{1,c}$, U$_{2,c}$, and U$_f$ are fixed to $\zeta_{1,c}=\zeta_{2,c}=0.3$ and $\zeta_f=0.7$, respectively.
 
-In the three-dimensional Cartesian coordinate system, the locations of BS$_1$ and BS$_2$, each with a coverage radius of 60 m, are set to (-50m, 0m, 25m) and (50m, 0m, 25m) respectively. The STAR-RIS is strategically placed at the intersection of the two cells, near U$_f$, specifically, at the coordinates (0m, 25m, 5m). Additionally, the cellular users U$_1,c$, U$_2,c$, and U$_f$ are positioned at (-40m, 18m, 1m), (30m, 22m, 1m), and (0m, 35m, 1m), respectively. Some specific parameters used for simulation are outlined in Table \ref{tab:sim}.
+In the three-dimensional Cartesian coordinate system, the locations of BS$_1$ and BS$_2$, each with a coverage radius of 60 m, are set to (-50m, 0m, 25m) and (50m, 0m, 25m) respectively. The STAR-RIS is strategically placed at the intersection of the two cells, near U$_f$, specifically, at the coordinates (0m, 25m, 5m). Additionally, the cellular users U$_{1,c}$, U$_{2,c}$, and U$_f$ are positioned at (-40m, 18m, 1m), (30m, 22m, 1m), and (0m, 35m, 1m), respectively. Some specific parameters used for simulation are outlined in Table \ref{tab:sim}.
 
 \begin{table}[ht]
 \centering
@@ -219,7 +219,7 @@ The impact of PA factors in the coordinated NOMA cluster is evaluated in Fig. \r
 \textrm{s.t.}
     \quad & \zeta_{i,c}^2 + \zeta_f^2\leq1, \forall i \in \mathcal{I}, c \in \mathcal{C}, f \in \mathcal{F}, \nonumber
 \end{align}
-Following the methodology proposed in \cite{fang2016energy}, we obtain the optimal PA factors, denoted as (${\text{U}_{1,c}, \text{U}f}$) and (${\text{U}{2,c}, \text{U}_f}$). For the purpose of assessing the impact of power allocation factors on top of the STAR-RIS enhancements, we specifically focus on the case for a configuration with $K=70$ elements. Notably, this configuration yields the highest network sum-rate among all considered cases.
+Following the methodology proposed in \cite{fang2016energy}, we obtain the optimal PA factors for the two NOMA pairs (i.e., ${\text{U}_{1,c}, \text{U}_f}$) and (${\text{U}_{2,c}, \text{U}_f}$). For the purpose of assessing the impact of power allocation factors on top of the STAR-RIS enhancements, we specifically focus on the case for a configuration with $K=70$ elements. Notably, this configuration yields the highest network sum-rate among all considered cases.
 
 \subsection{Exhaustive STAR-RIS Element Allocation}
 By performing exhaustive iterations over all potential combinations of STAR-RIS element assignments to BS$_1$ and BS$_2$ (i.e., $\textbf{K}_A^1=\textbf{K}_A^2=K/2$) in one dimension and exploring various transmission and reflection amplitude adjustments (i.e., $\beta_t$ and $\beta_r$) in another dimension, with $P_t = -15$ dBm, we plot the network sum-rate as a function of said dimensions. As evident from Fig. \ref{fig:dynamic}, the network sum-rate peaks when $\beta_t > \beta_r$. This observation aligns with the expectations, considering that the STAR-RIS is strategically positioned near U$_f$, located in the transmission region $\Theta_t$, thereby leading to an optimal network sum-rate.
