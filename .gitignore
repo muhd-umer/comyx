@@ -167,3 +167,4 @@ simulations/pyclean.sh
 *.bkp
 resources/*.pdf
 *.asv
+*.identifier
