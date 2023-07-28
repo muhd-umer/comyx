@@ -217,7 +217,7 @@ h.Ticks = 8:0.1:8.5;
 h.TickLabels = {"8", "8.1", "8.2", "8.3", "8.4", "8.5"};
 % h.Label.String = "Network Sum-Rate (bits/s/Hz)";
 clabel(c, b, 'manual', 'backgroundcolor', 'w');
-xlabel('Element splitting ratio $\mathrm{BS}_{1}$ / $\mathrm{BS}_{2}$')
+xlabel('Element splitting ratio $\textbf{K}_A^1$ / $\textbf{K}_A^2$')
 ylabel('Amplitude adjustments ratio $\beta_{t} / \beta_{r}$')
 xtick = linspace(0, 70, 8);
 ytick = linspace(0, 1, 11); % changed from 12 to 11
