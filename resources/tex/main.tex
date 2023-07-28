@@ -35,7 +35,7 @@ Communications, Lancaster University, UK}
 \maketitle
 
 \begin{abstract}
-In this paper, we present a novel approach to enhance data rates in a multi-cell network through the simultaneous utilization of reconfigurable intelligent surfaces (STAR-RISs), and non-orthogonal multiple access (NOMA) coordinated multi-point transmission (CoMP). By strategically deploying STAR-RISs, the data rate for cell-center and cell-edge users is improved, achieved through exhaustive computation to optimize the system's performance. The study conducts a comparative resource allocation analysis to maximize data rates for cell-edge and cell-center users. Additionally, the investigation explores the effects of CoMP and non-CoMP systems on the outage conditions and data rates, offering valuable insights into future wireless communication system design and optimization. 
+In this paper, we present a novel approach to enhance data rates in a multi-cell network through a pertinent combination of simultaneously transmitting and reflecting reconfigurable intelligent surfaces (STAR-RISs), non-orthogonal multiple access (NOMA), and coordinated multi-point transmission (CoMP). Through the strategic deployment of STAR-RISs, data rates for cell-edge users are significantly improved. The system's overall performance is further optimized by employing exhaustive computation techniques. Additionally, this paper investigates the impact of both the presence and absence of the CoMP technique on outage conditions and data rates. These findings offer valuable insights for the future design and optimization of wireless communication systems.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -43,41 +43,41 @@ In this paper, we present a novel approach to enhance data rates in a multi-cell
 \end{IEEEkeywords}
 
 \section{Introduction}
-Reconfigurable Intelligent Surfaces (RISs) offer a promising solution for enhancing spectral efficiency (SE) and coverage in sixth-generation (6G) wireless networks~\cite{wu2019towards, di2020smart}. They are essentially a 2-D metasurface equipped with low-cost, eco-friendly passive elements. Being passive in nature, these devices can enhance signal coverage by adjusting both phase and amplitude so that the signals are combined constructively at the desired receiver. Their passive behavior promotes green Internet in digital ecosystems, providing higher data rates and spectral efficiency while being cost-effective. RIS only passively recycles signals that are already part of the wireless network. Despite its advantage of improving the data rates and signal coverage, these surfaces impose a problem called the half-space problem, which requires that the impinging signal and the user must be located on the same side of RIS, introducing additional constraints to the system, as in~\cite{hou2021joint}.
+Reconfigurable intelligent surfaces (RISs) offer a promising solution for enhancing spectral efficiency (SE) and coverage in sixth-generation (6G) wireless networks~\cite{wu2019towards, di2020smart}. They are essentially a 2-D metasurface equipped with low-cost, eco-friendly passive elements. Being passive in nature, these devices can enhance signal coverage by adjusting both phase and amplitude so that the signals are combined constructively at the desired receiver. Their passive behavior promotes green internet in digital ecosystems, providing higher data rates and spectral efficiency while being cost-effective. RIS only passively recycles signals that are already part of the wireless network. Despite its advantage of improving the data rates and signal coverage, these surfaces impose a problem called the half-space problem, which requires that the impinging signal and the user must be located on the same side of RIS, introducing additional constraints to the system, as in~\cite{hou2021joint}.
 
-To overcome this limitation, recent research in developing metasurfaces and advanced fabrication technologies led to a novel idea of Simultaneously Transmitting and Reflecting Reconfigurable Intelligent Surfaces (STAR-RIS), which divides its elements so that some take part in reflection and the rest in transmission. STAR-RIS can enhance the non-line-of-sight coverage of the impinging signal by providing a virtual line-of-sight path by establishing links to both surfaces, which can solve the half-space problem.
+To overcome this limitation, recent research in developing metasurfaces and advanced fabrication technologies led to a novel idea of simultaneously transmitting and reflecting RIS (STAR-RIS), which divides its elements so that some take part in reflection and the rest in transmission. STAR-RIS can enhance the non-line-of-sight (NLoS) coverage of the impinging signal by providing a virtual line-of-sight path by establishing links to both surfaces, which can solve the half-space problem.
 
 The quest for improved performance in cellular networks has prompted the deployment of numerous low-power, cost-effective, and compact (BSs). However, this proliferation has given rise to a formidable cross-tier inter-cell interference (ICI) obstacle, which hinders further advancements. Furthermore, the substantial power consumption resulting from the dense BS deployment presents a pressing challenge.
 
-Coordinated multi-point (CoMP) techniques have emerged as a promising solution to address these issues. Through high-speed fronthaul links and the sharing of channel state information (CSI) among BSs, CoMP networks allow for the mitigation of ICI and the consequent enhancement of overall network performance. CoMP was introduced by the Long Term Evolution Advanced (LTE-A) by the third generation partnership project (3GPP) and is a crucial component for 5G communications. Coordination among all the BSs is complex due to inaccurate CSI, additional synchronization across cells, and additional signal processing. Making clusters for CoMP wireless systems is also an optimization problem for future wireless networks.
+Coordinated multi-point (CoMP) techniques have emerged as a promising solution to address these issues. Through high-speed fronthaul links and the sharing of channel state information (CSI) among BSs, CoMP networks allow for the mitigation of ICI and the consequent enhancement of overall network performance. CoMP was introduced in the Long Term Evolution Advanced (LTE-A) Release 11 by the third generation partnership project (3GPP), which become a crucial component for 5G communications. However, coordination among all the BSs is challenging in practice due to inaccurate CSI, additional synchronization across cells, and additional signal processing. Making clusters for CoMP wireless systems is also an optimization problem for future wireless networks.
 
 On the other hand, multiple access techniques have been established to increase the spectral efficiency of wireless systems, and non-orthogonal multiple access (NOMA) is one of them. The power-domain NOMA superposes multiple users in the power domain. However, the downlink signal could be transmitted based on any other baseline in the LTE system. 
 
-In this paper, we consider a STAR-RIS enhanced CoMP-NOMA network and present a detailed analysis of the achievable rates of cellular users. The main contributions of this paper can be summarized as follows.
+In this paper, we consider a STAR-RIS-enhanced CoMP-NOMA network and present a detailed analysis of the achievable rates of cellular users. The main contributions of this paper can be summarized as follows.
 \begin{itemize}
     \item  A novel model for the joint utilization of
     STAR-RISs and CoMP-NOMA to enhance the system performance in a multi-cell network. By strategically deploying STAR-RISs, we are able to improve the network coverage and outage conditions of the cell-edge user.
     \item Investigating the impact of CoMP and non-CoMP systems on diverse performance metrics, we demonstrate the superiority of strategically placed and optimized STAR-RISs over conventional systems.
-    \item Investigating the impact of strategically assigning STAR-RIS elements to BSs based on the channel conditions, and optimizing amplitude adjustments for transmission and reflection regions, on the achievable network sum-rate.
+    \item Investigating the impact of pertinently assigning STAR-RIS elements to BSs based on the channel conditions and optimizing amplitude adjustments for transmission and reflection regions on the achievable network sum-rate.
 
 \end{itemize}
 
 \section{System Model}
 \subsection{System Layout}
-As shown in Fig. \ref{fig:system}, we consider a narrow-band two-cell CoMP NOMA downlink communication system operating over frequency-flat channels aided by a STAR-RIS comprising $K$ elements strategically positioned at the intersection of the cells.
+As shown in Fig. \ref{fig:system}, we consider a narrow-band two-cell CoMP-NOMA downlink communication system operating over frequency-flat channels with a STAR-RIS comprising $K$ elements, which are strategically positioned at the intersection of the cells.
 % The dynamic elements of the STAR-RIS can be assigned to simultaneously transmit and reflect the signal from either of the two BSs, but not both.
 Let the index sets be defined as $\mathcal{I} = \{1, 2\}$ for the two BSs, $\mathcal{C} = \{1, 2,\dots, C\}$ for the cell-center users, and $\mathcal{F} = \{1, 2,\dots, F\}$ for the cell-edge users, where $C$, and $F$ represent the cardinality of $\mathcal{C}$, and $\mathcal{F}$, respectively. Additionally, let $\mathcal{U} = \{\mathcal{M}\cup\,\mathcal{N}\,\cup\,\mathcal{F}\}$ be the set of all users in the system. For simplicity, we only focus on the typical scenario, where each BS is equipped with a single antenna, establishing communication links with one single-antenna cell-center user and one single-antenna cell-edge user. Thus, in this context, we have $M=1$, $N=1$, and $F=1$. In addition, $\forall c \in \mathcal{C}$, $\forall f \in \mathcal{F}$, U$_c$ is placed in the reflection region $\mathbf{\Theta_r}$, while U$_f$ is placed in the transmission region $\mathbf{\Theta_t}$ of the STAR-RIS.
 
 \begin{figure}[t]
     \centerline{
         \includegraphics[width=0.45\textwidth]{figs/system.pdf}}
-    \caption{An illustration of STAR-RIS aided coordinated NOMA cluster.}
+    \caption{An illustration of STAR-RIS-aided coordinated NOMA cluster.}
     \label{fig:system}
 \end{figure}
 
-The BSs employ power-domain NOMA techniques to communicate with the users. Specifically, $\forall i \in \mathcal{I}, c \in \mathcal{C}$, and $f \in \mathcal{F}$, BS$_i$ forms the NOMA pair (${\text{U}_{i,c}, \text{U}_f}$), where $\text{U}_{i,c}$ is the cell-center user of BS$_i$. Consequently, the U$_f$ is part of two NOMA pairs, each cluster served by a different base station. To mitigate the strong ICI experienced by $U_f$, CoMP is adopted between the two BSs. In addition, it is assumed that the BSs are connected to a central processing unit (CPU) via high-speed fronthaul links, facilitating seamless information sharing and coordinated transmissions among them.
+The BSs employ power-domain NOMA techniques to communicate with the users. Specifically, $\forall i \in \mathcal{I}, c \in \mathcal{C}$, and $f \in \mathcal{F}$, BS$_i$ forms the NOMA pair (${\text{U}_{i,c}, \text{U}_f}$), where $\text{U}_{i,c}$ is the cell-center user of BS$_i$. Consequently, the U$_f$ is part of two NOMA pairs, each cluster served by a different base station. To mitigate the strong ICI experienced by U$_f$, CoMP is adopted between the two BSs. In addition, it is assumed that the BSs are connected to a central processing unit (CPU) via high-speed fronthaul links, facilitating seamless information sharing and coordinated transmissions among them.
 % This particular user arrangement is defined as a coordinated NOMA cluster~\cite{elhattab2022ris}.
-% Moreover, all users within the coverage region of $\text{BS}_1$ treat the signal received from $\text{BS}_1$ as the desired signal, while the signal received from the $\text{BS}_2$ is treated as interference. The same holds true for users within the coverage region of $\text{BS}_2$. 
+% Moreover, all users within the coverage region of $\text{BS}_1$ treat the signal received from $\text{BS}_1$ as the desired signal, while the signal received from the $\text{BS}_2$ is treated as interference. The same holds for users within the coverage region of $\text{BS}_2$. 
 
 In this paper, perfect CSI is assumed to be available at the BSs. While this is a challenging assumption in practice, recent advances in channel estimation techniques for RIS-enabled wireless networks have shown that it is possible to achieve accurate CSI~\cite{hou2021joint, wei2021channel, taha2021enabling} with a reasonable amount of overhead. These estimation methods can also be applied to STAR-RISs, but are beyond the scope of this work.
 
@@ -109,12 +109,12 @@ where $\beta^t$, $\beta^r \in [0, 1]$ and $\theta_k^t$, $\theta_k^r \in [0, 2 \p
 % where arg is the argument function and is utilized to compute the phase of the channels, $p \in \{t, r\}$ representing transmission and reflection regions of STAR-RIS, respectively, and $q \in \mathcal{C}$ when $p=t$, or $q \in \mathcal{F}$ when $p=r$.
 
 \section{Performance Analysis}
-\subsection{Rates Analysis}
+\subsection{Rate Analysis}
 To analyze the rates achieved for users in the system model shown in Fig. \ref{fig:system}, we first present the signal model. Specifically, $\forall i \in \mathcal{I}$, $c \in \mathcal{C}$, $f \in \mathcal{F}$, let the tuple (U$_{1,c}$, U$_{2,c}$, U$_f$) represent the coordinated NOMA cluster, and let $P_1$ and $P_2$ denote the transmit powers of BS$_1$ and BS$_2$, respectively. This signal model serves as the foundation for evaluating the achieved rates and optimizing the system performance in the considered cluster. Additionally, let $x_{1,c}$, $x_{2,c}$, and $x_f$ represent the message signal intended for U$_{1,c}$, U$_{2,c}$, and U$_f$, respectively. Each BS$_i$ broadcasts a superimposed signal of the messages~\cite{saito2013non} intended for users within its coverage region, U$_{i,c}$ and U$_f$, and expressed as:
 \begin{equation}
     x_{i}=\sqrt{\zeta_{i,c}P_i}x_{i,c} + \sqrt{\zeta_{i,f}P_i}x_f,
 \end{equation}
-where $\zeta_{i,c}$ and $\zeta_{i,f}$ are the power allocation (PA) factors assigned by BS$i$ to users U$_{i,c}$ and U$_f$, respectively. It is important to note that U$_{i,c}$ experiences stronger channel conditions compared to U$_f$, making it the dominant NOMA user in the pair ${\text{U}{i,c}, \text{U}_f}$ formed by BS$i$. Following the principle of NOMA, U${i,c}$ should be capable of detecting and decoding the message intended for U$_f$. This principle also implies that $\zeta_{i,c} < 0.5$, or $0.5 < \zeta_{i,f} < 1$~\cite{obeed2020user, salem2020noma}.
+where $\zeta_{i,c}$ and $\zeta_{i,f}$ are the power allocation (PA) factors assigned by BS$i$ to users U$_{i,c}$ and U$_f$, respectively. It is important to note that U$_{i,c}$ experiences stronger channel conditions compared to U$_f$, making it the dominant NOMA user in the pair ($\text{U}_{i,c}, \text{U}_f$) formed by BS$i$. Following the principle of NOMA, U$_{i,c}$ should be capable of detecting and decoding the message intended for U$_f$. This principle also implies that $\zeta_{i,c} < 0.5$, or $0.5 < \zeta_{i,f} < 1$~\cite{obeed2020user, salem2020noma}.
 
 For brevity, we only define the rate achieved by U$_{1,c}$ from the set of cell-center users $\mathcal{C}$, as the same steps could be extended to define the rate of U$_c$, $\forall c \in \mathcal{C}$. The received signal at U$_{i,c}$ can be written as:
 \begin{equation}
@@ -143,24 +143,25 @@ where $\textbf{H}_{1, f}=\textbf{h}_{1, f}+\textbf{h}_{R, f}^H \mathbf{\Theta_t}
 % \end{equation}
 
 \subsection{Problem Formulation}
-Based on the analysis conducted above, the joint network sum-rate optimization problem for a single coordinated NOMA cluster aided by STAR-RIS can be formulated as:
+Based on the analysis conducted above, the joint network sum-rate optimization problem for a single coordinated NOMA cluster aided by the STAR-RIS can be formulated as
 \begin{align}
-\max_{\mathbf{\mathcal{A}}, \mathbf{\Theta}, \textbf{K}_A} \quad & \mathcal{R}_{\text{sum}}=\sum_{i=1}^{2} \mathcal{R}_{i,c} + \mathcal{R}_{f} \label{eq:opt} \\
+\max_{\mathbf{\mathcal{A}}, \mathbf{\Theta}, \textbf{K}_A} \quad & \mathcal{R}_{\text{sum}}=\sum_{i=1}^{2} \mathcal{R}_{i,c} + \mathcal{R}_{f}, \label{eq:opt} \\
 \textrm{s.t.} \quad & \mathcal{R}_f\geq\text{R}_\text{min}^f, \forall f \in \mathcal{F}, \nonumber \\
     \quad & \mathcal{R}_{i, c}\geq\text{R}_\text{min}^{i,c}, \forall i \in \mathcal{I}, c \in \mathcal{C}, \nonumber \\
     \quad & \zeta_{i,c}^2 + \zeta_f^2\leq1, \forall i \in \mathcal{I}, c \in \mathcal{C}, f \in \mathcal{F}, \nonumber \\
     \quad & \theta_k^t\in[0, 2\pi), k \in \mathcal{K} \nonumber \\
     \quad & \theta_k^r\in[0, 2\pi), k \in \mathcal{K} \nonumber \\
     \quad & \beta_t + \beta_r = 1, \nonumber \\
-    \quad & P_i \leq \text{P}_\text{max}^i, i \in \mathcal{I}, \nonumber
+    \quad & P_i \leq \text{P}_\text{max}^i, i \in \mathcal{I}, \nonumber \\
+    \quad & \sum_1^i \textbf{K}_A^i \leq K, i \in \mathcal{I}, k \in \mathcal{K}, \nonumber
 \end{align}
-where $\text{R}_\text{min}^f$ and $\text{R}_\text{min}^{i,c}$ represent the minimal achievable rates at U$_f$ and U$_{i,c}$, respectively, and $\text{P}_\text{min}^i$ is the maximum transmit power for each BS. In addition, $\mathbf{\mathcal{A}}$ represents the PA factors of a single NOMA pair in the cluster, $\mathbf{\Theta}$ represents all the phase shifts associated with STAR-RIS, and $\textbf{K}_A$ is the splitting of STAR-RIS resources among the BSs.
+where $\text{R}_\text{min}^f$ and $\text{R}_\text{min}^{i,c}$ represent the minimal achievable rates at U$_f$ and U$_{i,c}$, respectively. Further, $\text{P}_\text{min}^i$ is the maximum transmit power for each BS, whereas $\mathbf{\mathcal{A}}$ represents the PA factors of a single NOMA pair in the cluster. In addition, $\mathbf{\Theta}$ represents all the phase shifts associated with STAR-RIS, and $\textbf{K}_A$ is the splitting of STAR-RIS resources among the BSs.
 
-As the CSI is fully estimated at the BSs, the optimal phase shift for each element $k \in \mathcal{K}$ can be computed~\cite{wu2019intelligent}, to solve the objective in \ref{eq:opt} as follows:
+As the CSI is fully estimated at the BSs, the optimal phase shift for each element $k \in \mathcal{K}$ can be computed~\cite{wu2019intelligent}, to solve the objective in \ref{eq:opt} as follows
 \begin{equation}
-    \theta_k^p = \text{mod}[\arg(\textbf{h}_{i,q}) - \arg(\textbf{h}_{i,R}\cdot \textbf{h}_{R, q}),\,2\pi]
+    \theta_k^p = \text{mod}[\arg(\textbf{h}_{i,q}) - \arg(\textbf{h}_{i,R}\cdot \textbf{h}_{R, q}),\,2\pi],
 \end{equation}
-where arg is the argument function and is utilized to compute the phase of the channels, $p \in \{t, r\}$ representing transmission and reflection regions of STAR-RIS, respectively, and $q \in \mathcal{C}$ when $p=t$, or $q \in \mathcal{F}$ when $p=r$. We adopt fixed empirical optimizations to address the joint network sum-rate optimization problem \ref{eq:opt}. Furthermore, we analyze the impact of distributing the STAR-RIS elements among the BSs by systematically exploring all conceivable splitting configurations through an exhaustive iteration process.
+where $\arg(\cdot)$ is the argument function and is utilized to compute the phase of the channels, while $p \in \{t, r\}$ representing transmission and reflection regions of STAR-RIS, respectively. Also, $q \in \mathcal{C}$ when $p=t$, or $q \in \mathcal{F}$ when $p=r$. We adopt fixed empirical optimizations to address the joint network sum-rate optimization problem \ref{eq:opt}. Furthermore, we analyze the impact of distributing the STAR-RIS elements among the BSs by systematically exploring all conceivable splitting configurations through an exhaustive iteration process.
 
 Advanced optimization techniques could potentially offer further improvements. However, the primary focus of this work is to showcase the fundamental enhancements attained by strategically deploying the STAR-RIS and distributing its resources among the Base Stations (BSs) within the coordinated NOMA cluster.
 
@@ -191,39 +192,39 @@ Rician factor of RIS-U$_f$ link & $\kappa_{R\rightarrow f}=3$ dB\\ \hline
 \end{table}
 
 \subsection{Impact of the Number of STAR-RIS Elements}
-The outage probabilities and achievable rates for each user in the cluster are presented in Fig. \ref{fig:outage} and Fig. \ref{fig:rates}, respectively. With an increase in the number of elements $K$, we observe a notable reduction in outage probability of the cell-edge user U$_f$. This improvement is attributed to the enhanced data coverage facilitated by the STAR-RIS~\cite{wang2022outage}. Note that outage probabilities of U$_{1,c}$ and U$_{2,c}$ do not experience any substantial improvements, as their links are already dominated by the near base station BS$_1$ and BS$_2$, respectively. Moreover, due to strong ICI experienced by U$_f$ in the non-CoMP configuration, it experiences high outage probabilities, for all transmission power levels. The same trend is observed in the evaluation of user rates, with higher numbers of STAR-RIS elements leading to improved user rates.
-\begin{figure}[t]
+The outage probabilities and achievable rates for each user in the cluster are presented in Figs. \ref{fig:outage} and \ref{fig:rates}, respectively. With an increase in the number of elements $K$, we observe a notable reduction in outage probability of the cell-edge user U$_f$. This improvement is attributed to the enhanced data coverage facilitated by the STAR-RIS~\cite{wang2022outage}. Note that outage probabilities of U$_{1,c}$ and U$_{2,c}$ do not experience any substantial improvements, as their links are already dominated by the near base station BS$_1$ and BS$_2$, respectively. Moreover, due to strong ICI experienced by U$_f$ in the non-CoMP configuration, it experiences high outage probabilities, for all transmission power levels. The same trend is observed in the evaluation of user rates, with higher numbers of STAR-RIS elements leading to improved user rates.
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.45\textwidth]{figs/outage.pdf}
-    \caption{Outage probability of all the users ($\text{U}_{1c}$, $\text{U}_{2c}$, $\text{U}_f$) versus $P_{t}$, where $\beta^t=0.5$ and $\beta^r=0.5$ when $K > 0$.}
+    \caption{Outage probability of all the users ($\text{U}_{1c}$, $\text{U}_{2c}$, $\text{U}_f$) versus $P_{t}$, for $\beta^t=0.5$, $\beta^r=0.5$, and $\textbf{K}_A^1=\textbf{K}_A^2=K/2$, when $K>0$.}
     \label{fig:outage}
 \end{figure}
-\begin{figure}[t]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.45\textwidth]{figs/rates.pdf}
-    \caption{Achievable rate of both the center users ($\text{U}_{1c}$, $\text{U}_{2c}$) and edge user $\text{U}_f$ versus $P_{t}$ with different STAR-RIS settings.}
+    \caption{Achievable rates of all the users ($\text{U}_{1c}$, $\text{U}_{2c}$, $\text{U}_f$) versus $P_{t}$, for $\beta^t=0.5$, $\beta^r=0.5$, and $\textbf{K}_A^1=\textbf{K}_A^2=K/2$, when $K>0$.}
     \label{fig:rates}
 \end{figure}
 
 \subsection{Coordinated NOMA Power Allocation Factors}
-\begin{figure}[t]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.45\textwidth]{figs/sumrate.pdf}
-    \caption{Achievable network sum-rate versus $P_{t}$, where $\beta^t=0.5$ and $\beta^r=0.5$ when $K > 0$.}
+    \caption{Achievable network sum-rate versus $P_{t}$, for $\beta^t=0.5$, $\beta^r=0.5$, and $\textbf{K}_A^1=\textbf{K}_A^2=K/2$, when $K > 0$.}
     \label{fig:sumrate}
 \end{figure}
-The impact of PA factors in the coordinated NOMA cluster is evaluated in Fig. \ref{fig:sumrate}. The optimization problem of PA factors in a NOMA pair is formulated as follows:
+The impact of PA factors in the coordinated NOMA cluster is evaluated in Fig. \ref{fig:sumrate}. The optimization problem of PA factors in a NOMA pair is formulated as follows
 \begin{align}
-\max_{\mathbf{\mathcal{A}}} \quad & \mathcal{R}_{i,c} + \mathcal{R}_{f} \label{eq:opt2} \\
+\max_{\mathbf{\mathcal{A}}} \quad & \mathcal{R}_{i,c} + \mathcal{R}_{f}, \label{eq:opt2} \\
 \textrm{s.t.}
     \quad & \zeta_{i,c}^2 + \zeta_f^2\leq1, \forall i \in \mathcal{I}, c \in \mathcal{C}, f \in \mathcal{F}, \nonumber
 \end{align}
 Following the methodology proposed in \cite{fang2016energy}, we obtain the optimal PA factors, denoted as (${\text{U}_{1,c}, \text{U}f}$) and (${\text{U}{2,c}, \text{U}_f}$). For the purpose of assessing the impact of power allocation factors on top of the STAR-RIS enhancements, we specifically focus on the case for a configuration with $K=70$ elements. Notably, this configuration yields the highest network sum-rate among all considered cases.
 
 \subsection{Exhaustive STAR-RIS Element Allocation}
-By performing exhaustive iterations over all potential combinations of STAR-RIS element assignments to BS$_1$ and BS$_2$ in one dimension and exploring various transmission and reflection amplitude adjustments ($\beta_t$ and $\beta_r$) in another dimension, with $P_t = -15$ dBm, we plot the network sum-rate as a function of said dimensions. As evident from Fig. \ref{fig:dynamic}, the network sum-rate peaks when $\beta_t > \beta_r$. This observation aligns with the expectations, considering that the STAR-RIS is strategically positioned near U$_f$, located in the transmission region $\Theta_t$, thereby leading to an optimal network sum-rate.
+By performing exhaustive iterations over all potential combinations of STAR-RIS element assignments to BS$_1$ and BS$_2$ (i.e., $\textbf{K}_A^1=\textbf{K}_A^2=K/2$) in one dimension and exploring various transmission and reflection amplitude adjustments (i.e., $\beta_t$ and $\beta_r$) in another dimension, with $P_t = -15$ dBm, we plot the network sum-rate as a function of said dimensions. As evident from Fig. \ref{fig:dynamic}, the network sum-rate peaks when $\beta_t > \beta_r$. This observation aligns with the expectations, considering that the STAR-RIS is strategically positioned near U$_f$, located in the transmission region $\Theta_t$, thereby leading to an optimal network sum-rate.
 
-\begin{figure}[b]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.47\textwidth]{figs/dynamic_s.pdf}
     \caption{Contour plot of network sum-rate as a function of STAR-RIS element allocation to BSs and amplitude adjustments ($\beta^t, \beta^r$) for $P_t =-15$ dBm.}
@@ -232,15 +233,15 @@ By performing exhaustive iterations over all potential combinations of STAR-RIS 
 
 \subsection{Spectral Efficiency \& Energy Efficiency Trade-off}
 In Figure \ref{fig:se_vs_ee}, we present the evaluation of the trade-off between spectral efficiency (SE) and electrical efficiency (EE). At circuit power $P_{\text{circuit}} = 1$ mW and the optimal operating point, it is evident that the CoMP-NOMA cluster assisted by STAR-RIS, with a larger number of elements $K$, achieves the highest EE. This observation can be attributed to the passive nature of STAR-RIS elements, which enhance the effective channel between the BSs and users by leveraging phase shifts, consequently resulting in a higher achievable network sum-rate.
-\begin{figure}[h]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.45\textwidth]{figs/se_vs_ee.pdf}
-    \caption{SE and EE trade-off for a different number of STAR-RIS elements.}
+    \caption{SE and EE trade-off with different STAR-RIS settings, for $P_{\text{circuit}} = 1$ mW, $P_t=-50:30$ dBm. Additionally, $\beta^t=0.5$, $\beta^r=0.5$, and $\textbf{K}_A^1=\textbf{K}_A^2=K/2$, when $K > 0$.}
     \label{fig:se_vs_ee}
 \end{figure}
 
 \section{Conclusion}
-In this paper, we present a novel approach for STAR-RIS COMP NOMA networks, aiming to maximize data rates and improve outage conditions for all cellular users. By thoroughly optimizing STAR-RIS resources, this study effectively harnesses the synergies between STAR-RIS and CoMP-NOMA networks, resulting in elevated data rates and expanded data coverage. An essential aspect of our investigation is including the cell-edge user within NOMA pairs formed by each BS, leading to higher diversity gains. The outcomes of this study pave the way for potential future research directions, including exploring the proposed approach's scalability and adaptability to large-scale networks and diverse communication scenarios. Moreover, considering advanced optimization techniques, such as deep reinforcement learning, to address resource allocation challenges offers another promising avenue for future research endeavors.
+In this paper, we present a novel approach for STAR-RIS CoMP-NOMA networks, aiming to maximize data rates and improve outage conditions for all cellular users. By thoroughly optimizing STAR-RIS resources, this study effectively harnesses the synergies between STAR-RIS and CoMP-NOMA networks, resulting in elevated data rates and expanded data coverage. An essential aspect of our investigation is including the cell-edge user within NOMA pairs formed by each BS, leading to higher diversity gains. The outcomes of this study pave the way for potential future research directions, including exploring the proposed approach's scalability and adaptability to large-scale networks and diverse communication scenarios. Moreover, future extensions of this work include advanced optimization techniques, such as deep reinforcement learning, to address resource allocation challenges for future research endeavors.
 
 \bibliographystyle{ieeetr}
 \bibliography{references/ref}
