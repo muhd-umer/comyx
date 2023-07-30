@@ -10,9 +10,10 @@ class Rician:
     """A class representing a Rician distribution.
 
     Properties:
-        Density function := f(x) = (x / sigma^2) * exp(-(x^2 + nu^2) / (2 * sigma^2)) * I_0(x * nu / sigma^2)
-        Expected value := sigma * sqrt(pi / 2) * exp(-nu^2 / (2 * sigma^2)) Variance := 2 * sigma^2 + nu^2 -
-        pi * sigma^2 / 2 RMS value := sigma * sqrt(2 + pi / 2)
+        - Density function := f(x) = (x / sigma^2) * exp(-(x^2 + nu^2) / (2 * sigma^2)) * I_0(x * nu / sigma^2)
+        - Expected value := sigma * sqrt(pi / 2) * exp(-nu^2 / (2 * sigma^2))
+        - Variance := 2 * sigma^2 + nu^2 - pi * sigma^2 / 2
+        - RMS value := sigma * sqrt(2 + pi / 2)
 
     Attributes:
         K: float
@@ -24,8 +25,6 @@ class Rician:
             The scale parameter, which is the standard deviation of the distribution.
         nu: float
             The location parameter, which is the shift of the distribution.
-
-        Specify either omega or sigma, and the other will be calculated automatically.
 
     Reference:
         https://en.wikipedia.org/wiki/Rice_distribution
