@@ -11,13 +11,13 @@ class Rician:
 
     Properties:
         Density function := f(x) = (x / sigma^2) * exp(-(x^2 + nu^2) / (2 * sigma^2)) * I_0(x * nu / sigma^2)
-        Expected value := sigma * sqrt(pi / 2) * exp(-nu^2 / (2 * sigma^2))
-        Variance := 2 * sigma^2 + nu^2 - pi * sigma^2 / 2
-        RMS value := sigma * sqrt(2 + pi / 2)
+        Expected value := sigma * sqrt(pi / 2) * exp(-nu^2 / (2 * sigma^2)) Variance := 2 * sigma^2 + nu^2 -
+        pi * sigma^2 / 2 RMS value := sigma * sqrt(2 + pi / 2)
 
     Attributes:
         K: float
-            The Rician factor, which is the ratio between the power of the direct path and the power of the scattered paths.
+            The Rician factor, which is the ratio between the power of the direct path and the power of the
+            scattered paths.
         omega: float
             The scale parameter, which is the total power from both the line-of-sight and scattered paths.
         sigma: float
