@@ -3,10 +3,22 @@ import scipy.stats as stats
 
 
 class Rayleigh:
-    """A class representing a Rayleigh distribution.
+    """Generates a Rayleigh fading coefficient as a complex Gaussian
+    random variable with zero mean and unit variance. A class representing a Rayleigh distribution.
+
+    Properties:
+        - Density function := f(x) = (x / sigma^2) * exp(-x^2 / (2 * sigma^2))
+        - Expected value := sigma * sqrt(pi / 2) - Variance := (2 - pi / 2) * sigma^2
+        - RMS value := sqrt(2) * sigma
+
+    Returns:
+        A NumPy array of complex numbers representing the fading coefficients.
 
     Attributes:
         sigma: The scale parameter of the Rayleigh distribution.
+
+    Reference:
+        https://en.wikipedia.org/wiki/Rayleigh_distribution
     """
 
     def __init__(self, sigma: float = 1) -> None:
