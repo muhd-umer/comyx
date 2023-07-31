@@ -24,7 +24,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
 
       **API Reference**
 
-      The reference guide provides detailed documentation of the CommSim API. It describes the various modules and functions of the library.
+      The reference guide provides detailed documentation of the SimComm API. It describes the various modules and functions of the library.
 
    .. grid-item-card:: :material-regular:`science;3.5em`
       :class-card: research, sd-text-white
