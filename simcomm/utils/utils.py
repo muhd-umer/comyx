@@ -1,67 +1,77 @@
 import numpy as np
+import numpy.typing as npt
+from typing import Any, Union
 import pandas as pd
 import scipy as sp
 from scipy.special import i0, i1
 
 
-def db2pow(db: float) -> float:
+def db2pow(
+    db: Union[float, npt.NDArray[np.floating[Any]]]
+) -> Union[float, npt.NDArray[np.floating[Any]]]:
     """Convert decibels to power.
 
     Args:
-        db: Power in decibels.
+        db (scalar or ndarray): Power in decibels.
 
     Returns:
-        Power.
+        pow (scalar or ndarray): Power.
     """
     return 10 ** (db / 10)
 
 
-def pow2db(power: float) -> float:
+def pow2db(
+    power: Union[float, npt.NDArray[np.floating[Any]]]
+) -> Union[float, npt.NDArray[np.signedinteger[Any]]]:
     """Convert power to decibels.
 
     Args:
-        power: Power.
+        power (scalar or ndarray): Power in watts.
 
     Returns:
-        Power in decibels.
+        db (scalar or ndarray): Power in decibels.
     """
     return 10 * np.log10(power)
 
 
-def dbm2pow(dbm: float) -> float:
+def dbm2pow(
+    dbm: Union[float, npt.NDArray[np.floating[Any]]]
+) -> Union[float, npt.NDArray[np.floating[Any]]]:
     """Convert decibels relative to 1 milliwatt to power.
 
     Args:
-        dbm: Power in decibels relative to 1 milliwatt.
+        dbm (scalar or ndarray): Power in decibels relative to 1 milliwatt.
 
     Returns:
-        Power in watts.
+        pow (scalar or ndarray): Power in watts.
     """
     return 10 ** ((dbm - 30) / 10)
 
 
-def pow2dbm(power: float) -> float:
+def pow2dbm(
+    power: Union[float, npt.NDArray[np.floating[Any]]]
+) -> Union[float, npt.NDArray[np.signedinteger[Any]]]:
     """Convert power to decibels relative to 1 milliwatt.
 
     Args:
-        power: Power in watts.
+        pow (scalar or ndarray): Power in watts.
 
     Returns:
-        Power in decibels relative to 1 milliwatt.
+        dbm (scalar or ndarray): Power in decibels relative to 1 milliwatt.
     """
     return 10 * np.log10(power * 1000)
 
 
-def get_distance(pt1: tuple, pt2: tuple, dim: int = 2) -> float:
+def get_distance(pt1: list, pt2: list, dim: int = 2) -> float:
     """Calculate the Euclidean distance between two points.
 
     Args:
-        pt1: First point as a tuple of (x, y) or (x, y, z) coordinates.
-        pt2: Second point as a tuple of (x, y) or (x, y, z) coordinates.
-        dim: Dimension of the points. Default is 2.
+        pt1 (list): First point as a list of [x, y] or [x, y, z] coordinates.
+        pt2 (list): Second point as a list of [x, y] or [x, y, z] coordinates.
+        dim (int): Dimension of the points. Default is 2.
 
     Returns:
-        Euclidean distance between the two points.
+        distance (float): Euclidean distance between the two points.
     """
     if dim == 2:
         return np.sqrt((pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2)
@@ -73,15 +83,15 @@ def get_distance(pt1: tuple, pt2: tuple, dim: int = 2) -> float:
         raise ValueError("Invalid dimension. Must be 2 or 3.")
 
 
-def rolling_mean(data: list, window_size: int) -> list:
+def rolling_mean(data: npt.NDArray[np.floating[Any]], window_size: int) -> list:
     """Compute the rolling mean of a curve.
 
     Args:
-        data: The curve to filter.
-        window_size: The size of the window to use for the rolling mean.
+        data (ndarray): The curve to filter.
+        window_size (int): The size of the window.
 
     Returns:
-        The filtered curve.
+        list: The filtered curve.
     """
 
     filtered_curve = pd.Series(data).rolling(window_size).mean()
@@ -90,23 +100,23 @@ def rolling_mean(data: list, window_size: int) -> list:
 
 
 def randomize_user_pos(
-    bs_pos: np.ndarray,
-    user_pos: np.ndarray,
+    bs_pos: list,
+    user_pos: list,
     edge_idx: int,
     r_min: list = [30],
     r_max: list = [100],
-) -> np.ndarray:
-    """Randomize the user positions in the network except the edge user.
+) -> list:
+    """Randomize the positions of the users in the network, except for the edge user.
 
     Args:
-        bs_pos: Position of the base stations.
-        user_pos: Position of the users.
-        edge_idx: Index of the edge user.
-        r_min: List of minimum distances between the users and the base stations. Defaults to [30].
-        r_max: List of maximum distances between the users and the base stations. Defaults to [100].
+        bs_pos (list): A list of the positions of the base stations.
+        user_pos (list): A list of the positions of the users.
+        edge_idx (int): The index of the edge user.
+        r_min (list): A list of minimum distances between the users and the base stations. Defaults to [30].
+        r_max (list): A list of maximum distances between the users and the base stations. Defaults to [100].
 
     Returns:
-        Position of the users.
+        list: A list of the positions of the users.
     """
     for i in range(len(user_pos)):
         if i == edge_idx:
@@ -120,39 +130,41 @@ def randomize_user_pos(
     return user_pos
 
 
-def qfunc(x: float) -> float:
+def qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
     """Compute the Q function.
 
     Args:
-        x: The input.
+        x (ndarray): Input to the Q function.
 
     Returns:
-        The output.
+        qfunc (ndarray): The Q function.
     """
     return 0.5 * sp.special.erfc(x / np.sqrt(2))
 
 
-def inverse_qfunc(x: float) -> float:
-    """Compute the inverse Q function.
+def inverse_qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
+    """Inverse Q function.
 
     Args:
-        x: The input.
+        x (ndarray): Input to the inverse Q function.
 
     Returns:
-        The output.
+        inverse_qfunc (ndarray): The inverse Q function.
     """
     return np.sqrt(2) * sp.special.erfcinv(2 * x)
 
 
-def laguerre(x: float, n: float) -> float:
-    """Compute the Laguerre polynomial of degree n.
+def laguerre(
+    x: Union[float, npt.NDArray[np.floating[Any]]], n: float
+) -> Union[float, npt.NDArray[np.floating[Any]]]:
+    """Compute the Laguerre polynomial.
 
     Args:
-        x: The input.
-        n: The degree of the polynomial.
+        x (scalar or ndarray): Input to the Laguerre polynomial.
+        n (scalar): The order of the Laguerre polynomial.
 
     Returns:
-        The output.
+        laguerre (scalar or ndarray): The Laguerre polynomial.
     """
 
     if n == 0:
@@ -165,13 +177,14 @@ def laguerre(x: float, n: float) -> float:
         return ((2 * n - 1 - x) * laguerre(x, n - 1) - (n - 1) * laguerre(x, n - 2)) / n
 
 
-def wrapTo2Pi(theta: np.ndarray) -> np.ndarray:
-    """Wrap an angle to the interval [0, 2pi].
+def wrapTo2Pi(theta: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
+    """Wrap an angle to the interval [0, 2 * pi].
 
     Args:
-        theta: The angle to wrap.
+        theta (ndarray): The angle to wrap.
 
     Returns:
-        The wrapped angle.
+        wrapped_theta (ndarray): The wrapped angle.
     """
+
     return np.mod(theta, 2 * np.pi)
