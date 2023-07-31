@@ -3,21 +3,17 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, List, Union
 
 import numpy as np
-import numpy.typing as npt
 
 from ...utils import wrapTo2Pi
 from .system import SystemObject
 
 if TYPE_CHECKING:
     from . import LinkCollection
-    from .receiver import Receiver
-    from .transmitter import Transmitter
+    from .system import SystemObject
 
 
 class STAR(SystemObject):
-    """A class representing a STAR-RIS.
-
-    Inherits from SystemObject. Passive in nature, can only reflect the incoming signal.
+    """A class representing a STAR-RIS. Inherits from SystemObject. Passive in nature, can only reflect the incoming signal.
 
     Attributes:
         elements (int): The number of elements in the RIS.
@@ -30,13 +26,11 @@ class STAR(SystemObject):
 
     Inherited Attributes:
         name (str): The name of the system object.
-        position (List[float]): [x, y] coordinates of the system object.
-                                [x, y, z] coordinates if 3D.
+        position (List[float]): [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
 
     Args:
         name (str): The name of the STAR-RIS.
-        position (List[float]): [x, y] coordinates of the STAR-RIS.
-                                [x, y, z] coordinates if 3D.
+        position (List[float]): [x, y] coordinates of the STAR-RIS, [x, y, z] coordinates if 3D.
         elements (int): The number of elements in the RIS.
 
     Raises:
@@ -56,13 +50,10 @@ class STAR(SystemObject):
 
         Args:
             name (str): The name of the STAR-RIS.
-            position (List[float]): [x, y] coordinates of the STAR-RIS.
-                                    [x, y, z] coordinates if 3D.
+            position (List[float]): [x, y] coordinates of the STAR-RIS, [x, y, z] coordinates if 3D.
             elements (int): The number of elements in the RIS.
-            beta_r (float, optional): The reflection coefficients of the RIS. Defaults to
-            0.5.
-            beta_t (float, optional): The transmission coefficients of the RIS. Defaults
-            to 0.5.
+            beta_r (float, optional): The reflection coefficients of the RIS. Defaults to 0.5.
+            beta_t (float, optional): The transmission coefficients of the RIS. Defaults to 0.5.
 
         """
         super().__init__(name, position)
@@ -91,19 +82,18 @@ class STAR(SystemObject):
     def set_reflection_parameters(
         self,
         links: LinkCollection,
-        transmitters: List[Transmitter],
-        receivers: List[Receiver],
+        transmitters: List[SystemObject],
+        receivers: List[SystemObject],
     ) -> None:
         """Sets the reflection parameters of the RIS.
 
         Args:
             links (LinkCollection): The collection of links in the system.
-            transmitters (List[Transmitter]): The list of transmitters in the system.
-            receivers (List[Receiver]): The list of receivers in the system.
+            transmitters (List[SystemObject]): The list of transmitters in the system.
+            receivers (List[SystemObject]): The list of receivers in the system.
 
         Raises:
-            AssertionError: If there are not exactly 2 base stations or 2 cell-center
-            receivers.
+            AssertionError: If there are not exactly 2 base stations or 2 cell-center receivers.
         """
         assert len(transmitters) == 2, "There must be exactly 2 base stations."
         assert len(receivers) == 2, "There must be exactly 2 cell-center receivers."
@@ -136,15 +126,15 @@ class STAR(SystemObject):
     def set_transmission_parameters(
         self,
         links: LinkCollection,
-        transmitters: List[Transmitter],
-        receiver: Receiver,
+        transmitters: List[SystemObject],
+        receiver: SystemObject,
     ) -> None:
         """Sets the transmission parameters of the RIS.
 
         Args:
             links (LinkCollection): The collection of links in the system.
-            transmitters (List[Transmitter]): The list of transmitters in the system.
-            receiver (Receiver): The far receiver (UF) in the system.
+            transmitters (List[SystemObject]): The list of transmitters in the system.
+            receiver (SystemObject): The far receiver (UF) in the system.
 
         Raises:
             AssertionError: If there are not exactly 2 base stations.
@@ -179,18 +169,15 @@ class STAR(SystemObject):
     def merge_link(
         self,
         links: LinkCollection,
-        transmitter: Union[Transmitter, List[Transmitter]],
-        receiver: Receiver,
+        transmitter: Union[SystemObject, List[SystemObject]],
+        receiver: SystemObject,
     ) -> None:
-        """Updates the link between the Transmitter and Receiver with combined channel.
-        Expects the arguments to be in the order as link is defined.
+        """Updates the link between the SystemObject and SystemObject with combined channel. Expects the arguments to be in the order as link is defined.
 
         Args:
             links (LinkCollection): The collection of links in the system.
-            transmitters (Union[Transmitter, List[Transmitter]]): The transmitter(s) in
-            the system. Pass a list of transmitters if link type between Transmitter and
-            Receiver is "E".
-            receiver (Receiver): The receiver in the system.
+            transmitters (Union[SystemObject, List[SystemObject]]): The transmitter(s) in the system. Pass a list of transmitters if link type between SystemObject and SystemObject is "E".
+            receiver (SystemObject): The receiver in the system.
 
         Raises:
             AssertionError: If there are not exactly 2 base stations or 3 receivers.

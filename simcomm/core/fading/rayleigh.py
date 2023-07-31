@@ -6,14 +6,23 @@ import scipy.stats as stats
 
 
 class Rayleigh:
-    """Generates a Rayleigh fading coefficient as a complex Gaussian
-    random variable with zero mean and unit variance. A class representing a Rayleigh
-    distribution.
+    r"""The Rayleigh distribution is a continuous probability distribution that describes the magnitude of a random vector with two independent, identically distributed (i.i.d.) Gaussian components with zero mean and equal standard deviation.
 
-    Properties:
-        - Density function := f(x) = (x / sigma^2) * exp(-x^2 / (2 * sigma^2))
-        - Expected value := sigma * sqrt(pi / 2) - Variance := (2 - pi / 2) * sigma^2
-        - RMS value := sqrt(2) * sigma
+    **Density function**
+        .. math::
+            f(x) = \frac{x}{\sigma^2} \cdot \exp\left(-\frac{x^2}{2\sigma^2}\right)
+
+    **Expected value**
+        .. math::
+            \sigma \cdot \sqrt{\frac{\pi}{2}}
+
+    **Variance**
+        .. math::
+            \left(2 - \frac{\pi}{2}\right) \cdot \sigma^2
+
+    **RMS value**
+        .. math::
+            \sqrt{2} \cdot \sigma
 
     Returns:
         A NumPy array of complex numbers representing the fading coefficients.
@@ -89,8 +98,7 @@ class Rayleigh:
             size (int or tuple of ints): The number of random variables to generate.
 
         Returns:
-            samples (array_like): An array of size `size` containing random variables from
-            the Rayleigh distribution.
+            samples (array_like): An array of size `size` containing random variables from the Rayleigh distribution.
         """
         return stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size)
 
@@ -101,8 +109,7 @@ class Rayleigh:
             size (int or tuple of ints): The number of channel coefficients to generate.
 
         Returns:
-            coefficients (array_like): An array of size `size` containing complex channel
-            coefficients from the Rayleigh distribution.
+            coefficients (array_like): An array of size `size` containing complex channel coefficients from the Rayleigh distribution.
         """
         return stats.norm.rvs(scale=self.sigma, size=size) + 1j * stats.norm.rvs(
             scale=self.sigma, size=size
