@@ -1,7 +1,7 @@
 @import url("theme.css");
 
 :root {
-  --block-bg-opacity: .4;
+  --block-bg-opacity: 0.8;
 }
 
 .api-reference {
@@ -11,4 +11,3 @@
 .research {
   background-color: rgba(5, 74, 79, var(--block-bg-opacity));
 }
-
