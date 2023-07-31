@@ -1,0 +1,14 @@
+@import url("theme.css");
+
+:root {
+  --block-bg-opacity: .4;
+}
+
+.api-reference {
+  background-color: rgba(77, 10, 10, var(--block-bg-opacity));
+}
+
+.research {
+  background-color: rgba(5, 74, 79, var(--block-bg-opacity));
+}
+

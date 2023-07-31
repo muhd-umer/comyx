@@ -3,24 +3,41 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to SimComm's documentation!
-===================================
+**SimComm** Documentation
+=========================
+
+**Release** |release|
+|
+**Date** |today|
+
+SimComm is an optimized library for simulating wireless communication systems. It is purely written in Python and used NumPy and SciPy for numerical computation. It is designed to be easy to use and flexible to extend.
+The library is actively developed and maintained by **Muhammad Umer** https://github.com/muhd-umer.
+
+.. grid::
+   :gutter: 3
+
+   .. grid-item-card:: :material-regular:`api;3.5em`
+      :class-card: api-reference
+      :link: simcomm
+      :link-type: ref
+      :text-align: center
+
+      **API Reference**
+
+      The reference guide provides detailed documentation of the CommSim API. It describes the various modules and functions of the library.
+
+   .. grid-item-card:: :material-regular:`science;3.5em`
+      :class-card: research
+      :link: simcomm
+      :link-type: ref
+      :text-align: center
+
+      **Research**
+
+      The research section provides the details of the research work done using the library.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents
+   :hidden:
+   :maxdepth: 1
 
    API Reference <modules>

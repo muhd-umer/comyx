@@ -1,3 +1,5 @@
+.. _simcomm:
+
 simcomm package
 ===============
 
