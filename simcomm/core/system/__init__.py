@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Any, Union
 
 from .channel import *
 from .receiver import *
@@ -37,23 +37,23 @@ class LinkCollection:
 
     def add_link(
         self,
-        transmitter: Union[Transmitter, STAR],
-        receiver: Receiver,
+        transmitter: SystemObject,
+        receiver: SystemObject,
         fading_args: dict,
         pathloss_args: dict,
         type: str,
-        elements: int = None,
+        elements: Union[int, None] = None,
     ) -> None:
         """
         Adds a link to the collection.
 
         Args:
-            transmitter (Transmitter or STAR): The transmitter object.
-            receiver (Receiver): The receiver object.
+            transmitter (SystemObject): The transmitter object.
+            receiver (SystemObject): The receiver object.
             fading_args (dict): The arguments for the fading model.
             pathloss_args (dict): The arguments for the pathloss model.
             type (str): The type of link. Can be "1,c", "2,c", "f", "ris", or "dne".
-            elements (int): The number of elements in the link.
+            elements (int, optional): The number of elements in the RIS. Defaults to None.
         """
         assert type in ["1,c", "2,c", "f", "ris", "dne"], "Invalid link type."
 
@@ -82,66 +82,66 @@ class LinkCollection:
 
     def get_link(
         self,
-        transmitter: Union[Transmitter, STAR],
-        receiver: Receiver,
-    ) -> np.ndarray:
+        transmitter: SystemObject,
+        receiver: SystemObject,
+    ) -> npt.NDArray[np.complexfloating[Any, Any]]:
         """
         Gets the channel between a transmitter and receiver.
 
         Args:
-            transmitter (Transmitter or STAR): The transmitter object.
-            receiver (Receiver): The receiver object.
+            transmitter (SystemObject): The transmitter object.
+            receiver (SystemObject): The receiver object.
 
         Returns:
-            The channel between the transmitter and receiver.
+            link (ndarray): The channel between the transmitter and receiver.
         """
 
         return self.links[transmitter.name, receiver.name].coefficients
 
-    def get_gain(self, transmitter: Transmitter, receiver: Receiver) -> float:
+    def get_gain(
+        self, transmitter: SystemObject, receiver: SystemObject
+    ) -> npt.NDArray[np.floating[Any]]:
         """
         Gets the gain between a transmitter and receiver.
 
         Args:
-            transmitter (Transmitter): The transmitter object.
-            receiver (Receiver): The receiver object.
+            transmitter (SystemObject): The transmitter object.
+            receiver (SystemObject): The receiver object.
 
         Returns:
-            The gain between the transmitter and receiver.
+            gain (ndarray): The gain between the transmitter and receiver.
         """
         return np.abs(self.links[transmitter.name, receiver.name].coefficients) ** 2
 
-    def get_link_type(
-        self, transmitter: Union[Transmitter, STAR], receiver: Receiver
-    ) -> str:
+    def get_link_type(self, transmitter: SystemObject, receiver: SystemObject) -> str:
         """
         Gets the type of link between a transmitter and receiver.
 
         Args:
-            transmitter (Transmitter or STAR): The transmitter object.
-            receiver (Receiver): The receiver object.
+            transmitter (SystemObject): The transmitter object.
+            receiver (SystemObject): The receiver object.
 
         Returns:
-            The type of link between the transmitter and receiver.
+            link_type (str): The type of link between the transmitter and receiver.
         """
         return self.link_types[transmitter.name, receiver.name]
 
     def update_link(
         self,
-        transmitter: Union[Transmitter, STAR],
-        receiver: Receiver,
-        value: np.ndarray,
+        transmitter: SystemObject,
+        receiver: SystemObject,
+        value: npt.NDArray[np.floating[Any]],
     ) -> None:
         """
         Combines a value with the channel between a transmitter and receiver.
 
         Args:
-            transmitter (Transmitter or STAR): The transmitter object.
-            receiver (Receiver): The receiver object.
+            transmitter (SystemObject): The transmitter object.
+            receiver (SystemObject): The receiver object.
             value (ndarray): The value to combine with the channel.
 
         Returns:
-            The combined channel between the transmitter and receiver.
+            None
         """
         assert (
             value.shape
@@ -158,7 +158,8 @@ class LinkCollection:
         Returns a string representation of the LinkCollection.
 
         Returns:
-            A string representation of the LinkCollection. Displays links as "Transmitter -> Receiver" along with the type of link and shape of the channel.
+            A string representation of the LinkCollection. Displays links as "Transmitter
+            -> Receiver" along with the type of link and shape of the channel.
         """
         string = ""
         for link in self.links:
@@ -168,3 +169,11 @@ class LinkCollection:
             )
 
         return string
+
+
+__all__ = [
+    "LinkCollection",
+    "Transmitter",
+    "Receiver",
+    "STAR",
+]

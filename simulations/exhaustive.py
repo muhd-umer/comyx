@@ -1,13 +1,15 @@
 """
-Simulates a wireless network with three users and two base stations. The users are U1c, U2c, and Uf, and the
-base stations are BS1 and BS2. There is also an RIS element at the boundary of the transmission radius of both
-base stations.
+Simulates a wireless network with three users and two base stations. The users are U1c,
+U2c, and Uf, and the base stations are BS1 and BS2. There is also an RIS element at the
+boundary of the transmission radius of both base stations.
 
-BS1 serves U1c and Uf NOMA pair, and BS2 serves U2c and Uf NOMA pair. The RIS element is used to improve the
-signal quality of the Uf user. The RIS transmits the signals from the base stations to the Uf user. It also
-reflects the impinging signals from the base stations to the corresponding center users.
+BS1 serves U1c and Uf NOMA pair, and BS2 serves U2c and Uf NOMA pair. The RIS element is
+used to improve the signal quality of the Uf user. The RIS transmits the signals from the
+base stations to the Uf user. It also reflects the impinging signals from the base
+stations to the corresponding center users.
 
-Exhaustive search for Element Splitting (ES) and Amplitude Coefficients (Beta) for RIS-enhanced transmission.
+Exhaustive search for Element Splitting (ES) and Amplitude Coefficients (Beta) for
+RIS-enhanced transmission.
 """
 
 import argparse
@@ -183,14 +185,13 @@ def main(N, save_path):
             )
             U2c.rate = np.log2(1 + U2c.snr)
 
-            Uf.snr_BS1 = (Pt_lin * links.get_gain(BS1, Uf)) / N0_lin
-            Uf.snr_BS2 = (Pt_lin * links.get_gain(BS2, Uf)) / N0_lin
+            snr_BS1 = (Pt_lin * links.get_gain(BS1, Uf)) / N0_lin
+            snr_BS2 = (Pt_lin * links.get_gain(BS2, Uf)) / N0_lin
             Uf.snr = (
-                BS1.get_allocation(Uf) * Uf.snr_BS1
-                + BS2.get_allocation(Uf) * Uf.snr_BS2
+                BS1.get_allocation(Uf) * snr_BS1 + BS2.get_allocation(Uf) * snr_BS2
             ) / (
-                BS1.get_allocation(U1c) * Uf.snr_BS1
-                + BS2.get_allocation(U2c) * Uf.snr_BS2
+                BS1.get_allocation(U1c) * snr_BS1
+                + BS2.get_allocation(U2c) * snr_BS2
                 + 1
             )
             Uf.rate = np.log2(1 + Uf.snr)

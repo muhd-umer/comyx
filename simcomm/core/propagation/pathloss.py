@@ -1,6 +1,7 @@
-from typing import Union
+from typing import Any, Union
 
 import numpy as np
+import numpy.typing as npt
 
 from ...utils import pow2db
 
@@ -11,22 +12,22 @@ def get_pathloss(
     frequency: float,
     *args: Union[float, int],
     **kwargs: Union[float, int],
-) -> float:
+) -> npt.NDArray[np.floating[Any]]:
     """Get path loss in dB.
 
     Args:
-        type: Path loss model type. ("free-space", "log-distance")
-        distance: Distance between transmitter and receiver.
-        frequency: Frequency of the signal.
+        type (str): Path loss model type. ("free-space", "log-distance")
+        distance (float): Distance between transmitter and receiver.
+        frequency (float): Frequency of the signal.
 
     FSPL Args:
-        alpha: Path loss exponent.
-        p0: Reference path loss at 1m.
+        alpha (float): Path loss exponent.
+        p0 (float): Reference path loss at 1m.
 
     Log Distance Args:
-        d0: The breakpoint distance.
-        alpha: The path loss exponent.
-        sigma: The shadow fading standard deviation.
+        d0 (float): The breakpoint distance.
+        alpha (float): The path loss exponent.
+        sigma (float): The shadow fading standard deviation.
 
     Returns:
         Path loss in dB.
@@ -41,30 +42,32 @@ def get_pathloss(
         raise NotImplementedError(f"Path loss model {type} not implemented.")
 
 
-def free_space(distance: float, alpha: float, p0: float) -> float:
+def free_space(
+    distance: float, alpha: float, p0: float
+) -> npt.NDArray[np.floating[Any]]:
     """Free space path loss model.
 
     Args:
-        distance: Distance between transmitter and receiver.
-        alpha: Path loss exponent.
-        p0: Reference path loss at 1m.
+        distance (float): Distance between transmitter and receiver.
+        alpha (float): Path loss exponent.
+        p0 (float): Reference path loss at 1m.
 
     Returns:
-        Path loss in dB.
+        loss (array_like): Path loss in dB.
     """
     loss = pow2db(distance**alpha) + p0
-    return loss
+    return np.array(loss)
 
 
-def friis(distance: float, frequency: float) -> float:
+def friis(distance: float, frequency: float) -> npt.NDArray[np.floating[Any]]:
     """Friis path loss model.
 
     Args:
-        distance: Distance between transmitter and receiver.
-        frequency: Frequency of the signal.
+        distance (float): Distance between transmitter and receiver.
+        frequency (float): Frequency of the signal.
 
     Returns:
-        Path loss in dB.
+        loss (float): Path loss in dB.
     """
     lambda_ = 3e8 / frequency
     loss = 20 * np.log10(4 * np.pi * distance / lambda_)
@@ -73,18 +76,18 @@ def friis(distance: float, frequency: float) -> float:
 
 def log_distance(
     distance: float, frequency: float, d0: float, alpha: float, sigma: float
-) -> float:
+) -> npt.NDArray[np.floating[Any]]:
     """Log distance path loss model.
 
     Args:
-        distance: Distance between transmitter and receiver.
-        frequency: Frequency of the signal.
-        d0: Break distance.
-        alpha: Path loss exponent.
-        sigma: Shadow fading standard deviation.
+        distance (float): Distance between transmitter and receiver.
+        frequency (float): Frequency of the signal.
+        d0 (float): Break distance.
+        alpha (float): Path loss exponent.
+        sigma (float): Shadow fading standard deviation.
 
     Returns:
-        Path loss in dB.
+        loss (float): Path loss in dB.
     """
     lambda_ = 3e8 / frequency
     loss_break = 20 * np.log10(4 * np.pi * d0 / lambda_)
