@@ -23,7 +23,7 @@ elif os.path.basename(os.getcwd()) == "comm-fyp":
     save_path = "simulations/results/"
 else:
     raise Exception(
-        "Please execute this script from eiher simcomm/ or simulations/ folder."
+        "Please execute this script from either simcomm/ or simulations/ folder."
     )
 
 import numpy as np
