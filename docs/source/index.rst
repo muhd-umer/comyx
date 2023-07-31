@@ -17,7 +17,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    :gutter: 3
 
    .. grid-item-card:: :material-regular:`api;3.5em`
-      :class-card: api-reference
+      :class-card: api-reference, sd-text-white
       :link: simcomm
       :link-type: ref
       :text-align: center
@@ -27,7 +27,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
       The reference guide provides detailed documentation of the CommSim API. It describes the various modules and functions of the library.
 
    .. grid-item-card:: :material-regular:`science;3.5em`
-      :class-card: research
+      :class-card: research, sd-text-white
       :link: simcomm
       :link-type: ref
       :text-align: center
@@ -38,6 +38,6 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
 
 .. toctree::
    :hidden:
-   :maxdepth: 1
+   :maxdepth: 4
 
    API Reference <modules>
