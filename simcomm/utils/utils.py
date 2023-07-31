@@ -1,6 +1,7 @@
+from typing import Any, Union
+
 import numpy as np
 import numpy.typing as npt
-from typing import Any, Union
 import pandas as pd
 import scipy as sp
 from scipy.special import i0, i1
@@ -12,10 +13,10 @@ def db2pow(
     """Convert decibels to power.
 
     Args:
-        db (scalar or ndarray): Power in decibels.
+        db (float or ndarray): Power in decibels.
 
     Returns:
-        pow (scalar or ndarray): Power.
+        pow (float or ndarray): Power.
     """
     return 10 ** (db / 10)
 
@@ -26,10 +27,10 @@ def pow2db(
     """Convert power to decibels.
 
     Args:
-        power (scalar or ndarray): Power in watts.
+        power (float or ndarray): Power in watts.
 
     Returns:
-        db (scalar or ndarray): Power in decibels.
+        db (float or ndarray): Power in decibels.
     """
     return 10 * np.log10(power)
 
@@ -40,10 +41,10 @@ def dbm2pow(
     """Convert decibels relative to 1 milliwatt to power.
 
     Args:
-        dbm (scalar or ndarray): Power in decibels relative to 1 milliwatt.
+        dbm (float or ndarray): Power in decibels relative to 1 milliwatt.
 
     Returns:
-        pow (scalar or ndarray): Power in watts.
+        pow (float or ndarray): Power in watts.
     """
     return 10 ** ((dbm - 30) / 10)
 
@@ -54,10 +55,10 @@ def pow2dbm(
     """Convert power to decibels relative to 1 milliwatt.
 
     Args:
-        pow (scalar or ndarray): Power in watts.
+        pow (float or ndarray): Power in watts.
 
     Returns:
-        dbm (scalar or ndarray): Power in decibels relative to 1 milliwatt.
+        dbm (float or ndarray): Power in decibels relative to 1 milliwatt.
     """
     return 10 * np.log10(power * 1000)
 
@@ -160,11 +161,11 @@ def laguerre(
     """Compute the Laguerre polynomial.
 
     Args:
-        x (scalar or ndarray): Input to the Laguerre polynomial.
-        n (scalar): The order of the Laguerre polynomial.
+        x (float or ndarray): Input to the Laguerre polynomial.
+        n (float): The order of the Laguerre polynomial.
 
     Returns:
-        laguerre (scalar or ndarray): The Laguerre polynomial.
+        laguerre (float or ndarray): The Laguerre polynomial.
     """
 
     if n == 0:

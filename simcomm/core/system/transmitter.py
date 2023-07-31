@@ -1,4 +1,7 @@
+from typing import List
+
 import numpy as np
+import numpy.typing as npt
 
 from .system import SystemObject
 
@@ -6,14 +9,15 @@ from .system import SystemObject
 class Transmitter(SystemObject):
     """A class representing a transmitter.
 
-    This class inherits from SystemObject and represents a transmitter object in a wireless communication system.
+    This class inherits from SystemObject and represents a transmitter object in a
+    wireless communication system.
 
     Attributes:
         name (str): The name of the transmitter.
         position (list): The position of the transmitter in 2D or 3D space.
         antenna_gain (float): The gain of the transmitter's antenna.
         losses (float): The losses of the transmitter.
-        transmit_power (float): The transmit power of the transmitter.
+        transmit_power (array_like): The transmit power of the transmitter.
         allocations (dict): A dictionary of power allocations for the receivers.
 
     Inherited Attributes:
@@ -21,11 +25,13 @@ class Transmitter(SystemObject):
         position (list): The position of the system object in 2D or 3D space.
     """
 
-    def __init__(self, name, position, transmit_power):
+    def __init__(
+        self, name: str, position: List[float], transmit_power: npt.ArrayLike
+    ) -> None:
         """Initializes a Transmitter object with the given parameters.
 
         Args:
-            name: The name of the transmitter.
+            name (str): The name of the transmitter.
             position: The position of the transmitter in 2D or 3D space.
             transmit_power: The transmit power of the transmitter.
 
