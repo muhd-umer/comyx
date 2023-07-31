@@ -8,22 +8,30 @@ from ...utils import i0, laguerre
 
 
 class Rician:
-    """A class representing a Rician distribution.
+    r"""The Rician distribution is a continuous probability distribution that describes the length of a two-dimensional vector with components that are independent Gaussian random variables.
 
-    Properties:
-        - Density function := f(x) = (x / sigma^2) * exp(-(x^2 + nu^2) / (2 * sigma^2)) *
-          I_0(x * nu / sigma^2)
-        - Expected value := sigma * sqrt(pi / 2) * exp(-nu^2 / (2 * sigma^2))
-        - Variance := 2 * sigma^2 + nu^2 - pi * sigma^2 / 2
-        - RMS value := sigma * sqrt(2 + pi / 2)
+    Density Function
+        .. math::
+            f(x) = \frac{x}{\sigma^2} \exp\left(-\frac{x^2 + \nu^2}{2\sigma^2}\right) I_0\left(\frac{x\nu}{\sigma^2}\right)
+
+    , where :math:`I_0` is the modified Bessel function of the first kind.
+
+    Expected value
+        .. math::
+            \sigma \sqrt{\frac{\pi}{2}} \exp\left(-\frac{\nu^2}{2\sigma^2}\right)
+
+    Variance
+        .. math::
+            2\sigma^2 + \nu^2 - \frac{\pi\sigma^2}{2}
+
+    RMS value
+        .. math::
+            \sigma \sqrt{2 + \frac{\pi}{2}}
 
     Attributes:
-        K (float): The Rician factor, which is the ratio between the power of the direct
-        path and the power of the scattered paths.
-        omega (float): The scale parameter, which is the total power from both the
-        line-of-sight and scattered paths.
-        sigma (float): The scale parameter, which is the standard deviation of the
-        distribution.
+        K (float): The Rician factor, which is the ratio between the power of the direct path and the power of the scattered paths.
+        omega (float): The scale parameter, which is the total power from both the line-of-sight and scattered paths.
+        sigma (float): The scale parameter, which is the standard deviation of the distribution.
         nu (float): The location parameter, which is the shift of the distribution.
 
     Reference:
@@ -34,10 +42,8 @@ class Rician:
         """Initialize the Rician distribution with the given parameters.
 
         Args:
-            K (float): Rician factor := ratio between the power of direct path and the
-            power of scattered paths.
-            sigma (float): The scale parameter, which is the standard deviation of the
-            distribution.
+            K (float): Rician factor := ratio between the power of direct path and the power of scattered paths.
+            sigma (float): The scale parameter, which is the standard deviation of the distribution.
         """
         self.K = K
         self.sigma = sigma
