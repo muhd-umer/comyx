@@ -1,10 +1,14 @@
+from typing import Any, Tuple, Union
+
 import numpy as np
+import numpy.typing as npt
 import scipy.stats as stats
 
 
 class Rayleigh:
     """Generates a Rayleigh fading coefficient as a complex Gaussian
-    random variable with zero mean and unit variance. A class representing a Rayleigh distribution.
+    random variable with zero mean and unit variance. A class representing a Rayleigh
+    distribution.
 
     Properties:
         - Density function := f(x) = (x / sigma^2) * exp(-x^2 / (2 * sigma^2))
@@ -15,7 +19,7 @@ class Rayleigh:
         A NumPy array of complex numbers representing the fading coefficients.
 
     Attributes:
-        sigma: The scale parameter of the Rayleigh distribution.
+        sigma (float): The scale parameter of the Rayleigh distribution.
 
     Reference:
         https://en.wikipedia.org/wiki/Rayleigh_distribution
@@ -25,7 +29,7 @@ class Rayleigh:
         """Initializes a Rayleigh distribution with the given scale parameter.
 
         Args:
-            sigma: The scale parameter of the Rayleigh distribution.
+            sigma (float): The scale parameter of the Rayleigh distribution.
         """
         self.sigma = sigma
 
@@ -33,10 +37,10 @@ class Rayleigh:
         """Returns the probability density function of the Rayleigh distribution.
 
         Args:
-            x: The input value.
+            x (float): The input value.
 
         Returns:
-            The probability density function value at x.
+            pdf (float): The probability density function value at x.
         """
         return (x / self.sigma**2) * np.exp(-(x**2) / (2 * self.sigma**2))
 
@@ -44,10 +48,10 @@ class Rayleigh:
         """Returns the cumulative distribution function of the Rayleigh distribution.
 
         Args:
-            x: The input value.
+            x (float): The input value.
 
         Returns:
-            The cumulative distribution function value at x.
+            cdf (float): The cumulative distribution function value at x.
         """
         return 1 - np.exp(-(x**2) / (2 * self.sigma**2))
 
@@ -55,7 +59,7 @@ class Rayleigh:
         """Calculates the expected value of the Rayleigh distribution.
 
         Returns:
-            float: The expected value of the Rayleigh distribution.
+            expected_value (float): The expected value of the Rayleigh distribution.
         """
         return self.sigma * np.sqrt(np.pi / 2)
 
@@ -63,7 +67,7 @@ class Rayleigh:
         """Calculates the variance of the Rayleigh distribution.
 
         Returns:
-            float: The variance of the Rayleigh distribution.
+            variance (float): The variance of the Rayleigh distribution.
         """
         return (2 - np.pi / 2) * self.sigma**2
 
@@ -71,29 +75,34 @@ class Rayleigh:
         """Calculates the RMS value of the Rayleigh distribution.
 
         Returns:
-            float: The RMS value of the Rayleigh distribution.
+            rms (float): The RMS value of the Rayleigh distribution.
         """
         return np.sqrt(2) * self.sigma
 
-    def generate_samples(self, size: int) -> np.ndarray:
+    def generate_samples(
+        self,
+        size: Union[int, Tuple[int, ...]],
+    ) -> npt.ArrayLike:
         """Generates random variables from the Rayleigh distribution.
 
         Args:
-            size: The number of random variables to generate.
+            size (int or tuple of ints): The number of random variables to generate.
 
         Returns:
-            An array of size `size` containing random variables from the Rayleigh distribution.
+            samples (array_like): An array of size `size` containing random variables from
+            the Rayleigh distribution.
         """
         return stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size)
 
-    def generate_coefficients(self, size: int) -> np.ndarray:
+    def generate_coefficients(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
         """Generates complex channel coefficients from the Rayleigh distribution.
 
         Args:
-            size: The number of channel coefficients to generate.
+            size (int or tuple of ints): The number of channel coefficients to generate.
 
         Returns:
-            An array of size `size` containing complex channel coefficients from the Rayleigh distribution.
+            coefficients (array_like): An array of size `size` containing complex channel
+            coefficients from the Rayleigh distribution.
         """
         return stats.norm.rvs(scale=self.sigma, size=size) + 1j * stats.norm.rvs(
             scale=self.sigma, size=size

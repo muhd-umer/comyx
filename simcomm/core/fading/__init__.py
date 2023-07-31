@@ -1,22 +1,27 @@
-from .rayleigh import *
-from .rician import *
+from typing import Tuple, Union
+
+import numpy.typing as npt
+
+from .rayleigh import Rayleigh
+from .rician import Rician
 
 
-def get_rvs(type, shape, *args, **kwargs):
+def get_rvs(
+    type: str, shape: Union[int, Tuple[int, ...]], *args, **kwargs
+) -> npt.ArrayLike:
     """
     Generates random variables from a distribution.
 
     Args:
-        type: The type of the fading. ("rayleigh", "rician")
-        shape: The number of fading coefficients to generate.
-        library: The library to use for generating the fading coefficients.
+        type (str): The type of the fading. ("rayleigh", "rician")
+        shape (int or tuple of ints): The number of fading coefficients to generate.
 
     Rayleigh Args:
-        sigma: The scale parameter of the Rayleigh distribution.
+        sigma (float): The scale parameter of the Rayleigh distribution.
 
     Rician Args:
-        K: The shape parameter of the Rician distribution.
-        sigma: The scale parameter of the Rician distribution.
+        K (float): Rician K-factor in dB.
+        sigma (float): The scale parameter of the Rician distribution.
 
     Returns:
         Channel gains.
@@ -34,3 +39,6 @@ def get_rvs(type, shape, *args, **kwargs):
         raise NotImplementedError(f"Channel type {type} is not implemented")
 
     return coefficients
+
+
+__all__ = ["get_rvs"]

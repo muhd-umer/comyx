@@ -33,6 +33,7 @@ class Receiver(SystemObject):
         self.sensitivity = sensitivity
         self.rate = None
         self.outage = None
+        self.snr = None
 
     def demodulate(self, modulation_type, received_signal, *args, **kwargs):
         """
@@ -110,16 +111,3 @@ class Receiver(SystemObject):
             demodulated_data[i * m : (i + 1) * m] = symbol_bits
 
         return demodulated_data
-
-    def compute_outage(self, noise_power, sigma):
-        """
-        Compute the outage probability of the receiver
-
-        Args:
-            sigma: Shadowing standard deviation.
-        """
-        self.outage = qfunc(
-            np.mean(
-                (pow2db(self.snr) - (-noise_power) - self.sensitivity) / sigma, axis=0
-            )
-        )

@@ -6,10 +6,16 @@ class SystemObject:
 
     Attributes:
         name (str): The name of the system object.
-        position (List[float]): The [x, y] or [x, y, z] coordinates of the system object.
+        position (array_like): The [x, y] or [x, y, z] coordinates of the system object.
     """
 
     def __init__(self, name: str, position: List[float]):
+        """Initializes a SystemObject object with the given parameters.
+
+        Args:
+            name (str): The name of the system object.
+            position (list): The [x, y] or [x, y, z] coordinates of the system object.
+        """
         self.name = name
         self.position = position
 

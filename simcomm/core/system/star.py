@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, List, Union
 
 import numpy as np
+import numpy.typing as npt
 
 from ...utils import wrapTo2Pi
 from .system import SystemObject
@@ -20,12 +21,12 @@ class STAR(SystemObject):
 
     Attributes:
         elements (int): The number of elements in the RIS.
-        beta_r (np.ndarray): The reflection coefficients of the RIS.
-        theta_r (np.ndarray): The phase shifts of the RIS.
-        beta_t (np.ndarray): The transmission coefficients of the RIS.
-        theta_t (np.ndarray): The phase shifts of the RIS.
-        transmission_matrix (np.ndarray): The transmission matrix of the RIS.
-        reflection_matrix (np.ndarray): The reflection matrix of the RIS.
+        beta_r (ndarray): The reflection coefficients of the RIS.
+        theta_r (ndarray): The phase shifts of the RIS.
+        beta_t (ndarray): The transmission coefficients of the RIS.
+        theta_t (ndarray): The phase shifts of the RIS.
+        transmission_matrix (ndarray): The transmission matrix of the RIS.
+        reflection_matrix (ndarray): The reflection matrix of the RIS.
 
     Inherited Attributes:
         name (str): The name of the system object.
@@ -49,7 +50,7 @@ class STAR(SystemObject):
         elements: int,
         beta_r: float = 0.5,
         beta_t: float = 0.5,
-        custom_assignment: dict = None,
+        custom_assignment: Union[dict, None] = None,
     ) -> None:
         """Initializes the STAR-RIS object.
 
@@ -58,8 +59,10 @@ class STAR(SystemObject):
             position (List[float]): [x, y] coordinates of the STAR-RIS.
                                     [x, y, z] coordinates if 3D.
             elements (int): The number of elements in the RIS.
-            beta_r (float, optional): The reflection coefficients of the RIS. Defaults to 0.5.
-            beta_t (float, optional): The transmission coefficients of the RIS. Defaults to 0.5.
+            beta_r (float, optional): The reflection coefficients of the RIS. Defaults to
+            0.5.
+            beta_t (float, optional): The transmission coefficients of the RIS. Defaults
+            to 0.5.
 
         """
         super().__init__(name, position)
@@ -85,9 +88,6 @@ class STAR(SystemObject):
         self.beta_r = np.ones((self.elements, 1, 1)) * beta_r
         self.beta_t = np.ones((self.elements, 1, 1)) * beta_t
 
-        self.theta_r = None
-        self.theta_t = None
-
     def set_reflection_parameters(
         self,
         links: LinkCollection,
@@ -102,7 +102,8 @@ class STAR(SystemObject):
             receivers (List[Receiver]): The list of receivers in the system.
 
         Raises:
-            AssertionError: If there are not exactly 2 base stations or 2 cell-center receivers.
+            AssertionError: If there are not exactly 2 base stations or 2 cell-center
+            receivers.
         """
         assert len(transmitters) == 2, "There must be exactly 2 base stations."
         assert len(receivers) == 2, "There must be exactly 2 cell-center receivers."
@@ -186,12 +187,18 @@ class STAR(SystemObject):
 
         Args:
             links (LinkCollection): The collection of links in the system.
-            transmitters (Union[Transmitter, List[Transmitter]]): The transmitter(s) in the system. Pass a list of transmitters if link type between Transmitter and Receiver is "E".
+            transmitters (Union[Transmitter, List[Transmitter]]): The transmitter(s) in
+            the system. Pass a list of transmitters if link type between Transmitter and
+            Receiver is "E".
             receiver (Receiver): The receiver in the system.
 
         Raises:
             AssertionError: If there are not exactly 2 base stations or 3 receivers.
         """
+        assert (
+            self.theta_r is not None and self.theta_t is not None
+        ), "The reflection and transmission parameters must be set before merging"
+
         if isinstance(transmitter, list):
             assert (
                 links.get_link_type(transmitter[0], receiver) == "f"
