@@ -106,7 +106,7 @@ class Rician:
         """
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
-    def generate_samples(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
+    def get_samples(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
         """Generate random variables from the Rician distribution.
 
         Args:
@@ -118,7 +118,7 @@ class Rician:
         """
         return stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
 
-    def generate_coefficients(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
+    def get_coefficients(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
         """Generate complex fading coefficients from the Rician distribution.
 
         Args:

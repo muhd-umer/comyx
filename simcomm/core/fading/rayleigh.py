@@ -88,7 +88,7 @@ class Rayleigh:
         """
         return np.sqrt(2) * self.sigma
 
-    def generate_samples(
+    def get_samples(
         self,
         size: Union[int, Tuple[int, ...]],
     ) -> npt.ArrayLike:
@@ -102,7 +102,7 @@ class Rayleigh:
         """
         return stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size)
 
-    def generate_coefficients(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
+    def get_coefficients(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
         """Generates complex channel coefficients from the Rayleigh distribution.
 
         Args:
