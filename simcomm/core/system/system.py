@@ -21,3 +21,6 @@ class SystemObject:
 
     def __str__(self):
         return f"{self.name} at {self.position}"
+
+
+__all__ = ["SystemObject"]
