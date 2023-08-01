@@ -29,11 +29,11 @@ def get_rvs(
 
     if type == "rayleigh":
         distribution = Rayleigh(*args, **kwargs)
-        coefficients = distribution.generate_samples(size=shape)
+        coefficients = distribution.get_samples(size=shape)
 
     elif type == "rician":
         distribution = Rician(*args, **kwargs)
-        coefficients = distribution.generate_samples(size=shape)
+        coefficients = distribution.get_samples(size=shape)
 
     else:
         raise NotImplementedError(f"Channel type {type} is not implemented")
