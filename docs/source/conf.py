@@ -102,7 +102,7 @@ html_theme_options = {
     #     "json_url": json_url,
     #     "version_match": version_match,
     # },
-    "show_toc_level": 1,
+    "show_toc_level": 2,
     "show_nav_level": 2,
 }
 
