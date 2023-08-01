@@ -49,15 +49,11 @@ exclude_patterns = []
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "alabaster"
-html_title = "SimComm"
+html_title = f"SimComm ({version})"
 html_static_path = ["_static"]
 html_show_sourcelink = False
 html_show_sphinx = False
-
-# html_theme_options = {
-#     "show_toc_level": 4,
-#     "github_url": "https://github.com/muhd-umer/simcomm",
-# }
+html_favicon = "./favicon.ico"
 
 html_css_files = [
     "simcomm.css",

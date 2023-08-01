@@ -1,16 +1,17 @@
-.. SimComm documentation master file, created by
-   sphinx-quickstart on Mon Jul 31 18:56:23 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. Keep title but hide it from the main page
+.. title:: Welcome to SimComm
 
-**SimComm** Documentation
-=========================
+.. image:: _static/logo.svg
+   :align: center
+
+.. **SimComm** Documentation
+.. =========================
 
 **Release** |release|
 |
 **Date** |today|
 
-SimComm is an optimized library for simulating wireless communication systems. It is purely written in Python and used NumPy and SciPy for numerical computation. It is designed to be easy to use and flexible to extend.
+Welcome to SimComm's documentation! SimComm is an optimized library for simulating wireless communication systems. It is purely written in Python and used NumPy and SciPy for numerical computation. It is designed to be easy to use and flexible to extend.
 The library is actively developed and maintained by **Muhammad Umer** https://github.com/muhd-umer.
 
 .. grid::
@@ -28,7 +29,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
 
    .. grid-item-card:: :material-regular:`science;3.5em`
       :class-card: research, sd-text-white
-      :link: simcomm
+      :link: research
       :link-type: ref
       :text-align: center
 
@@ -38,6 +39,8 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
 
 .. toctree::
    :hidden:
-   :maxdepth: 4
+   :maxdepth: 1
 
+   Installation <installation>
    API Reference <modules>
+   Research <research>
