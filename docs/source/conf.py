@@ -48,13 +48,50 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "alabaster"
+html_theme = "pydata_sphinx_theme"
 html_title = f"SimComm ({version})"
 html_static_path = ["_static"]
 html_show_sourcelink = False
 html_show_sphinx = False
 html_favicon = "./favicon.ico"
-
+html_logo = "./_static/fav.png"
+html_static_path = ["_static"]
+html_js_files = ["custom-icon.js"]
 html_css_files = [
     "simcomm.css",
 ]
+
+version_match = "v" + release
+
+# json_url = "./_static/versions.json"
+
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/muhd-umer/simcomm",
+            "icon": "fa-brands fa-github",
+        },
+    ],
+    "logo": {
+        "text": "SimComm",
+        "image_dark": "_static/fav.png",
+        "alt_text": "SimComm",
+    },
+    "footer_start": ["copyright"],
+    "navbar_start": ["navbar-logo"],
+    "navbar_align": "left",
+    # "navbar_center": ["navbar-nav", "version-switcher"],
+    "navbar_center": ["navbar-nav"],
+    # "switcher": {
+    #     "json_url": json_url,
+    #     "version_match": version_match,
+    # },
+}
+
+html_context = {
+    "github_user": "muhd-umer",
+    "github_repo": "simcomm",
+    "github_version": "main",
+    "doc_path": "docs",
+}
