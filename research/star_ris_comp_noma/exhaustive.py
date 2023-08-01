@@ -16,19 +16,7 @@ import argparse
 import os
 import sys
 
-# Append the path depending on where the script is executed
-if os.path.basename(os.getcwd()) == "simulations":
-    sys.path.append("..")
-    os.makedirs("results", exist_ok=True)
-    save_path = "results/"
-elif os.path.basename(os.getcwd()) == "simcomm":
-    sys.path.append(".")
-    os.makedirs("simulations/results", exist_ok=True)
-    save_path = "simulations/results/"
-else:
-    raise Exception(
-        "Please execute this script from eiher simcomm/ or simulations/ folder."
-    )
+sys.path.append("../../")
 
 import numpy as np
 import scipy.io as io
@@ -201,17 +189,21 @@ def main(N, save_path):
     print(f"{Fore.CYAN}Done!{Style.RESET_ALL}")
 
     res_file = os.path.join(save_path, f"results_exhaustive_es_aa.mat")
-    io.savemat(
-        "results/contour_plot.mat",
-        {
-            "sum_rate": sum_rate,
-            "beta_r": beta_r,
-            "beta_t": beta_t,
-            "bs1_assignment": bs1_assignment,
-            "bs2_assignment": bs2_assignment,
-        },
-    )
-    print(f"{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
+
+    if save_path is not None:
+        io.savemat(
+            "results/contour_plot.mat",
+            {
+                "sum_rate": sum_rate,
+                "beta_r": beta_r,
+                "beta_t": beta_t,
+                "bs1_assignment": bs1_assignment,
+                "bs2_assignment": bs2_assignment,
+            },
+        )
+        print(f"{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
+    else:
+        print(f"{Fore.YELLOW}Skipping results.\n")
 
 
 if __name__ == "__main__":
@@ -224,5 +216,17 @@ if __name__ == "__main__":
         default=2000,
         help="Number of channel realizations",
     )
+    parser.add_argument(
+        "--no-save",
+        action="store_true",
+        help="Skip saving results to .mat files",
+    )
     args = parser.parse_args()
+
+    if not args.no_save:
+        os.makedirs("results", exist_ok=True)
+        save_path = "results/"
+    else:
+        save_path = None
+
     main(args.realizations, save_path)
