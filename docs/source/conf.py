@@ -26,8 +26,8 @@ release = str(version)
 
 extensions = [
     "sphinx.ext.napoleon",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
+    # "sphinx.ext.autodoc",
+    # "sphinx.ext.autosummary",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx_design",
@@ -67,19 +67,6 @@ html_css_files = [
 ]
 
 version_match = "v" + release
-
-# -- Options for autosummary/autodoc output ------------------------------------
-autosummary_generate = True
-autodoc_typehints = "description"
-autodoc_member_order = "groupwise"
-
-# -- Options for autoapi -------------------------------------------------------
-autoapi_type = "python"
-autoapi_dirs = ["../../simcomm"]
-autoapi_keep_files = True
-autoapi_root = "api"
-autoapi_member_order = "groupwise"
-
 html_theme_options = {
     "icon_links": [
         {
@@ -88,11 +75,11 @@ html_theme_options = {
             "icon": "fa-brands fa-github",
         },
     ],
-    "logo": {
-        "text": "SimComm",
-        "image_dark": "_static/fav.png",
-        "alt_text": "SimComm",
-    },
+    # "logo": {
+    #     "text": "SimComm",
+    #     "image_dark": "_static/fav.png",
+    #     "alt_text": "SimComm",
+    # },
     "footer_start": ["copyright"],
     "navbar_start": ["navbar-logo"],
     "navbar_align": "left",
@@ -102,8 +89,8 @@ html_theme_options = {
     #     "json_url": json_url,
     #     "version_match": version_match,
     # },
-    "show_toc_level": 2,
-    "show_nav_level": 2,
+    "show_toc_level": 3,
+    "show_nav_level": 3,
 }
 
 html_context = {
@@ -112,3 +99,25 @@ html_context = {
     "github_version": "main",
     "doc_path": "docs",
 }
+
+
+# -- Options for autosummary/autodoc output ------------------------------------
+autosummary_generate = True
+autodoc_typehints = "description"
+autodoc_member_order = "groupwise"
+
+# -- Options for autoapi -------------------------------------------------------
+autoapi_type = "python"
+autoapi_dirs = ["../../simcomm"]
+# autoapi_keep_files = True
+autoapi_root = "api"
+autoapi_member_order = "groupwise"
+autoapi_template_dir = "_templates/autoapi"
+autoapi_options = [
+    "members",
+    "undoc-members",
+    "show-inheritance",
+    "show-module-summary",
+    "imported-members",
+]
+autodoc_typehints = "signature"
