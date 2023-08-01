@@ -3,8 +3,9 @@ from typing import Any, Tuple, Union
 import numpy as np
 import numpy.typing as npt
 import scipy.stats as stats
+from scipy.special import i0
 
-from ...utils import i0, laguerre
+from ...utils import laguerre
 
 
 class Rician:
