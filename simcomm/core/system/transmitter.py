@@ -7,22 +7,20 @@ from .system import SystemObject
 
 
 class Transmitter(SystemObject):
-    """A class representing a transmitter.
+    """A class representing a transmitter. Inherits from SystemObject. Transmitters contain an empty attribute for power allocation factors to be assigned to the cellular users.
 
-    This class inherits from SystemObject and represents a transmitter object in a
-    wireless communication system.
+    Args:
+        name (str): The name of the transmitter.
+        position: The position of the transmitter in 2D or 3D space.
+        transmit_power: The transmit power of the transmitter.
 
     Attributes:
-        name (str): The name of the transmitter.
-        position (list): The position of the transmitter in 2D or 3D space.
-        antenna_gain (float): The gain of the transmitter's antenna.
-        losses (float): The losses of the transmitter.
-        transmit_power (array_like): The transmit power of the transmitter.
-        allocations (dict): A dictionary of power allocations for the receivers.
-
-    Inherited Attributes:
-        name (str): The name of the system object.
-        position (list): The position of the system object in 2D or 3D space.
+        name (str): Stores the name of the transmitter.
+        position (list): Stores the position of the transmitter in 2D or 3D space.
+        antenna_gain (float): Stores the gain of the transmitter's antenna.
+        losses (float): Stores the losses of the transmitter.
+        transmit_power (array_like): Stores the transmit power of the transmitter.
+        allocations (dict): Stores the power allocation factors assigned to the cellular users.
     """
 
     def __init__(

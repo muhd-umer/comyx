@@ -9,32 +9,30 @@ from .system import SystemObject
 
 if TYPE_CHECKING:
     from . import LinkCollection
-    from .system import SystemObject
 
 
 class STAR(SystemObject):
     """A class representing a STAR-RIS. Inherits from SystemObject. Passive in nature, can only reflect the incoming signal.
 
-    Attributes:
-        elements (int): The number of elements in the RIS.
-        beta_r (ndarray): The reflection coefficients of the RIS.
-        theta_r (ndarray): The phase shifts of the RIS.
-        beta_t (ndarray): The transmission coefficients of the RIS.
-        theta_t (ndarray): The phase shifts of the RIS.
-        transmission_matrix (ndarray): The transmission matrix of the RIS.
-        reflection_matrix (ndarray): The reflection matrix of the RIS.
-
-    Inherited Attributes:
-        name (str): The name of the system object.
-        position (List[float]): [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
-
     Args:
         name (str): The name of the STAR-RIS.
         position (List[float]): [x, y] coordinates of the STAR-RIS, [x, y, z] coordinates if 3D.
         elements (int): The number of elements in the RIS.
+        beta_r (float, optional): The reflection coefficients of the RIS. Defaults to 0.5.
+        beta_t (float, optional): The transmission coefficients of the RIS. Defaults to 0.5.
+        custom_assignment (dict): Custom  assignment, i.e., different number of elements assigned to BS1 and BS2 or beta_r and beta_t other than halved.
 
-    Raises:
-        AssertionError: If the number of elements is not even.
+    Attributes:
+        name (str): Stores the name of the system object.
+        position (List[float]): Stores the [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
+        elements (int): Stores the number of elements in the RIS.
+        beta_r (ndarray): Stores the reflection coefficients of the RIS.
+        theta_r (ndarray): Stores the phase shifts of the RIS.
+        beta_t (ndarray): Stores the transmission coefficients of the RIS.
+        theta_t (ndarray): Stores the phase shifts of the RIS.
+        custom_assignment (dict): Stores the custom assignment, i.e., different number of elements assigned to BS1 and BS2 or beta_r and beta_t other than halved.
+        transmission_matrix (ndarray): Stores the transmission matrix of the RIS.
+        reflection_matrix (ndarray): Stores the reflection matrix of the RIS.
     """
 
     def __init__(
@@ -54,8 +52,9 @@ class STAR(SystemObject):
             elements (int): The number of elements in the RIS.
             beta_r (float, optional): The reflection coefficients of the RIS. Defaults to 0.5.
             beta_t (float, optional): The transmission coefficients of the RIS. Defaults to 0.5.
-
+            custom_assignment (dict): Custom  assignment, i.e., different number of elements assigned to BS1 and BS2 or beta_r and beta_t other than halved.
         """
+
         super().__init__(name, position)
         if custom_assignment is None:
             assert elements % 2 == 0, "The number of elements must be even."
