@@ -125,5 +125,8 @@ class Transmitter(SystemObject):
                 modulated_data[i] = (2 * symbol - n + 1) / np.sqrt(n)
             else:
                 modulated_data[i] = (2 * (symbol - n // 2) - n + 2) / np.sqrt(n)
+
         return modulated_data
-        return modulated_data
+
+
+__all__ = ["Transmitter"]

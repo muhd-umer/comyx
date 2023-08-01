@@ -112,3 +112,6 @@ class Channel:
             value: The value to add to the channel coefficients.
         """
         self.coefficients += value
+
+
+__all__ = ["Channel"]

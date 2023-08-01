@@ -1,5 +1,9 @@
 from typing import Any, Union
 
+import numpy as np
+import numpy.typing as npt
+
+from ...utils import wrapTo2Pi
 from .channel import *
 from .receiver import *
 from .star import *
@@ -173,6 +177,7 @@ class LinkCollection:
 
 __all__ = [
     "LinkCollection",
+    "Channel",
     "Transmitter",
     "Receiver",
     "STAR",

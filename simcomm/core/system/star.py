@@ -176,7 +176,7 @@ class STAR(SystemObject):
 
         Args:
             links (LinkCollection): The collection of links in the system.
-            transmitters (Union[SystemObject, List[SystemObject]]): The transmitter(s) in the system. Pass a list of transmitters if link type between SystemObject and SystemObject is "E".
+            transmitter (Union[SystemObject, List[SystemObject]]): The transmitter(s) in the system. Pass a list of transmitters if link type between SystemObject and SystemObject is "E".
             receiver (SystemObject): The receiver in the system.
 
         Raises:
@@ -245,3 +245,6 @@ class STAR(SystemObject):
 
         else:
             raise NotImplementedError("Invalid link type.")
+
+
+__all__ = ["STAR"]
