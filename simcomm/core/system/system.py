@@ -2,11 +2,15 @@ from typing import List
 
 
 class SystemObject:
-    """Base class for all system objects.
+    """Base class for all system objects in the network except for the channel, as it is not a physical object.
 
-    Attributes:
+    Args:
         name (str): The name of the system object.
         position (array_like): The [x, y] or [x, y, z] coordinates of the system object.
+
+    Attributes:
+        name (str): Stores the name of the system object.
+        position (array_like): Stores the [x, y] or [x, y, z] coordinates of the system object.
     """
 
     def __init__(self, name: str, position: List[float]):

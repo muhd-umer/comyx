@@ -1,13 +1,15 @@
+from __future__ import annotations
+
 from typing import Any, Union
 
 import numpy as np
 import numpy.typing as npt
 
 from ...utils import wrapTo2Pi
-from .channel import *
+from .channel import Channel
 from .receiver import *
 from .star import *
-from .system import *
+from .system import SystemObject
 from .transmitter import *
 
 
@@ -175,10 +177,4 @@ class LinkCollection:
         return string
 
 
-__all__ = [
-    "LinkCollection",
-    "Channel",
-    "Transmitter",
-    "Receiver",
-    "STAR",
-]
+__all__ = ["Transmitter", "Receiver", "STAR", "LinkCollection"]

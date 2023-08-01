@@ -6,17 +6,18 @@ from .system import SystemObject
 
 
 class Receiver(SystemObject):
-    """A class representing a receiver.
+    """A class representing a receiver. Inherits from SystemObject. Receivers contain empty attributes for rate, outage, and SNR.
 
     Args:
-        sensitivity (float): The sensitivity of the receiver.
-        rate (float): The rate of the receiver.
-        outage (float): The outage probability of the receiver.
+        name (str): The name of the receiver.
+        position (list): [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
+        sensitivity (float): The sensitivity of the receiver in dBm.
 
     Attributes:
-        name (str): The name of the system object.
-        position (List[float]): [x, y] coordinates of the system object.
-                                [x, y, z] coordinates if 3D.
+        sensitivity (float): Stores the sensitivity of the receiver in dBm.
+        rate (array_like): Stores the rate of the receiver in bits per second.
+        outage (array_like): Stores the outage of the receiver in dB.
+        snr (array_like): Stores the SNR of the receiver in dB.
     """
 
     def __init__(self, name: str, position: List[float], sensitivity: float) -> None:
@@ -24,9 +25,9 @@ class Receiver(SystemObject):
         Initializes a Receiver object with the given parameters.
 
         Args:
-            name: The name of the receiver.
-            position: The position of the receiver in 2D or 3D space.
-            sensitivity: The sensitivity of the receiver.
+            name (str): The name of the receiver.
+            position (list): [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
+            sensitivity (float): The sensitivity of the receiver in dBm.
         """
         super().__init__(name, position)
         self.sensitivity = sensitivity
