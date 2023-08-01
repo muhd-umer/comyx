@@ -33,6 +33,11 @@ def get_noise_power(
     Returns:
         Noise power in dBm.
     """
+    if temperature < 0:
+        raise ValueError("Temperature must be positive.")
+    if bandwidth < 0:
+        raise ValueError("Bandwidth must be positive.")
+
     kT = pow2dbm(thermal_noise(temperature))
     BW = pow2db(bandwidth)
     NF = noise_figure
