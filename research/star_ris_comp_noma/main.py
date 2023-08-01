@@ -13,19 +13,7 @@ import argparse
 import os
 import sys
 
-# Append the path depending on where the script is executed
-if os.path.basename(os.getcwd()) == "simulations":
-    sys.path.append("..")
-    os.makedirs("results", exist_ok=True)
-    save_path = "results/"
-elif os.path.basename(os.getcwd()) == "simcomm":
-    sys.path.append(".")
-    os.makedirs("simulations/results", exist_ok=True)
-    save_path = "simulations/results/"
-else:
-    raise Exception(
-        "Please execute this script from either simcomm/ or simulations/ folder."
-    )
+sys.path.append("../../")
 
 import numpy as np
 import scipy.io as io
@@ -172,31 +160,34 @@ def main(N, link_option, custom_run, save_path):
 
     print(f"{Fore.CYAN}Done!{Style.RESET_ALL}")
 
-    if not custom_run:
-        res_file = os.path.join(save_path, f"results_{link_option}.mat")
+    if save_path is not None:
+        if not custom_run:
+            res_file = os.path.join(save_path, f"results_{link_option}.mat")
+        else:
+            res_file = os.path.join(save_path, f"results_{link_option}_custom.mat")
+
+        tx_power = os.path.join(save_path, f"tx_power_dB.mat")
+
+        # Save the results
+        io.savemat(
+            res_file,
+            {
+                "rates": [
+                    np.mean(U1c.rate, axis=0),
+                    np.mean(U2c.rate, axis=0),
+                    np.mean(Uf.rate, axis=0),
+                ],
+                "sum_rate": sum_rate,
+                "outage": [U1c.outage, U2c.outage, Uf.outage],
+                "se": spectral_efficiency,
+                "ee": energy_efficiency,
+            },
+        )
+        io.savemat(tx_power, {"tx_power": Pt})
+
+        print(f"{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
     else:
-        res_file = os.path.join(save_path, f"results_{link_option}_custom.mat")
-
-    tx_power = os.path.join(save_path, f"tx_power_dB.mat")
-
-    # Save the results
-    io.savemat(
-        res_file,
-        {
-            "rates": [
-                np.mean(U1c.rate, axis=0),
-                np.mean(U2c.rate, axis=0),
-                np.mean(Uf.rate, axis=0),
-            ],
-            "sum_rate": sum_rate,
-            "outage": [U1c.outage, U2c.outage, Uf.outage],
-            "se": spectral_efficiency,
-            "ee": energy_efficiency,
-        },
-    )
-    io.savemat(tx_power, {"tx_power": Pt})
-
-    print(f"{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
+        print(f"{Fore.YELLOW}Skipping results.\n")
 
 
 if __name__ == "__main__":
@@ -221,5 +212,17 @@ if __name__ == "__main__":
         action="store_true",
         help="Whether to use custom power allocation",
     )
+    parser.add_argument(
+        "--no-save",
+        action="store_true",
+        help="Skip saving results to .mat files",
+    )
+
     args = parser.parse_args()
+    if not args.no_save:
+        os.makedirs("results", exist_ok=True)
+        save_path = "results/"
+    else:
+        save_path = None
+
     main(args.realizations, args.setting, args.custom, save_path)
