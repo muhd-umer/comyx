@@ -4,10 +4,23 @@
   --block-bg-opacity: 0.8;
 }
 
+/* .grid-item-card {
+  color: white !important;
+} */
+
 .api-reference {
+  color: white !important;
   background-color: rgba(77, 10, 10, var(--block-bg-opacity));
+  /* set the color of the text to white regardless of the theme */
 }
 
 .research {
+  color: white !important;
   background-color: rgba(5, 74, 79, var(--block-bg-opacity));
+  /* set the color of the text to white regardless of the theme */
+}
+
+.transparent-background {
+  background-color: transparent !important;
+  /* mix-blend-mode: difference; */
 }
