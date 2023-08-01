@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, List, Union
 
 import numpy as np
 import numpy.typing as npt
@@ -63,7 +63,7 @@ def pow2dbm(
     return 10 * np.log10(power * 1000)
 
 
-def get_distance(pt1: list, pt2: list, dim: int = 2) -> float:
+def get_distance(pt1: List[Any], pt2: List[Any], dim: int = 2) -> float:
     """Calculate the Euclidean distance between two points.
 
     Args:
@@ -84,7 +84,7 @@ def get_distance(pt1: list, pt2: list, dim: int = 2) -> float:
         raise ValueError("Invalid dimension. Must be 2 or 3.")
 
 
-def rolling_mean(data: npt.NDArray[np.floating[Any]], window_size: int) -> list:
+def rolling_mean(data: npt.NDArray[np.floating[Any]], window_size: int) -> List[Any]:
     """Compute the rolling mean of a curve.
 
     Args:
@@ -101,12 +101,12 @@ def rolling_mean(data: npt.NDArray[np.floating[Any]], window_size: int) -> list:
 
 
 def randomize_user_pos(
-    bs_pos: list,
-    user_pos: list,
+    bs_pos: List[Any],
+    user_pos: List[Any],
     edge_idx: int,
-    r_min: list = [30],
-    r_max: list = [100],
-) -> list:
+    r_min: List[Any] = [30],
+    r_max: List[Any] = [100],
+) -> List[Any]:
     """Randomize the positions of the users in the network, except for the edge user.
 
     Args:
