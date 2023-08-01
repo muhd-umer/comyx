@@ -25,16 +25,21 @@ release = str(version)
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.mathjax",
-    "sphinx.ext.napoleon",
+    "sphinx.ext.todo",
     "sphinx.ext.viewcode",
-    "sphinx_copybutton",
     "sphinx_design",
+    "sphinx_copybutton",
+    "autoapi.extension",
+    # For extension examples and demos
+    "ablog",
+    "matplotlib.sphinxext.plot_directive",
+    "numpydoc",
+    "sphinx_togglebutton",
+    "sphinx_favicon",
 ]
-
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
@@ -63,7 +68,17 @@ html_css_files = [
 
 version_match = "v" + release
 
-# json_url = "./_static/versions.json"
+# -- Options for autosummary/autodoc output ------------------------------------
+autosummary_generate = True
+autodoc_typehints = "description"
+autodoc_member_order = "groupwise"
+
+# -- Options for autoapi -------------------------------------------------------
+autoapi_type = "python"
+autoapi_dirs = ["../../simcomm"]
+autoapi_keep_files = True
+autoapi_root = "api"
+autoapi_member_order = "groupwise"
 
 html_theme_options = {
     "icon_links": [
@@ -87,6 +102,8 @@ html_theme_options = {
     #     "json_url": json_url,
     #     "version_match": version_match,
     # },
+    "show_toc_level": 1,
+    "show_nav_level": 2,
 }
 
 html_context = {

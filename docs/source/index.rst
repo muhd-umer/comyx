@@ -4,6 +4,7 @@
 .. figure:: _static/logo.png
    :align: center
    :class: transparent-background
+   :width: 520px
 
 .. **SimComm** Documentation
 .. =========================
@@ -21,7 +22,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    .. grid-item-card:: :material-regular:`api;3.5em`
       :class-card: api-reference
       :class-body: sd-text-white
-      :link: simcomm
+      :link: api
       :link-type: ref
       :text-align: center
 
@@ -45,5 +46,5 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    :maxdepth: 1
 
    Installation <installation>
-   API Reference <modules>
+   API Reference <api>
    Research <research>
