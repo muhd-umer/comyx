@@ -42,4 +42,4 @@ def get_rvs(
     return coefficients
 
 
-__all__ = ["get_rvs", "Rayleigh", "Rician"]
+__all__ = ["get_rvs"]
