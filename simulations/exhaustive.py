@@ -21,7 +21,7 @@ if os.path.basename(os.getcwd()) == "simulations":
     sys.path.append("..")
     os.makedirs("results", exist_ok=True)
     save_path = "results/"
-elif os.path.basename(os.getcwd()) == "comm-fyp":
+elif os.path.basename(os.getcwd()) == "simcomm":
     sys.path.append(".")
     os.makedirs("simulations/results", exist_ok=True)
     save_path = "simulations/results/"
