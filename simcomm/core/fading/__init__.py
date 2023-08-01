@@ -1,5 +1,6 @@
-from typing import Tuple, Union
+from typing import Any, Tuple, Union
 
+import numpy as np
 import numpy.typing as npt
 
 from .rayleigh import Rayleigh
@@ -8,7 +9,7 @@ from .rician import Rician
 
 def get_rvs(
     type: str, shape: Union[int, Tuple[int, ...]], *args, **kwargs
-) -> npt.ArrayLike:
+) -> npt.NDArray[np.floating[Any]]:
     """
     Generates random variables from a distribution.
 
