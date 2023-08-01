@@ -91,7 +91,7 @@ class Rayleigh:
     def get_samples(
         self,
         size: Union[int, Tuple[int, ...]],
-    ) -> npt.ArrayLike:
+    ) -> npt.NDArray[np.floating[Any]]:
         """Generates random variables from the Rayleigh distribution.
 
         Args:
@@ -100,9 +100,11 @@ class Rayleigh:
         Returns:
             samples (array_like): An array of size `size` containing random variables from the Rayleigh distribution.
         """
-        return stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size)
+        return np.array(stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size))
 
-    def get_coefficients(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
+    def get_coefficients(
+        self, size: Union[int, Tuple[int, ...]]
+    ) -> npt.NDArray[np.complexfloating[Any, Any]]:
         """Generates complex channel coefficients from the Rayleigh distribution.
 
         Args:
@@ -111,6 +113,7 @@ class Rayleigh:
         Returns:
             coefficients (array_like): An array of size `size` containing complex channel coefficients from the Rayleigh distribution.
         """
-        return stats.norm.rvs(scale=self.sigma, size=size) + 1j * stats.norm.rvs(
-            scale=self.sigma, size=size
+        return np.array(
+            stats.norm.rvs(scale=self.sigma, size=size)
+            + 1j * stats.norm.rvs(scale=self.sigma, size=size)
         )
