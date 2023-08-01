@@ -106,7 +106,9 @@ class Rician:
         """
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
-    def get_samples(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
+    def get_samples(
+        self, size: Union[int, Tuple[int, ...]]
+    ) -> npt.NDArray[np.floating[Any]]:
         """Generate random variables from the Rician distribution.
 
         Args:
@@ -116,9 +118,13 @@ class Rician:
             samples (array_like): An array of size `size` containing random variables from
             the Rician distribution.
         """
-        return stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
+        return np.array(
+            stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
+        )
 
-    def get_coefficients(self, size: Union[int, Tuple[int, ...]]) -> npt.ArrayLike:
+    def get_coefficients(
+        self, size: Union[int, Tuple[int, ...]]
+    ) -> npt.NDArray[np.complexfloating[Any, Any]]:
         """Generate complex fading coefficients from the Rician distribution.
 
         Args:
@@ -132,6 +138,7 @@ class Rician:
         sigma = np.sqrt(1 / (2 * (self.K + 1)))
 
         # Generate the channel
-        return (sigma * stats.norm.rvs(size=size) + mu) + 1j * (
-            sigma * stats.norm.rvs(size=size) + mu
+        return np.array(
+            (sigma * stats.norm.rvs(size=size) + mu)
+            + 1j * (sigma * stats.norm.rvs(size=size) + mu)
         )
