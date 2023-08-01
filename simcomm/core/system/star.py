@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Union
+from typing import List, Union
 
 import numpy as np
 
 from ...utils import wrapTo2Pi
+from . import link as link
 from .system import SystemObject
-
-if TYPE_CHECKING:
-    from . import LinkCollection
 
 
 class STAR(SystemObject):
@@ -80,14 +78,14 @@ class STAR(SystemObject):
 
     def set_reflection_parameters(
         self,
-        links: LinkCollection,
+        links: link.LinkCollection,
         transmitters: List[SystemObject],
         receivers: List[SystemObject],
     ) -> None:
         """Sets the reflection parameters of the RIS.
 
         Args:
-            links (LinkCollection): The collection of links in the system.
+            links (link.LinkCollection): The collection of links in the system.
             transmitters (List[SystemObject]): The list of transmitters in the system.
             receivers (List[SystemObject]): The list of receivers in the system.
 
@@ -124,14 +122,14 @@ class STAR(SystemObject):
 
     def set_transmission_parameters(
         self,
-        links: LinkCollection,
+        links: link.LinkCollection,
         transmitters: List[SystemObject],
         receiver: SystemObject,
     ) -> None:
         """Sets the transmission parameters of the RIS.
 
         Args:
-            links (LinkCollection): The collection of links in the system.
+            links (link.LinkCollection): The collection of links in the system.
             transmitters (List[SystemObject]): The list of transmitters in the system.
             receiver (SystemObject): The far receiver (UF) in the system.
 
@@ -167,14 +165,14 @@ class STAR(SystemObject):
 
     def merge_link(
         self,
-        links: LinkCollection,
+        links: link.LinkCollection,
         transmitter: Union[SystemObject, List[SystemObject]],
         receiver: SystemObject,
     ) -> None:
         """Updates the link between the SystemObject and SystemObject with combined channel. Expects the arguments to be in the order as link is defined.
 
         Args:
-            links (LinkCollection): The collection of links in the system.
+            links (link.LinkCollection): The collection of links in the system.
             transmitter (Union[SystemObject, List[SystemObject]]): The transmitter(s) in the system. Pass a list of transmitters if link type between SystemObject and SystemObject is "E".
             receiver (SystemObject): The receiver in the system.
 
