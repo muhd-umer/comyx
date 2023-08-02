@@ -1,0 +1,33 @@
+name: fyp
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.10
+    - pip
+    - basemap
+    - bottleneck
+    - cartopy
+    - cython
+    - dask
+    - h5py
+    - ipython
+    - jupyter
+    - jupyterlab
+    - matplotlib
+    - pandas
+    - scikit-learn
+    - scikit-image
+    - statsmodels
+    - seaborn
+    - tqdm
+    - xarray
+    - zarr
+    - numcodecs
+    - opencv
+    - librosa
+    - pip:
+        - numba
+        - scipy
+        - tensorboard
+        - komm

@@ -165,4 +165,4 @@ baseline_simulator/
 *.ipynb
 *.bkp
 research/star_ris_comp_noma/resources/tex/*
-environment.yml
+# environment.yml
