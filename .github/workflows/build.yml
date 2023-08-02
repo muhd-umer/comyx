@@ -7,6 +7,15 @@ on:
   workflow_dispatch:
   release:
     types: [published]
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - .github/workflows/*
+      - .github/*
+      - .gitignore
+      - .git/*
+      - .readthedocs.yml
 
 jobs:
   cancel-previous:
