@@ -36,7 +36,6 @@ extensions = [
     "autoapi.extension",
     # For extension examples and demos
     "ablog",
-    "matplotlib.sphinxext.plot_directive",
     "numpydoc",
     "sphinx_togglebutton",
     "sphinx_favicon",
