@@ -3,7 +3,7 @@
   <img src=https://raw.githubusercontent.com/muhd-umer/simcomm/main/resources/logo.svg width="500" height="200">
 </p>
 
-# SimComm
+## SimComm
 SimComm is a Python library for simulating wireless communication systems. It uses NumPy and SciPy for numerical computation, and Numba for just-in-time (JIT) compilation. It provides a number of features for simulating wireless communication systems, such as:
 
 - **B5G Features**: SimComm supports a variety of B5G specific features, including STAR-RIS, and NOMA.
@@ -11,7 +11,7 @@ SimComm is a Python library for simulating wireless communication systems. It us
 - **Signal Models**: SimComm supports a variety of signal models, including BPSK, QPSK, and QAM.
 - **Performance Metrics**: SimComm can calculate a variety of performance metrics, including sum rate, outage probability.
 
-# To-Do
+## To-Do
 - [ ] Update documentation
 - [ ] Add network optimization support
 - [ ] Add Reinforcement Learning (RL) support
