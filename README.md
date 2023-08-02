@@ -30,7 +30,7 @@
 [![build](https://github.com/muhd-umer/simcomm/workflows/build/badge.svg)](https://github.com/muhd-umer/simcomm/actions?query=workflow:"build")
 [![GitHub release](https://img.shields.io/github/release/muhd-umer/simcomm?include_prereleases=&sort=semver&color=blue)](https://github.com/muhd-umer/simcomm/releases/)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat)](#license)
-[![view - Documentation](https://img.shields.io/badge/view-docs-blue?style=flat)](/docs/ "Go to project documentation")
+[![view - Documentation](https://img.shields.io/badge/view-docs-blue?style=flat)](https://simcomm.readthedocs.io/)
 [![NumPy](https://img.shields.io/badge/NumPy-%23013243.svg?style=flat&logo=numpy&logoColor=white)](https://numpy.org/)
 [![SciPy](https://img.shields.io/badge/SciPy-%230C55A5.svg?style=flat&logo=scipy&logoColor=white)](https://scipy.org/)
 [![Numba](https://img.shields.io/badge/Numba-009ed9?style=flat&logo=numba&logoColor=white)](https://numba.pydata.org/)
