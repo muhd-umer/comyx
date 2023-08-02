@@ -166,3 +166,5 @@ baseline_simulator/
 *.bkp
 research/star_ris_comp_noma/resources/tex/*
 # environment.yml
+.github/workflows/release.yml
+.github/workflows/test.yml
