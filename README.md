@@ -19,45 +19,36 @@ SimComm is a Python library for simulating wireless communication systems. It us
 ## Installation
 You can install the latest version of the package using pip:
 ```shell
-pip install simcomm
+$ pip install simcomm
 ```
 
-Or you can clone the repository and install the package locally (*Anaconda is recommended*):
+Or you can clone the repository and install the package locally in a virtual environment:
 
 **Clone the repository**
 - Clone the repository to your local machine using the following command:
 ```shell
-git clone https://github.com/muhd-umer/comm-fyp.git
-```
-
-**Create a new virtual environment**
-- It is recommended to create a new virtual environment so that updates/downgrades of packages do not break other projects. To create a new virtual environment, run the following command:
-```shell
-conda env create -f environment.yml
-```
-
-- Alternatively, you can use `mamba` (faster than conda) package manager to create a new virtual environment:
-```shell
-conda install mamba -n base -c conda-forge
-mamba env create -f environment.yml
+$ git clone https://github.com/muhd-umer/simcomm.git
 ```
 
 **Install the dependencies**
-- Activate the newly created environment:
+
+It is recommended to create a new virtual environment so that updates/downgrades of packages do not break other projects.
+
+- Install the required packages:
 ```shell
-conda activate fyp
+$ pip install -r requirements.txt
 ```
 
-- Install PyTorch (Stable 2.0.1):
+- Install PyTorch (Stable):
 ```shell
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+$ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
 - Install Ray for Reinforcement Learning:
 ```shell
-pip3 install ray[default]
-pip3 install ray[air]
-pip3 install ray[tune]
-pip3 install ray[rllib]
-pip3 install ray[serve]
+$ pip install ray[default]
+$ pip install ray[air]
+$ pip install ray[tune]
+$ pip install ray[rllib]
+$ pip install ray[serve]
 ```
