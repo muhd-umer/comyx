@@ -45,7 +45,7 @@ jobs:
       if: steps.venv.outputs.cache-hit != 'true'
       run: |
         if [ -d venv ]; then rm -rf venv; fi
-        venv/bin/python3 -m venv venv
+        python3 -m venv venv
         venv/bin/python3 -m pip install pytest
         venv/bin/python3 -m pip install .
     - name: Install simcomm (local)
