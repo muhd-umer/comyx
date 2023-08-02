@@ -1,0 +1,17 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{System Model}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{System Layout}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Channel Model}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{STAR-RIS Model}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Performance Analysis}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Rate Analysis}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Outage Probability Analysis}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Problem Formulation}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Numerical Results}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{Simulation Setup}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Impact of the Number of STAR-RIS Elements}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{Coordinated NOMA Power Allocation Factors}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.4}{Exhaustive STAR-RIS Element Allocation}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.5}{Spectral Efficiency \046 Energy Efficiency Trade-off}{section.4}% 15
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 16
+\BOOKMARK [1][-]{section*.1}{References}{}% 17
