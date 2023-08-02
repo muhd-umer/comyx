@@ -35,22 +35,14 @@ jobs:
     - name: Get week and year
       id: date_key
       run: echo "DATE=$(date +%j)" >> $GITHUB_OUTPUT
-    - name: Cached virtual environment
-      id: venv
-      uses: actions/cache@v3
-      with:
-        path: venv
-        key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements.txt', 'pyproject.toml') }}-${{ steps.date_key.outputs.DATE }}
-    - name: Install dependencies for cached
-      if: steps.venv.outputs.cache-hit != 'true'
+    - name: Install dependencies
       run: |
-        if [ -d venv ]; then rm -rf venv; fi
-        python3 -m venv venv
-        venv/bin/python3 -m pip install pytest
-        venv/bin/python3 -m pip install .
+        python -m pip install --upgrade pip
+        python -m pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Install simcomm (local)
       run: |
-        venv/bin/python3 -m pip install -e .
+        pip install -e .
     - name: Test with pytest
       run: |
         pytest
