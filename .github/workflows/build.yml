@@ -16,6 +16,8 @@ on:
       - .gitignore
       - .git/*
       - .readthedocs.yml
+      - research/star_ris_comp_noma/resources/tex/*
+      - .gitattributes
 
 jobs:
   cancel-previous:

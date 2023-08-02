@@ -164,7 +164,7 @@ baseline_simulator/
 .vscode/
 *.ipynb
 *.bkp
-research/star_ris_comp_noma/resources/tex/*
+# research/star_ris_comp_noma/resources/tex/*
 # environment.yml
 .github/workflows/release.yml
 .github/workflows/test.yml
