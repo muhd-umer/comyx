@@ -1,16 +1,4 @@
-import os
-import sys
 import unittest
-
-# Append the path depending on where the script is executed
-if os.path.basename(os.getcwd()) == "simulations":
-    sys.path.append("..")
-elif os.path.basename(os.getcwd()) == "simcomm":
-    sys.path.append(".")
-else:
-    raise Exception(
-        "Please execute this script from either simcomm/ or simulations/ folder."
-    )
 
 import numpy as np
 
