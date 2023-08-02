@@ -48,3 +48,4 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    Installation <installation>
    API Reference <api>
    Research <research>
+   Changelog <https://github.com/muhd-umer/simcomm/releases>

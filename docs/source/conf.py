@@ -81,6 +81,12 @@ html_theme_options = {
             "url": "https://github.com/muhd-umer/simcomm",
             "icon": "fa-brands fa-github",
         },
+        {
+            "name": "PyPI",
+            "url": "https://pypi.org/project/simcomm/",
+            "icon": "https://pypi.org/static/images/logo-small.2a411bc6.svg",
+            "type": "url",
+        },
     ],
     "logo": {
         "text": "SimComm",
