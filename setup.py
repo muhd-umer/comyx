@@ -18,7 +18,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/muhd-umer/simcomm",
     project_urls={
-        "Documentation": "",
+        "Documentation": "https://simcomm.readthedocs.io",
         "Bug Reports": "https://github.com/muhd-umer/simcomm/issues",
         "Source Code": "https://github.com/muhd-umer/simcomm",
         # 'Funding': '',
