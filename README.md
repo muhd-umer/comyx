@@ -1,10 +1,9 @@
 <!-- Add logo figure -->
 <p align="center">
-  <img src=resources/logo.png width="200" height="200">
+  <img src=resources/logo.svg width="500" height="200">
 </p>
 
 # SimComm
-
 SimComm is a Python library for simulating wireless communication systems. It uses NumPy and SciPy for numerical computation, and Numba for just-in-time (JIT) compilation.
 
 SimComm provides a number of features for simulating wireless communication systems, including:
