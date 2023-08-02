@@ -1,4 +1,4 @@
-name: package
+name: build (conda)
 
 on: [push]
 
