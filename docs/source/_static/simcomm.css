@@ -21,6 +21,9 @@
 }
 
 .transparent-background {
-  background-color: transparent !important;
+  /* disable hyperlink for image */
+  pointer-events: none;
+
   /* mix-blend-mode: difference; */
+  background-color: transparent !important;
 }
