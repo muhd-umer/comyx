@@ -49,7 +49,7 @@ jobs:
         venv/bin/python3 -m pip install .
     - name: Install simcomm (local)
       run: |
-        venv/bin/python3 pip -m install -e .
+        venv/bin/python3 -m pip install -e .
     - name: Test with pytest
       run: |
         pytest
