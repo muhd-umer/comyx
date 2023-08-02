@@ -9,6 +9,15 @@ on:
     types: [published]
 
 jobs:
+  cancel-previous:
+    name: Cancel Previous Runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel previous
+        uses: styfle/cancel-workflow-action@0.11.0
+        if: ${{github.ref != 'refs/head/main'}}
+        with:
+          access_token: ${{ github.token }}
   build:
 
     runs-on: ubuntu-latest
@@ -23,11 +32,24 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Get week and year
+      id: date_key
+      run: echo "DATE=$(date +%j)" >> $GITHUB_OUTPUT
+    - name: Cached virtual environment
+      id: venv
+      uses: actions/cache@v3
+      with:
+        path: venv
+        key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements.txt', 'pyproject.toml') }}-${{ steps.date_key.outputs.DATE }}
+    - name: Install dependencies for cached
+      if: steps.venv.outputs.cache-hit != 'true'
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -d venv ]; then rm -rf venv; fi
+        python3 -m venv venv
+        venv/bin/python3 -m pip install .
+    - name: Install simcomm (local)
+      run: |
+        venv/bin/python3 pip -m install -e .
     - name: Test with pytest
       run: |
         pytest
