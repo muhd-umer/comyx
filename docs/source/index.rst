@@ -1,10 +1,10 @@
 .. Keep title but hide it from the main page
 .. title:: Welcome to SimComm
 
-.. figure:: _static/logo.png
+.. image:: _static/logo.svg
    :align: center
    :class: transparent-background
-   :width: 520px
+   :width: 510px
 
 .. **SimComm** Documentation
 .. =========================
