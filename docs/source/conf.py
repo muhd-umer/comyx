@@ -66,6 +66,8 @@ html_css_files = [
     "simcomm.css",
 ]
 
+master_doc = "index"
+
 version_match = "v" + release
 html_theme_options = {
     "icon_links": [
