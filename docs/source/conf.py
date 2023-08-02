@@ -88,11 +88,11 @@ html_theme_options = {
             "type": "url",
         },
     ],
-    "logo": {
-        "text": "SimComm",
-        "image_dark": "_static/fav.svg",
-        "alt_text": "SimComm",
-    },
+    # "logo": {
+    #     "text": "SimComm",
+    #     "image_dark": "_static/fav.svg",
+    #     "alt_text": "SimComm",
+    # },
     "footer_start": ["copyright"],
     "navbar_start": ["navbar-logo"],
     "navbar_align": "left",
