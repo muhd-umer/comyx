@@ -10,13 +10,13 @@
 
 .api-reference {
   color: white !important;
-  background-color: rgba(77, 10, 10, var(--block-bg-opacity));
+  background-color: rgba(80, 10, 10, var(--block-bg-opacity));
   /* set the color of the text to white regardless of the theme */
 }
 
 .research {
   color: white !important;
-  background-color: rgba(5, 74, 79, var(--block-bg-opacity));
+  background-color: rgba(5, 74, 80, var(--block-bg-opacity));
   /* set the color of the text to white regardless of the theme */
 }
 
