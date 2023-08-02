@@ -1,0 +1,99 @@
+\begin{thebibliography}{10}
+
+\bibitem{wu2019towards}
+Q.~Wu and R.~Zhang, ``Towards smart and reconfigurable environment: Intelligent
+  reflecting surface aided wireless network,'' {\em IEEE communications
+  magazine}, vol.~58, no.~1, pp.~106--112, 2019.
+
+\bibitem{di2020smart}
+M.~Di~Renzo, A.~Zappone, M.~Debbah, M.-S. Alouini, C.~Yuen, J.~De~Rosny, and
+  S.~Tretyakov, ``Smart radio environments empowered by reconfigurable
+  intelligent surfaces: How it works, state of research, and the road ahead,''
+  {\em IEEE journal on selected areas in communications}, vol.~38, no.~11,
+  pp.~2450--2525, 2020.
+
+\bibitem{hou2021joint}
+T.~Hou, J.~Wang, Y.~Liu, X.~Sun, A.~Li, and B.~Ai, ``A joint design for
+  star-ris enhanced noma-comp networks: A
+  simultaneous-signal-enhancement-and-cancellation-based (ssecb) design,'' {\em
+  IEEE Transactions on Vehicular Technology}, vol.~71, no.~1, pp.~1043--1048,
+  2021.
+
+\bibitem{wei2021channel}
+L.~Wei, C.~Huang, G.~C. Alexandropoulos, C.~Yuen, Z.~Zhang, and M.~Debbah,
+  ``Channel estimation for ris-empowered multi-user miso wireless
+  communications,'' {\em IEEE Transactions on Communications}, vol.~69, no.~6,
+  pp.~4144--4157, 2021.
+
+\bibitem{taha2021enabling}
+A.~Taha, M.~Alrabeiah, and A.~Alkhateeb, ``Enabling large intelligent surfaces
+  with compressive sensing and deep learning,'' {\em IEEE access}, vol.~9,
+  pp.~44304--44321, 2021.
+
+\bibitem{guo2020intelligent}
+Y.~Guo, Z.~Qin, Y.~Liu, and N.~Al-Dhahir, ``Intelligent reflecting surface
+  aided multiple access over fading channels,'' {\em IEEE Transactions on
+  Communications}, vol.~69, no.~3, pp.~2015--2027, 2020.
+
+\bibitem{mu2021simultaneously}
+X.~Mu, Y.~Liu, L.~Guo, J.~Lin, and R.~Schober, ``Simultaneously transmitting
+  and reflecting (star) ris aided wireless communications,'' {\em IEEE
+  Transactions on Wireless Communications}, vol.~21, no.~5, pp.~3083--3098,
+  2021.
+
+\bibitem{9437234}
+J.~Xu, Y.~Liu, X.~Mu, and O.~A. Dobre, ``Star-riss: Simultaneous transmitting
+  and reflecting reconfigurable intelligent surfaces,'' {\em IEEE
+  Communications Letters}, vol.~25, no.~9, pp.~3134--3138, 2021.
+
+\bibitem{saito2013non}
+Y.~Saito, Y.~Kishiyama, A.~Benjebbour, T.~Nakamura, A.~Li, and K.~Higuchi,
+  ``Non-orthogonal multiple access (noma) for cellular future radio access,''
+  in {\em 2013 IEEE 77th vehicular technology conference (VTC Spring)},
+  pp.~1--5, IEEE, 2013.
+
+\bibitem{obeed2020user}
+M.~Obeed, H.~Dahrouj, A.~M. Salhab, S.~A. Zummo, and M.-S. Alouini, ``User
+  pairing, link selection, and power allocation for cooperative noma hybrid
+  vlc/rf systems,'' {\em IEEE Transactions on Wireless Communications},
+  vol.~20, no.~3, pp.~1785--1800, 2020.
+
+\bibitem{salem2020noma}
+A.~Salem and L.~Musavian, ``Noma in cooperative communication systems with
+  energy-harvesting nodes and wireless secure transmission,'' {\em IEEE
+  Transactions on Wireless Communications}, vol.~20, no.~2, pp.~1023--1037,
+  2020.
+
+\bibitem{tanbourgi2014tractable}
+R.~Tanbourgi, S.~Singh, J.~G. Andrews, and F.~K. Jondral, ``A tractable model
+  for noncoherent joint-transmission base station cooperation,'' {\em IEEE
+  Transactions on Wireless Communications}, vol.~13, no.~9, pp.~4959--4973,
+  2014.
+
+\bibitem{elhattab2022ris}
+M.~Elhattab, M.~A. Arfaoui, C.~Assi, and A.~Ghrayeb, ``Ris-assisted joint
+  transmission in a two-cell downlink noma cellular system,'' {\em IEEE Journal
+  on Selected Areas in Communications}, vol.~40, no.~4, pp.~1270--1286, 2022.
+
+\bibitem{9856598}
+X.~Yue, J.~Xie, Y.~Liu, Z.~Han, R.~Liu, and Z.~Ding, ``Simultaneously
+  transmitting and reflecting reconfigurable intelligent surface assisted noma
+  networks,'' {\em IEEE Transactions on Wireless Communications}, vol.~22,
+  no.~1, pp.~189--204, 2023.
+
+\bibitem{wu2019intelligent}
+Q.~Wu and R.~Zhang, ``Intelligent reflecting surface enhanced wireless network
+  via joint active and passive beamforming,'' {\em IEEE transactions on
+  wireless communications}, vol.~18, no.~11, pp.~5394--5409, 2019.
+
+\bibitem{wang2022outage}
+T.~Wang, M.-A. Badiu, G.~Chen, and J.~P. Coon, ``Outage probability analysis of
+  star-ris assisted noma network with correlated channels,'' {\em IEEE
+  Communications Letters}, vol.~26, no.~8, pp.~1774--1778, 2022.
+
+\bibitem{fang2016energy}
+F.~Fang, H.~Zhang, J.~Cheng, and V.~C. Leung, ``Energy-efficient resource
+  allocation for downlink non-orthogonal multiple access network,'' {\em IEEE
+  Transactions on Communications}, vol.~64, no.~9, pp.~3722--3732, 2016.
+
+\end{thebibliography}
