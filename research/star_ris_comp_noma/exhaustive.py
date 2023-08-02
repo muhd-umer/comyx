@@ -14,9 +14,6 @@ RIS-enhanced transmission.
 
 import argparse
 import os
-import sys
-
-sys.path.append("../../")
 
 import numpy as np
 import scipy.io as io
@@ -25,7 +22,7 @@ from config import environment, setting
 
 import simcomm.core.propagation as prop
 from simcomm.core import STAR, LinkCollection, Receiver, Transmitter
-from simcomm.utils import dbm2pow, pow2db, qfunc
+from simcomm.utils import dbm2pow
 
 
 def main(N, save_path):
