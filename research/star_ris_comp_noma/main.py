@@ -11,9 +11,6 @@ stations to the corresponding center users.
 
 import argparse
 import os
-import sys
-
-sys.path.append("../../")
 
 import numpy as np
 import scipy.io as io
