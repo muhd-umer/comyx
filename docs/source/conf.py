@@ -26,8 +26,8 @@ release = str(version)
 
 extensions = [
     "sphinx.ext.napoleon",
-    # "sphinx.ext.autodoc",
-    # "sphinx.ext.autosummary",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx_design",
@@ -103,13 +103,14 @@ html_context = {
 
 # -- Options for autosummary/autodoc output ------------------------------------
 autosummary_generate = True
-autodoc_typehints = "description"
-autodoc_member_order = "groupwise"
 
 # -- Options for autoapi -------------------------------------------------------
+
+# Optionally disable autoapi generation for all files in a directory
+autoapi_generate_api_docs = True
 autoapi_type = "python"
 autoapi_dirs = ["../../simcomm"]
-# autoapi_keep_files = True
+autoapi_keep_files = False
 autoapi_root = "api"
 autoapi_member_order = "groupwise"
 autoapi_template_dir = "_templates/autoapi"
