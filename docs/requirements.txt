@@ -9,6 +9,12 @@ Pygments>=2.6.1
 ipykernel
 ipython_genutils
 sphinx-design
+sphinx_copybutton
+sphinx-autoapi
+ablog
+numpydoc
+sphinx-togglebutton
+sphinx-favicon
 
 # Need to pin docutils to 0.16 to make bulleted lists appear correctly on
 # ReadTheDocs: https://stackoverflow.com/a/68008428
