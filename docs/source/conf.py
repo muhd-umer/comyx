@@ -58,16 +58,22 @@ html_title = f"SimComm ({version})"
 html_static_path = ["_static"]
 html_show_sourcelink = False
 html_show_sphinx = False
-html_favicon = "./favicon.ico"
-html_logo = "./_static/fav.png"
+html_favicon = "./_static/favicon.ico"
+html_logo = "./_static/fav.svg"
 html_static_path = ["_static"]
 html_js_files = ["custom-icon.js"]
 html_css_files = [
     "simcomm.css",
 ]
 
+json_url = "https://raw.githubusercontent.com/muhd-umer/simcomm/main/docs/source/_static/switcher.json"
 
-version_match = "v" + release
+if "dev" in release or "rc" in release:
+    version_match = "dev"
+    json_url = "_static/switcher.json"
+else:
+    version_match = "v" + release
+
 html_theme_options = {
     "icon_links": [
         {
@@ -76,20 +82,19 @@ html_theme_options = {
             "icon": "fa-brands fa-github",
         },
     ],
-    # "logo": {
-    #     "text": "SimComm",
-    #     "image_dark": "_static/fav.png",
-    #     "alt_text": "SimComm",
-    # },
+    "logo": {
+        "text": "SimComm",
+        "image_dark": "_static/fav.svg",
+        "alt_text": "SimComm",
+    },
     "footer_start": ["copyright"],
     "navbar_start": ["navbar-logo"],
     "navbar_align": "left",
-    # "navbar_center": ["navbar-nav", "version-switcher"],
-    "navbar_center": ["navbar-nav"],
-    # "switcher": {
-    #     "json_url": json_url,
-    #     "version_match": version_match,
-    # },
+    "navbar_center": ["navbar-nav", "version-switcher"],
+    "switcher": {
+        "json_url": json_url,
+        "version_match": version_match,
+    },
     "show_toc_level": 3,
     "show_nav_level": 3,
 }
