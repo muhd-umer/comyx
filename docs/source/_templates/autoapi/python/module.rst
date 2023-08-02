@@ -1,3 +1,5 @@
+:html_theme.sidebar_secondary.remove:
+
 {% if not obj.display %}
 :orphan:
 
@@ -55,7 +57,7 @@ Submodules
 {% set visible_children = obj.children|selectattr("display")|rejectattr("imported")|list %}
 {% endif %}
 {% if visible_children %}
-{{ obj.type|title }} Contents
+{{ obj.type|title }} Summary
 {{ "-" * obj.type|length }}---------
 
 {% set visible_classes = visible_children|selectattr("type", "equalto", "class")|list %}
@@ -107,8 +109,19 @@ Attributes
 {% endif %}
 {% endblock %}
 {% endif %}
+
+Reference
+---------
+
 {% for obj_item in visible_children %}
+{% if obj_item.type == "class" %}
 {{ obj_item.render()|indent(0) }}
+{% endif %}
+{% endfor %}
+{% for obj_item in visible_children %}
+{% if obj_item.type == "function" %}
+{{ obj_item.render()|indent(0) }}
+{% endif %}
 {% endfor %}
 {% endif %}
 {% endblock %}
