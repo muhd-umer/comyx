@@ -1,8 +1,6 @@
 <!-- Add logo figure -->
 <p align="center">
-  <a href="#null">
-    <img src="https://raw.githubusercontent.com/muhd-umer/simcomm/main/resources/logo.svg" alt="Logo" width="500" height="200" style="pointer-events: none; display: block; margin: 0 auto;">
-  </a>
+  <img src="https://raw.githubusercontent.com/muhd-umer/simcomm/main/resources/logo.svg" width="500" height="200">
 </p>
 
 # SimComm
