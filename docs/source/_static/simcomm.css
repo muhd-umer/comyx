@@ -20,10 +20,13 @@
   /* set the color of the text to white regardless of the theme */
 }
 
-.transparent-background {
+.dark-light {
   /* disable hyperlink for image */
   pointer-events: none;
 
-  /* mix-blend-mode: difference; */
+  /* set blend mode to normal to prevent darkening */
+  mix-blend-mode: normal;
+
+  /* set background color to transparent */
   background-color: transparent !important;
 }
