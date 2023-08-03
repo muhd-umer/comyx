@@ -4,7 +4,7 @@
 .. figure:: _static/logo.svg
    :align: center
    :class: dark-light
-   :width: 660px
+   :width: 530px
 
 .. **SimComm** Documentation
 .. =========================
@@ -29,7 +29,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
       **Quickstart**
 
    .. grid-item-card:: :material-regular:`api;3.5em`
-      :class-card: research
+      :class-card: quickstart
       :class-body: sd-text-white
       :link: api
       :link-type: ref
