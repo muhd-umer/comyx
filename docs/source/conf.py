@@ -110,6 +110,7 @@ html_context = {
     "github_repo": "simcomm",
     "github_version": "main",
     "doc_path": "docs",
+    "default_mode": "light",
 }
 
 
