@@ -38,7 +38,7 @@
 \end{abstract}
 
 \begin{IEEEkeywords}
-    NOMA, CoMP, STAR-RIS
+    NOMA, CoMP, STAR-RIS, 6G, performance analysis, outage probability.
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -83,7 +83,7 @@ In this paper, perfect CSI is assumed to be available at the BSs. While this is 
 \subsection{Channel Model}
 For each communication link in the system, we take into account both large-scale fading and small-scale fading effects. Due to the relatively large propagation distances and the scattering effect of the links between B$_i$ and U$_u$, $\forall i \in \mathcal{I}$ and $u \in \mathcal{U}$, the channels are assumed to follow Rayleigh fading, expressed as:
 \begin{equation}
-    \textbf{h}_{i,u} = \sqrt{\frac{\rho_{o}}{PL(d_{i,u})}} \mathbf{v}_{i,u}
+    \textbf{h}_{i,u} = \sqrt{\frac{\rho_{o}}{PL(d_{i,u})}} \mathbf{v}_{i,u},
 \end{equation}
 where $\mathbf{v}_{i,u}$ is a complex Gaussian random variable that follows a Rayleigh distribution with zero mean and unit variance, $\rho_{o}$ is the reference path-loss at a distance of 1 m, $PL(d_{i,u})$ is the large scale path-loss, modeled as $PL(d_{i,u})=\left(d_{i,u}\right)^{\alpha_{i\rightarrow u}}$, where $d_{i, u}$ is the distance and $\alpha_{i\rightarrow u}$ is the path-loss exponent between the BS$_i$ and U$_u$, respectively.
 
@@ -109,7 +109,7 @@ where $\beta^t$, $\beta^r \in [0, 1]$ and $\theta_k^t$, $\theta_k^r \in [0, 2 \p
 
 \section{Performance Analysis}
 \subsection{Rate Analysis}
-To analyze the rates achieved for users in the system model shown in Fig. \ref{fig:system}, we first present the signal model. Specifically, $\forall i \in \mathcal{I}$, $c \in \mathcal{C}$, and $f \in \mathcal{F}$, let the tuple (U$_{1,c}$, U$_{2,c}$, U$_f$) represent the coordinated NOMA cluster, and let $P_1$ and $P_2$ denote the transmit powers of BS$_1$ and BS$_2$, respectively. This signal model serves as the foundation for evaluating the achieved rates and optimizing the system performance in the considered cluster. Additionally, let $x_{1,c}$, $x_{2,c}$, and $x_f$ represent the message signal intended for U$_{1,c}$, U$_{2,c}$, and U$_f$, respectively. Each BS$_i$ broadcasts a superimposed signal of the messages~\cite{saito2013non} intended for users within its coverage region, U$_{i,c}$ and U$_f$, and expressed as:
+To analyze the rates achieved for users in the system model shown in Fig. \ref{fig:system}, we first present the signal model. Specifically, $\forall i \in \mathcal{I}$, $c \in \mathcal{C}$, and $f \in \mathcal{F}$, let the tuple (U$_{1,c}$, U$_{2,c}$, U$_f$) represent the coordinated NOMA cluster, and let $P_1$ and $P_2$ denote the transmit powers of BS$_1$ and BS$_2$, respectively. This signal model serves as the foundation for evaluating the achieved rates and optimizing the system performance in the considered cluster. Additionally, let $x_{1,c}$, $x_{2,c}$, and $x_f$ represent the message signal intended for U$_{1,c}$, U$_{2,c}$, and U$_f$, respectively. Each BS$_i$ broadcasts a superimposed signal of the messages intended for users within its coverage region, U$_{i,c}$ and U$_f$, and expressed as~\cite{saito2013non}:
 \begin{equation}
     x_{i}=\sqrt{\zeta_{i,c}P_i}x_{i,c} + \sqrt{\zeta_{i,f}P_i}x_f,
 \end{equation}
