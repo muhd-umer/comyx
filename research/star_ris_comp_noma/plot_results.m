@@ -4,13 +4,13 @@ close all;
 set(groot,'defaulttextinterpreter','latex');
 set(groot, 'defaultLegendInterpreter','latex');
 set(groot, 'defaultAxesTickLabelInterpreter','latex');
-Pt = load("..\resources\data\tx_power_dB.mat").tx_power;
+Pt = load(".\resources\data\tx_power_dB.mat").tx_power;
 
 %% Links
-% link_both = load("..\resources\data\res_32ris_enhanced_link_both.mat");
-% link_bs1 = load("..\resources\data\res_32ris_enhanced_link_bs1_only.mat");
-% link_bs2 = load("..\resources\data\res_32ris_enhanced_link_bs2_only.mat");
-% link_none = load("..\resources\data\res_32ris_enhanced_link_none.mat");
+% link_both = load(".\resources\data\res_32ris_enhanced_link_both.mat");
+% link_bs1 = load(".\resources\data\res_32ris_enhanced_link_bs1_only.mat");
+% link_bs2 = load(".\resources\data\res_32ris_enhanced_link_bs2_only.mat");
+% link_none = load(".\resources\data\res_32ris_enhanced_link_none.mat");
 % 
 % fig1 = figure();
 % % Plot data
@@ -37,10 +37,10 @@ Pt = load("..\resources\data\tx_power_dB.mat").tx_power;
 % set(gca, 'GridAlpha', 0.15);
 
 %% Outage
-no_ris_non_comp = load("..\resources\data\results_no_ris_non_comp.mat");
-no_ris = load("..\resources\data\results_no_ris.mat");
-ris32 = load("..\resources\data\results_ris32.mat");
-ris70 = load("..\resources\data\results_ris70.mat");
+no_ris_non_comp = load(".\resources\data\results_no_ris_non_comp.mat");
+no_ris = load(".\resources\data\results_no_ris.mat");
+ris32 = load(".\resources\data\results_ris32.mat");
+ris70 = load(".\resources\data\results_ris70.mat");
 
 fig2 = figure();
 
@@ -75,19 +75,19 @@ xlim([-45 0])
 ylabel('Outage probability');
 legend('U$_{f}$, Non-CoMP, without RIS', ...
     'U$_{1,c}$, without RIS', 'U$_{2,c}$, without RIS', ...
-    'U$_{f}$, without RIS', 'U$_{1,c}$, {K = 32} Elements', ...
-    'U$_{2,c}$, {K = 32} Elements', 'U$_{f}$, {K = 32} Elements', ...
-    'U$_{1,c}$, {K = 70} Elements', 'U$_{2,c}$, {K = 70} Elements', ...
-    'U$_{f}$, {K = 70} Elements', 'Location', 'southwest', 'FontSize', 10);
+    'U$_{f}$, without RIS', 'U$_{1,c}$, {$K$ = 32} Elements', ...
+    'U$_{2,c}$, {$K$ = 32} Elements', 'U$_{f}$, {$K$ = 32} Elements', ...
+    'U$_{1,c}$, {$K$ = 70} Elements', 'U$_{2,c}$, {$K$ = 70} Elements', ...
+    'U$_{f}$, {$K$ = 70} Elements', 'Location', 'southwest', 'FontSize', 10);
 
 % Add grid
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% SE - EE
-no_ris = load("..\resources\data\results_no_ris.mat");
-ris32 = load("..\resources\data\results_ris32.mat");
-ris70 = load("..\resources\data\results_ris70.mat");
+no_ris = load(".\resources\data\results_no_ris.mat");
+ris32 = load(".\resources\data\results_ris32.mat");
+ris70 = load(".\resources\data\results_ris70.mat");
 
 fig3 = figure();
 
@@ -101,14 +101,14 @@ plot(ris32.se, ris32.ee, 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', i);
 [~, i] = max(ris70.ee);
 plot(ris70.se, ris70.ee, 'LineWidth', 1.25, ...
-'Marker', 'o', 'MarkerIndices', i);
+'Marker', 'o', 'MarkerIndices', i+1);
     
 % Add labels and legend
 xlabel('Spectral efficiency (bits/s/Hz)');
 ylim([9000 11000])
 xlim([11 17])
 ylabel('Energy efficiency (bit/J)');
-legend('Without RIS', '{K = 32} Elements', '{K = 70} Elements', ...
+legend('Without RIS', '{$K$ = 32} Elements', '{$K$ = 70} Elements', ...
     'Location', 'southwest', 'FontSize', 10)
 
 % Add grid
@@ -118,10 +118,10 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% User Rates
-no_ris_non_comp = load("..\resources\data\results_no_ris_non_comp.mat");
-no_ris = load("..\resources\data\results_no_ris.mat");
-ris32 = load("..\resources\data\results_ris32.mat");
-ris70 = load("..\resources\data\results_ris70.mat");
+no_ris_non_comp = load(".\resources\data\results_no_ris_non_comp.mat");
+no_ris = load(".\resources\data\results_no_ris.mat");
+ris32 = load(".\resources\data\results_ris32.mat");
+ris70 = load(".\resources\data\results_ris70.mat");
 
 fig4 = figure();
 
@@ -157,20 +157,20 @@ xlim([-45 0])
 ylabel('User rates (bits/s/Hz)');
 legend('U$_{f}$, Non-CoMP, without RIS', ...
     'U$_{1,c}$, without RIS', 'U$_{2,c}$, without RIS', ...
-    'U$_{f}$, without RIS', 'U$_{1,c}$, {K = 32} Elements', ...
-    'U$_{2,c}$, {K = 32} Elements', 'U$_{f}$, {K = 32} Elements', ...
-    'U$_{1,c}$, {K = 70} Elements', 'U$_{2,c}$, {K = 70} Elements', ...
-    'U$_{f}$, {K = 70} Elements', 'Location', 'northwest', 'FontSize', 10);
+    'U$_{f}$, without RIS', 'U$_{1,c}$, {$K$ = 32} Elements', ...
+    'U$_{2,c}$, {$K$ = 32} Elements', 'U$_{f}$, {$K$ = 32} Elements', ...
+    'U$_{1,c}$, {$K$ = 70} Elements', 'U$_{2,c}$, {$K$ = 70} Elements', ...
+    'U$_{f}$, {$K$ = 70} Elements', 'Location', 'northwest', 'FontSize', 10);
 
 % Add grid
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Sum-rate
-no_ris = load("..\resources\data\results_no_ris.mat");
-ris32 = load("..\resources\data\results_ris32.mat");
-ris70 = load("..\resources\data\results_ris70.mat");
-custom = load("..\resources\data\results_ris70_oPA.mat");
+no_ris = load(".\resources\data\results_no_ris.mat");
+ris32 = load(".\resources\data\results_ris32.mat");
+ris70 = load(".\resources\data\results_ris70.mat");
+custom = load(".\resources\data\results_ris70_oPA.mat");
 
 fig5 = figure();
 
@@ -190,15 +190,15 @@ xlabel('Transmit power per BS, $P_t$ (dBm)');
 ylim([2 12.5])
 xlim([-30 -10])
 ylabel('Network sum-rate (bits/s/Hz)');
-legend('Without RIS', '{K = 32} Elements', '{K = 70} Elements', ...
-    '{K = 70} Elements + Optimal PA', 'Location', 'northwest', 'FontSize', 10);
+legend('Without RIS', '{$K$ = 32} Elements', '{$K$ = 70} Elements', ...
+    '{$K$ = 70} Elements + Optimal PA', 'Location', 'northwest', 'FontSize', 10);
 
 % Add grid
 grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Contour Plot
-load("..\resources\data\results_exhaustive_es_aa.mat");
+load(".\resources\data\results_exhaustive_es_aa.mat");
 [X,Y] = meshgrid(bs2_assignment, beta_t);
 smooth_factor = 9999; % You can adjust this parameter for desired smoothness
 sum_rate_smooth = movmean(sum_rate, [52 30]);
@@ -229,9 +229,9 @@ set(gca,'YTickLabel',{"0/1", "0.1/0.9", "0.2/0.8", "0.3/0.7", ...
     'YTick', ytick)
 
 %% Export Graphics
-% exportgraphics(fig1, '../resources/links.pdf')
-% exportgraphics(fig2, '../resources/outage.pdf')
-% exportgraphics(fig3, '../resources/se_vs_ee.pdf')
-% exportgraphics(fig4, '../resources/rates.pdf')
-% exportgraphics(fig5, '../resources/sumrate.pdf')
-% exportgraphics(fig6, '../resources/dynamic.pdf')
+% exportgraphics(fig1, './resources/links.pdf')
+exportgraphics(fig2, './resources/outage.pdf')
+exportgraphics(fig3, './resources/se_vs_ee.pdf')
+exportgraphics(fig4, './resources/rates.pdf')
+exportgraphics(fig5, './resources/sumrate.pdf')
+% exportgraphics(fig6, './resources/dynamic.pdf')
