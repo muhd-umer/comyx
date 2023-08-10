@@ -101,7 +101,7 @@ plot(ris32.se, ris32.ee, 'LineWidth', 1.25, ...
     'Marker', 'd', 'MarkerIndices', i);
 [~, i] = max(ris70.ee);
 plot(ris70.se, ris70.ee, 'LineWidth', 1.25, ...
-'Marker', 'o', 'MarkerIndices', i+1);
+'Marker', 'o', 'MarkerIndices', i);
     
 % Add labels and legend
 xlabel('Spectral efficiency (bits/s/Hz)');
@@ -230,8 +230,8 @@ set(gca,'YTickLabel',{"0/1", "0.1/0.9", "0.2/0.8", "0.3/0.7", ...
 
 %% Export Graphics
 % exportgraphics(fig1, './resources/links.pdf')
-exportgraphics(fig2, './resources/outage.pdf')
+% exportgraphics(fig2, './resources/outage.pdf')
 exportgraphics(fig3, './resources/se_vs_ee.pdf')
-exportgraphics(fig4, './resources/rates.pdf')
-exportgraphics(fig5, './resources/sumrate.pdf')
+% exportgraphics(fig4, './resources/rates.pdf')
+% exportgraphics(fig5, './resources/sumrate.pdf')
 % exportgraphics(fig6, './resources/dynamic.pdf')
