@@ -18,7 +18,7 @@ import os
 import numpy as np
 import scipy.io as io
 from colorama import Fore, Style
-from config import environment, setting
+from config import constants, environment, setting
 
 import simcomm.core.propagation as prop
 from simcomm.core import STAR, LinkCollection, Receiver, Transmitter
@@ -32,24 +32,22 @@ def main(N, save_path):
     positions = environment["positions"]
 
     # Additional parameters
-    BANDWIDTH = 1e6  # Bandwidth in Hz
-    TEMP = 300  # Temperature in Kelvin
-    FREQ = 2.4e9  # Frequency of carrier signal in Hz
+    BANDWIDTH = constants["BANDWIDTH"]  # Bandwidth in Hz
+    TEMP = constants["TEMP"]  # Temperature in Kelvin
+    FREQ = constants["FREQ"]  # Frequency of carrier signal in Hz
 
-    Pt = -15  # Transmit power in dBm
+    Pt = np.linspace(-50, 30, 161)  # Transmit power in dBm
     Pt_lin = dbm2pow(Pt)  # Transmit power in linear scale
     N0 = prop.get_noise_power(BANDWIDTH, TEMP, 12)  # Noise power in dBm
     N0_lin = dbm2pow(N0)  # Noise power in linear scale
 
     params = setting["ris70"]
     ris_enhanced = params["ris_enhanced"]  # Whether to use RIS-enhanced transmission
-    bs1_uf_link = params["bs1_uf_link"]  # Whether to use BS1-Uf link
-    bs2_uf_link = params["bs2_uf_link"]  # Whether to use BS2-Uf link
     K = params["ris_elements"]  # Number of RIS elements
 
     # Create the base stations
-    BS1 = Transmitter("BS1", positions["BS1"], transmit_power=Pt_lin)
-    BS2 = Transmitter("BS2", positions["BS2"], transmit_power=Pt_lin)
+    BS1 = Transmitter("BS1", positions["BS1"], Pt_lin, {"U1c": 0.3, "Uf": 0.7})
+    BS2 = Transmitter("BS2", positions["BS2"], Pt_lin, {"U2c": 0.3, "Uf": 0.7})
 
     # Create the users (identical)
     U1c = Receiver("U1c", positions["U1c"], sensitivity=-110)
@@ -74,7 +72,7 @@ def main(N, save_path):
                 elements=K,
                 beta_r=beta_r[i],
                 beta_t=1 - beta_r[i],
-                custom_assignment={"bs1": bs1_assignment[k], "bs2": bs2_assignment[k]},
+                custom_assignment={"BS1": bs1_assignment[k], "BS2": bs2_assignment[k]},
             )
 
             # Initialize the link collection (containing channel information)
@@ -89,63 +87,33 @@ def main(N, save_path):
             )
 
             # Add the edge links to the collection
-            links.add_link(
-                BS1, Uf, fading_cfg["rayleigh"], pathloss_cfg["edge"], bs1_uf_link
-            )
-            links.add_link(
-                BS2, Uf, fading_cfg["rayleigh"], pathloss_cfg["edge"], bs2_uf_link
-            )
+            links.add_link(BS1, Uf, fading_cfg["rayleigh"], pathloss_cfg["edge"], "f")
+            links.add_link(BS2, Uf, fading_cfg["rayleigh"], pathloss_cfg["edge"], "f")
 
             # Add the RIS links to the collection
             links.add_link(
-                BS1,
-                RIS,
-                fading_cfg["ricianC"],
-                pathloss_cfg["ris"],
-                "ris",
-                bs1_assignment[k],
+                BS1, RIS, fading_cfg["ricianC"], pathloss_cfg["ris"], "ris,b1"
             )
             links.add_link(
-                BS2,
-                RIS,
-                fading_cfg["ricianC"],
-                pathloss_cfg["ris"],
-                "ris",
-                bs2_assignment[k],
+                BS2, RIS, fading_cfg["ricianC"], pathloss_cfg["ris"], "ris,b2"
             )
             links.add_link(
-                RIS,
-                U1c,
-                fading_cfg["ricianC"],
-                pathloss_cfg["risOC"],
-                "ris",
-                bs1_assignment[k],
+                RIS, U1c, fading_cfg["ricianC"], pathloss_cfg["risC"], "ris,b1"
             )
             links.add_link(
-                RIS,
-                U2c,
-                fading_cfg["ricianC"],
-                pathloss_cfg["risOC"],
-                "ris",
-                bs2_assignment[k],
+                RIS, U2c, fading_cfg["ricianC"], pathloss_cfg["risC"], "ris,b2"
             )
             links.add_link(
-                RIS, Uf, fading_cfg["ricianE"], pathloss_cfg["risOE"], "ris", K
+                RIS, Uf, fading_cfg["ricianE"], pathloss_cfg["risE"], "ris,f"
             )
 
             # Add interference links to the collection
             links.add_link(
-                BS1, U2c, fading_cfg["rayleigh"], pathloss_cfg["inter"], "1,c"
+                BS1, U2c, fading_cfg["rayleigh"], pathloss_cfg["inter"], "i,c"
             )
             links.add_link(
-                BS2, U1c, fading_cfg["rayleigh"], pathloss_cfg["inter"], "2,c"
+                BS2, U1c, fading_cfg["rayleigh"], pathloss_cfg["inter"], "i,c"
             )
-
-            # Set the NOMA power allocation
-            BS1.set_allocation(U1c, 0.25)
-            BS1.set_allocation(Uf, 0.75)
-            BS2.set_allocation(U2c, 0.25)
-            BS2.set_allocation(Uf, 0.75)
 
             # Set the RIS phase shifts
             RIS.set_reflection_parameters(links, [BS1, BS2], [U1c, U2c])
