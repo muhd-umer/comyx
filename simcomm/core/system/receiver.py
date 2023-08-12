@@ -9,25 +9,24 @@ class Receiver(SystemObject):
     """A class representing a receiver. Inherits from SystemObject. Receivers contain empty attributes for rate, outage, and SNR.
 
     Args:
-        name (str): The name of the receiver.
-        position (list): [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
-        sensitivity (float): The sensitivity of the receiver in dBm.
+        name: The name of the receiver.
+        position: [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
+        sensitivity: The sensitivity of the receiver in dBm.
 
     Attributes:
-        sensitivity (float): Stores the sensitivity of the receiver in dBm.
-        rate (array_like): Stores the rate of the receiver in bits per second.
-        outage (array_like): Stores the outage of the receiver in dB.
-        snr (array_like): Stores the SNR of the receiver in dB.
+        sensitivity: Stores the sensitivity of the receiver in dBm.
+        rate: Stores the rate of the receiver in bits per second.
+        outage: Stores the outage of the receiver in dB.
+        snr: Stores the SNR of the receiver in dB.
     """
 
     def __init__(self, name: str, position: List[float], sensitivity: float) -> None:
-        """
-        Initializes a Receiver object with the given parameters.
+        """Initializes a Receiver object with the given parameters.
 
         Args:
-            name (str): The name of the receiver.
-            position (list): [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
-            sensitivity (float): The sensitivity of the receiver in dBm.
+            name: The name of the receiver.
+            position: [x, y] coordinates of the system object, [x, y, z] coordinates if 3D.
+            sensitivity: The sensitivity of the receiver in dBm.
         """
         super().__init__(name, position)
         self.sensitivity = sensitivity
@@ -111,6 +110,3 @@ class Receiver(SystemObject):
             demodulated_data[i * m : (i + 1) * m] = symbol_bits
 
         return demodulated_data
-
-
-__all__ = ["Receiver"]

@@ -30,10 +30,10 @@ class Rician:
             \sigma \sqrt{2 + \frac{\pi}{2}}
 
     Attributes:
-        K (float): The Rician factor, which is the ratio between the power of the direct path and the power of the scattered paths.
-        omega (float): The scale parameter, which is the total power from both the line-of-sight and scattered paths.
-        sigma (float): The scale parameter, which is the standard deviation of the distribution.
-        nu (float): The location parameter, which is the shift of the distribution.
+        K: The Rician factor, which is the ratio between the power of the direct path and the power of the scattered paths.
+        omega: The scale parameter, which is the total power from both the line-of-sight and scattered paths.
+        sigma: The scale parameter, which is the standard deviation of the distribution.
+        nu: The location parameter, which is the shift of the distribution.
 
     Reference:
         https://en.wikipedia.org/wiki/Rice_distribution
@@ -43,8 +43,8 @@ class Rician:
         """Initialize the Rician distribution with the given parameters.
 
         Args:
-            K (float): Rician factor := ratio between the power of direct path and the power of scattered paths.
-            sigma (float): The scale parameter, which is the standard deviation of the distribution.
+            K: Rician factor := ratio between the power of direct path and the power of scattered paths.
+            sigma: The scale parameter, which is the standard deviation of the distribution.
         """
         self.K = K
         self.sigma = sigma
@@ -55,10 +55,10 @@ class Rician:
         """Return the probability density function of the Rician distribution.
 
         Args:
-            x (float): The value at which to evaluate the probability density function.
+            x: The value at which to evaluate the probability density function.
 
         Returns:
-            pdf (float): The probability density function evaluated at x.
+            pdf: The probability density function evaluated at x.
         """
         return (
             (x / self.sigma**2)
@@ -70,10 +70,10 @@ class Rician:
         """Return the cumulative distribution function of the Rician distribution.
 
         Args:
-            x (float): The value at which to evaluate the cumulative distribution
+            x: The value at which to evaluate the cumulative distribution
 
         Returns:
-            cdf (ndarray): The cumulative distribution function evaluated at x.
+            cdf: The cumulative distribution function evaluated at x.
         """
         return stats.rice.cdf(x, self.nu / self.sigma)
 
@@ -81,7 +81,7 @@ class Rician:
         """Return the expected value of the Rician distribution.
 
         Returns:
-            expected_value (float): The expected value of the Rician distribution.
+            expected_value: The expected value of the Rician distribution.
         """
         arg = -self.nu**2 / (2 * self.sigma**2)
         return self.sigma * np.sqrt(np.pi / 2) * laguerre(arg, 1 / 2)
@@ -90,7 +90,7 @@ class Rician:
         """Return the variance of the Rician distribution.
 
         Returns:
-            variance (float): The variance of the Rician distribution.
+            variance: The variance of the Rician distribution.
         """
         arg = -self.nu**2 / (2 * self.sigma**2)
         return (
@@ -103,7 +103,7 @@ class Rician:
         """Return the RMS value of the Rician distribution.
 
         Returns:
-            rms (float): The RMS value of the Rician distribution.
+            rms: The RMS value of the Rician distribution.
         """
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
@@ -113,11 +113,10 @@ class Rician:
         """Generate random variables from the Rician distribution.
 
         Args:
-            size (int or tuple of ints): The number of random variables to generate.
+            size: The number of random variables to generate.
 
         Returns:
-            samples (array_like): An array of size `size` containing random variables from
-            the Rician distribution.
+            samples: An array of size `size` containing random variables from the Rician distribution.
         """
         return np.array(
             stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
@@ -129,11 +128,10 @@ class Rician:
         """Generate complex fading coefficients from the Rician distribution.
 
         Args:
-            size (int or tuple of ints): The number of channel coefficients to generate.
+            size: The number of channel coefficients to generate.
 
         Returns:
-            coefficients (array_like): An array of size `size` containing complex channel
-            coefficients from the Rician distribution.
+            coefficients: An array of size `size` containing complex channel coefficients from the Rician distribution.
         """
         mu = np.sqrt(self.K / (2 * (self.K + 1)))
         sigma = np.sqrt(1 / (2 * (self.K + 1)))

@@ -13,10 +13,10 @@ def db2pow(
     """Convert decibels to power.
 
     Args:
-        db (float or ndarray): Power in decibels.
+        db: Power in decibels.
 
     Returns:
-        pow (float or ndarray): Power.
+        pow: Power.
     """
     return 10 ** (db / 10)
 
@@ -27,10 +27,10 @@ def pow2db(
     """Convert power to decibels.
 
     Args:
-        power (float or ndarray): Power in watts.
+        power: Power in watts.
 
     Returns:
-        db (float or ndarray): Power in decibels.
+        db: Power in decibels.
     """
     return 10 * np.log10(power)
 
@@ -41,10 +41,10 @@ def dbm2pow(
     """Convert decibels relative to 1 milliwatt to power.
 
     Args:
-        dbm (float or ndarray): Power in decibels relative to 1 milliwatt.
+        dbm: Power in decibels relative to 1 milliwatt.
 
     Returns:
-        pow (float or ndarray): Power in watts.
+        pow: Power in watts.
     """
     return 10 ** ((dbm - 30) / 10)
 
@@ -55,10 +55,10 @@ def pow2dbm(
     """Convert power to decibels relative to 1 milliwatt.
 
     Args:
-        pow (float or ndarray): Power in watts.
+        pow: Power in watts.
 
     Returns:
-        dbm (float or ndarray): Power in decibels relative to 1 milliwatt.
+        dbm: Power in decibels relative to 1 milliwatt.
     """
     return 10 * np.log10(power * 1000)
 
@@ -67,12 +67,12 @@ def get_distance(pt1: List[Any], pt2: List[Any], dim: int = 2) -> float:
     """Calculate the Euclidean distance between two points.
 
     Args:
-        pt1 (list): First point as a list of [x, y] or [x, y, z] coordinates.
-        pt2 (list): Second point as a list of [x, y] or [x, y, z] coordinates.
-        dim (int): Dimension of the points. Default is 2.
+        pt1: First point as a list of [x, y] or [x, y, z] coordinates.
+        pt2: Second point as a list of [x, y] or [x, y, z] coordinates.
+        dim: Dimension of the points. Default is 2.
 
     Returns:
-        distance (float): Euclidean distance between the two points.
+        distance: Euclidean distance between the two points.
     """
     if dim == 2:
         return np.sqrt((pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2)
@@ -88,8 +88,8 @@ def rolling_mean(data: npt.NDArray[np.floating[Any]], window_size: int) -> List[
     """Compute the rolling mean of a curve.
 
     Args:
-        data (ndarray): The curve to filter.
-        window_size (int): The size of the window.
+        data: The curve to filter.
+        window_size: The size of the window.
 
     Returns:
         list: The filtered curve.
@@ -110,11 +110,11 @@ def randomize_user_pos(
     """Randomize the positions of the users in the network, except for the edge user.
 
     Args:
-        bs_pos (list): A list of the positions of the base stations.
-        user_pos (list): A list of the positions of the users.
-        edge_idx (int): The index of the edge user.
-        r_min (list): A list of minimum distances between the users and the base stations. Defaults to [30].
-        r_max (list): A list of maximum distances between the users and the base stations. Defaults to [100].
+        bs_pos: A list of the positions of the base stations.
+        user_pos: A list of the positions of the users.
+        edge_idx: The index of the edge user.
+        r_min: A list of minimum distances between the users and the base stations. Defaults to [30].
+        r_max: A list of maximum distances between the users and the base stations. Defaults to [100].
 
     Returns:
         list: A list of the positions of the users.
@@ -135,10 +135,10 @@ def qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
     """Compute the Q function.
 
     Args:
-        x (ndarray): Input to the Q function.
+        x: Input to the Q function.
 
     Returns:
-        qfunc (ndarray): The Q function.
+        qfunc: The Q function.
     """
     return 0.5 * sp.special.erfc(x / np.sqrt(2))
 
@@ -147,10 +147,10 @@ def inverse_qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
     """Inverse Q function.
 
     Args:
-        x (ndarray): Input to the inverse Q function.
+        x: Input to the inverse Q function.
 
     Returns:
-        inverse_qfunc (ndarray): The inverse Q function.
+        inverse_qfunc: The inverse Q function.
     """
     return np.sqrt(2) * sp.special.erfcinv(2 * x)
 
@@ -161,11 +161,11 @@ def laguerre(
     """Compute the Laguerre polynomial.
 
     Args:
-        x (float or ndarray): Input to the Laguerre polynomial.
-        n (float): The order of the Laguerre polynomial.
+        x: Input to the Laguerre polynomial.
+        n: The order of the Laguerre polynomial.
 
     Returns:
-        laguerre (float or ndarray): The Laguerre polynomial.
+        laguerre: The Laguerre polynomial.
     """
 
     if n == 0:
@@ -182,10 +182,10 @@ def wrapTo2Pi(theta: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[A
     """Wrap an angle to the interval [0, 2 * pi].
 
     Args:
-        theta (ndarray): The angle to wrap.
+        theta: The angle to wrap.
 
     Returns:
-        wrapped_theta (ndarray): The wrapped angle.
+        wrapped_theta: The wrapped angle.
     """
 
     return np.mod(theta, 2 * np.pi)

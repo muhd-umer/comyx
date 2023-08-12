@@ -10,38 +10,42 @@ class Transmitter(SystemObject):
     """A class representing a transmitter. Inherits from SystemObject. Transmitters contain an empty attribute for power allocation factors to be assigned to the cellular users.
 
     Args:
-        name (str): The name of the transmitter.
+        name: The name of the transmitter.
         position: The position of the transmitter in 2D or 3D space.
         transmit_power: The transmit power of the transmitter.
 
     Attributes:
-        name (str): Stores the name of the transmitter.
-        position (list): Stores the position of the transmitter in 2D or 3D space.
-        antenna_gain (float): Stores the gain of the transmitter's antenna.
-        losses (float): Stores the losses of the transmitter.
-        transmit_power (array_like): Stores the transmit power of the transmitter.
-        allocations (dict): Stores the power allocation factors assigned to the cellular users.
+        name: Stores the name of the transmitter.
+        position: Stores the position of the transmitter in 2D or 3D space.
+        antenna_gain: Stores the gain of the transmitter's antenna.
+        losses: Stores the losses of the transmitter.
+        transmit_power: Stores the transmit power of the transmitter.
+        allocations: Stores the power allocation factors assigned to the cellular users.
     """
 
     def __init__(
-        self, name: str, position: List[float], transmit_power: npt.ArrayLike
+        self,
+        name: str,
+        position: List[float],
+        transmit_power: npt.ArrayLike,
+        allocations: dict = {},
     ) -> None:
         """Initializes a Transmitter object with the given parameters.
 
         Args:
-            name (str): The name of the transmitter.
+            name: The name of the transmitter.
             position: The position of the transmitter in 2D or 3D space.
             transmit_power: The transmit power of the transmitter.
 
         Attributes:
-            name (str): The name of the transmitter.
-            position (list): The position of the transmitter in 2D or 3D space.
-            transmit_power (float): The transmit power of the transmitter.
-            allocations (dict): A dictionary of power allocations for the receivers.
+            name: The name of the transmitter.
+            position: The position of the transmitter in 2D or 3D space.
+            transmit_power: The transmit power of the transmitter.
+            allocations: A dictionary of power allocations for the receivers.
         """
         super().__init__(name, position)
         self.transmit_power = transmit_power
-        self.allocations = {}
+        self.allocations = allocations
 
     def set_allocation(self, receiver, allocation):
         """
@@ -125,6 +129,3 @@ class Transmitter(SystemObject):
                 modulated_data[i] = (2 * (symbol - n // 2) - n + 2) / np.sqrt(n)
 
         return modulated_data
-
-
-__all__ = ["Transmitter"]
