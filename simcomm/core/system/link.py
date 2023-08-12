@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import numpy.typing as npt
@@ -16,14 +16,15 @@ class LinkCollection:
     """Contains a collection of links accessible by name. Used to store all the channel coefficients and their corresponding types for the system under test.
 
     Args:
-        size (int): The size of the links.
-        frequency (float): The frequency of the carrier signal in Hz.
+        size: The size of the links.
+        frequency: The frequency of the carrier signal in Hz.
+        link_config: The configuration for the links.
 
     Attributes:
-        links (dict): A dictionary of links.
-        link_types (dict): A dictionary of link types.
-        size (int): The size of the links.
-        frequency (float): The frequency of the carrier signal in Hz.
+        links: A dictionary of links.
+        link_types: A dictionary of link types.
+        size: The size of the links.
+        frequency: The frequency of the carrier signal in Hz.
     """
 
     def __init__(
@@ -31,12 +32,11 @@ class LinkCollection:
         size: int,
         frequency: float,
     ):
-        """
-        Initializes a new instance of the LinkCollection class.
+        """Initializes a new instance of the LinkCollection class.
 
         Args:
-            size (int): The size of the links.
-            frequency (float): The frequency of the carrier signal in Hz.
+            size: The size of the links.
+            frequency: The frequency of the carrier signal in Hz.
         """
         self.links = {}
         self.link_types = {}
@@ -50,27 +50,43 @@ class LinkCollection:
         fading_args: dict,
         pathloss_args: dict,
         type: str,
-        elements: Union[int, None] = None,
     ) -> None:
-        """
-        Adds a link to the collection.
+        """Adds a link to the collection.
 
         Args:
-            transmitter (SystemObject): The transmitter object.
-            receiver (SystemObject): The receiver object.
-            fading_args (dict): The arguments for the fading model.
-            pathloss_args (dict): The arguments for the pathloss model.
-            type (str): The type of link. Can be "1,c", "2,c", "f", "ris", or "dne".
-            elements (int, optional): The number of elements in the RIS. Defaults to None.
+            transmitter: The transmitter object.
+            receiver: The receiver object.
+            fading_args: The arguments for the fading model.
+            pathloss_args: The arguments for the pathloss model.
+            type: The type of link. Can be "1,c", "2,c", "f", "ris,f", "ris,atb1", "ris,atb2", or "dne".
         """
-        assert type in ["1,c", "2,c", "f", "ris", "dne"], "Invalid link type."
+        assert type in [
+            "1,c",
+            "2,c",
+            "f",
+            "ris,f",
+            "ris,b1",
+            "ris,b2",
+            "i,c",
+            "dne",
+        ], "Invalid link type."
 
         no_link = False
-        if type == "ris":
-            assert (
-                elements is not None
-            ), "Number of elements must be specified for RIS links."
-            link_size = (elements, self.size, 1)
+        if type == "ris,f":
+            assert hasattr(
+                transmitter, "elements"
+            ), "Transmitter must have an 'elements' attribute for RIS links."
+            link_size = (transmitter.elements, self.size, 1)  # type: ignore
+        elif type == "ris,atb1":
+            assert hasattr(
+                transmitter, "assignments"
+            ), "Transmitter must have an 'assignments' attribute for RIS links."
+            link_size = (transmitter.assignments["BS1"], self.size, 1)  # type: ignore
+        elif type == "ris,atb2":
+            assert hasattr(
+                transmitter, "assignments"
+            ), "Transmitter must have an 'elements' attribute for RIS links."
+            link_size = (transmitter.assignments["BS2"], self.size, 1)  # type: ignore
         elif type == "dne":
             no_link = True
             link_size = (self.size, 1)
@@ -93,15 +109,14 @@ class LinkCollection:
         transmitter: SystemObject,
         receiver: SystemObject,
     ) -> npt.NDArray[np.complexfloating[Any, Any]]:
-        """
-        Gets the channel between a transmitter and receiver.
+        """Gets the channel between a transmitter and receiver.
 
         Args:
-            transmitter (SystemObject): The transmitter object.
-            receiver (SystemObject): The receiver object.
+            transmitter: The transmitter object.
+            receiver: The receiver object.
 
         Returns:
-            link (ndarray): The channel between the transmitter and receiver.
+            The channel between the transmitter and receiver.
         """
 
         return self.links[transmitter.name, receiver.name].coefficients
@@ -109,28 +124,26 @@ class LinkCollection:
     def get_gain(
         self, transmitter: SystemObject, receiver: SystemObject
     ) -> npt.NDArray[np.floating[Any]]:
-        """
-        Gets the gain between a transmitter and receiver.
+        """Gets the gain between a transmitter and receiver.
 
         Args:
-            transmitter (SystemObject): The transmitter object.
-            receiver (SystemObject): The receiver object.
+            transmitter: The transmitter object.
+            receiver: The receiver object.
 
         Returns:
-            gain (ndarray): The gain between the transmitter and receiver.
+            The gain between the transmitter and receiver.
         """
         return np.abs(self.links[transmitter.name, receiver.name].coefficients) ** 2
 
     def get_link_type(self, transmitter: SystemObject, receiver: SystemObject) -> str:
-        """
-        Gets the type of link between a transmitter and receiver.
+        """Gets the type of link between a transmitter and receiver.
 
         Args:
-            transmitter (SystemObject): The transmitter object.
-            receiver (SystemObject): The receiver object.
+            transmitter: The transmitter object.
+            receiver: The receiver object.
 
         Returns:
-            link_type (str): The type of link between the transmitter and receiver.
+            The type of link between the transmitter and receiver.
         """
         return self.link_types[transmitter.name, receiver.name]
 
@@ -140,13 +153,12 @@ class LinkCollection:
         receiver: SystemObject,
         value: npt.NDArray[np.floating[Any]],
     ) -> None:
-        """
-        Combines a value with the channel between a transmitter and receiver.
+        """Combines a value with the channel between a transmitter and receiver.
 
         Args:
-            transmitter (SystemObject): The transmitter object.
-            receiver (SystemObject): The receiver object.
-            value (ndarray): The value to combine with the channel.
+            transmitter: The transmitter object.
+            receiver: The receiver object.
+            value: The value to combine with the channel.
 
         Returns:
             None
@@ -161,9 +173,8 @@ class LinkCollection:
             value * np.exp(1j * phase)
         )
 
-    def __str__(self):
-        """
-        Returns a string representation of the LinkCollection.
+    def __str__(self) -> str:
+        """Returns a string representation of the LinkCollection.
 
         Returns:
             A string representation of the LinkCollection. Displays links as "Transmitter

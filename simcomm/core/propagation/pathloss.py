@@ -16,9 +16,9 @@ def get_pathloss(
     """Get path loss in dB.
 
     Args:
-        type (str): Path loss model type. ("free-space", "log-distance")
-        distance (float): Distance between transmitter and receiver.
-        frequency (float): Frequency of the signal.
+        type: Path loss model type. ("free-space", "log-distance")
+        distance: Distance between transmitter and receiver.
+        frequency: Frequency of the signal.
         *args: Positional arguments for the path loss model.
         **kwargs: Keyword arguments for the path loss model.
 
@@ -26,13 +26,13 @@ def get_pathloss(
         Path loss in dB.
 
     - FSPL Args:
-        - alpha (float): Path loss exponent.
-        - p0 (float): Reference path loss at 1m.
+        - alpha: Path loss exponent.
+        - p0: Reference path loss at 1m.
 
     - Log Distance Args:
-        - d0 (float): The breakpoint distance.
-        - alpha (float): The path loss exponent.
-        - sigma (float): The shadow fading standard deviation.
+        - d0: The breakpoint distance.
+        - alpha: The path loss exponent.
+        - sigma: The shadow fading standard deviation.
 
     """
     if type == "free-space":
@@ -51,12 +51,12 @@ def free_space(
     """Free space path loss model.
 
     Args:
-        distance (float): Distance between transmitter and receiver.
-        alpha (float): Path loss exponent.
-        p0 (float): Reference path loss at 1m.
+        distance: Distance between transmitter and receiver.
+        alpha: Path loss exponent.
+        p0: Reference path loss at 1m.
 
     Returns:
-        loss (array_like): Path loss in dB.
+        loss: Path loss in dB.
     """
     loss = pow2db(distance**alpha) + p0
     return np.array(loss)
@@ -66,11 +66,11 @@ def friis(distance: float, frequency: float) -> npt.NDArray[np.floating[Any]]:
     """Friis path loss model.
 
     Args:
-        distance (float): Distance between transmitter and receiver.
-        frequency (float): Frequency of the signal.
+        distance: Distance between transmitter and receiver.
+        frequency: Frequency of the signal.
 
     Returns:
-        loss (float): Path loss in dB.
+        loss: Path loss in dB.
     """
     lambda_ = 3e8 / frequency
     loss = 20 * np.log10(4 * np.pi * distance / lambda_)
@@ -83,14 +83,14 @@ def log_distance(
     """Log distance path loss model.
 
     Args:
-        distance (float): Distance between transmitter and receiver.
-        frequency (float): Frequency of the signal.
-        d0 (float): Break distance.
-        alpha (float): Path loss exponent.
-        sigma (float): Shadow fading standard deviation.
+        distance: Distance between transmitter and receiver.
+        frequency: Frequency of the signal.
+        d0: Break distance.
+        alpha: Path loss exponent.
+        sigma: Shadow fading standard deviation.
 
     Returns:
-        loss (float): Path loss in dB.
+        loss: Path loss in dB.
     """
     lambda_ = 3e8 / frequency
     loss_break = 20 * np.log10(4 * np.pi * d0 / lambda_)

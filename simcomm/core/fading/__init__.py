@@ -10,19 +10,18 @@ from .rician import Rician
 def get_rvs(
     type: str, shape: Union[int, Tuple[int, ...]], *args, **kwargs
 ) -> npt.NDArray[np.floating[Any]]:
-    """
-    Generates random variables from a distribution.
+    """Generates random variables from a distribution.
 
     Args:
-        type (str): The type of the fading. ("rayleigh", "rician")
-        shape (int or tuple of ints): The number of fading coefficients to generate.
+        type: The type of the fading. ("rayleigh", "rician")
+        shape: The number of fading coefficients to generate.
 
     Rayleigh Args:
-        sigma (float): The scale parameter of the Rayleigh distribution.
+        sigma: The scale parameter of the Rayleigh distribution.
 
     Rician Args:
-        K (float): Rician K-factor in dB.
-        sigma (float): The scale parameter of the Rician distribution.
+        K: Rician K-factor in dB.
+        sigma: The scale parameter of the Rician distribution.
 
     Returns:
         Channel gains.

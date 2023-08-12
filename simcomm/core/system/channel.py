@@ -16,50 +16,49 @@ class Channel:
     """A class representing a wireless channel. Used to generate channel coefficients. Also allows for the addition of external coefficients.
 
     Args:
-        transmitter (SystemObject): The transmitter object.
-        receiver (SystemObject): The receiver object.
-        frequency (float): The frequency of the channel.
-        fading_args (dict): The arguments for the fading model.
-        pathloss_args (dict): The arguments for the pathloss model.
-        shape (tuple): The number of channel gains to generate.
-        no_link (bool): If True, the complex fading is zero.
-
+        transmitter: The transmitter object.
+        receiver: The receiver object.
+        frequency: The frequency of the channel.
+        fading_args: The arguments for the fading model.
+        pathloss_args: The arguments for the pathloss model.
+        shape: The number of channel gains to generate.
+        no_link: If True, the complex fading is zero.
 
     Attributes:
-        transmitter (SystemObject): Stores the transmitter object.
-        receiver (SystemObject): Stores the receiver object.
-        frequency (float): Stores the frequency of the channel.
-        fading_args (dict): Stores the arguments for the fading model.
-        pathloss_args (dict): Stores the arguments for the pathloss model.
-        shape (tuple): Stores the shape of the channel coefficients.
-        distance (float): Stores the distance between the transmitter and receiver.
-        pathloss (float): Stores the pathloss between the transmitter and receiver.
-        ext_coefficients (array_like): Stores the external coefficients of the channel.
-        coefficients (array_like): Stores the channel coefficients.
+        transmitter: Stores the transmitter object.
+        receiver: Stores the receiver object.
+        frequency: Stores the frequency of the channel.
+        fading_args: Stores the arguments for the fading model.
+        pathloss_args: Stores the arguments for the pathloss model.
+        shape: Stores the shape of the channel coefficients.
+        distance: Stores the distance between the transmitter and receiver.
+        pathloss: Stores the pathloss between the transmitter and receiver.
+        ext_coefficients: Stores the external coefficients of the channel.
+        coefficients: Stores the channel coefficients.
 
     - Fading Args:
-        - type (str): The type of fading model to use.
-        - shape (int): The number of channel gains to generate.
-        - ret (str): The return type, either "gains" or "coefficients".
+        - type: The type of fading model to use.
+        - shape: The number of channel gains to generate.
+        - ret: The return type, either "gains" or "coefficients".
 
         - Rayleigh Fading Args:
-            - sigma (float): The scale factor of the Rayleigh distribution.
+            - sigma: The scale factor of the Rayleigh distribution.
 
         - Rician Fading Args:
-            - K (float): The K factor of the Rician distribution.
-            - sigma (float): The scale factor of the Rician distribution.
+            - K: The K factor of the Rician distribution.
+            - sigma: The scale factor of the Rician distribution.
 
     - Pathloss Args:
-        - type (str): The type of pathloss model to use.
+        - type: The type of pathloss model to use.
 
         - FSPL Args:
-            - alpha (float): The pathloss exponent.
-            - p0 (float): The reference pathloss at 1m.
+            - alpha: The pathloss exponent.
+            - p0: The reference pathloss at 1m.
 
         - Log Distance Args:
-            - alpha (float): The pathloss exponent.
-            - d0 (float): The breakpoint distance.
-            - sigma (float): The standard deviation of the shadowing.
+            - alpha: The pathloss exponent.
+            - d0: The breakpoint distance.
+            - sigma: The standard deviation of the shadowing.
     """
 
     def __init__(
@@ -75,37 +74,37 @@ class Channel:
         """Initializes the channel object.
 
         Args:
-        transmitter (SystemObject): The transmitter object.
-        receiver (Receiver): The receiver object.
-        frequency (float): The frequency of the channel.
-        fading_args (dict): The arguments for the fading model.
-        pathloss_args (dict): The arguments for the pathloss model.
-        shape (tuple): The number of channel gains to generate.
-        no_link (bool): If True, the complex fading is zero.
+            transmitter: The transmitter object.
+            receiver: The receiver object.
+            frequency: The frequency of the channel.
+            fading_args: The arguments for the fading model.
+            pathloss_args: The arguments for the pathloss model.
+            shape: The number of channel gains to generate.
+            no_link: If True, the complex fading is zero.
 
         Fading Args:
-            type (str): The type of fading model to use.
-            shape (int): The number of channel gains to generate.
-            ret (str): The return type, either "gains" or "coefficients".
+            type: The type of fading model to use.
+            shape: The number of channel gains to generate.
+            ret: The return type, either "gains" or "coefficients".
 
             Rayleigh Fading Args:
-                sigma (float): The scale factor of the Rayleigh distribution.
+                sigma: The scale factor of the Rayleigh distribution.
 
             Rician Fading Args:
-                K (float): The K factor of the Rician distribution.
-                sigma (float): The scale factor of the Rician distribution.
+                K: The K factor of the Rician distribution.
+                sigma: The scale factor of the Rician distribution.
 
         Pathloss Args:
-            type (str): The type of pathloss model to use.
+            type: The type of pathloss model to use.
 
             FSPL Args:
-                alpha (float): The pathloss exponent.
-                p0 (float): The reference pathloss at 1m.
+                alpha: The pathloss exponent.
+                p0: The reference pathloss at 1m.
 
             Log Distance Args:
-                alpha (float): The pathloss exponent.
-                d0 (float): The breakpoint distance.
-                sigma (float): The standard deviation of the shadowing.
+                alpha: The pathloss exponent.
+                d0: The breakpoint distance.
+                sigma: The standard deviation of the shadowing.
         """
         self.transmitter = transmitter
         self.receiver = receiver
@@ -122,8 +121,7 @@ class Channel:
         self.generate_channel()
 
     def generate_channel(self) -> None:
-        """
-        Generates the channel coefficients from the multipath fading and pathloss values.
+        """Generates the channel coefficients from the multipath fading and pathloss values.
 
         Returns:
             None
@@ -137,16 +135,12 @@ class Channel:
             self.coefficients = np.zeros(self.shape, dtype=np.complex128)
 
     def update_channel(self, value) -> None:
-        """
-        Updates the channel coefficients from the multipath fading and pathloss values.
+        """Updates the channel coefficients from the multipath fading and pathloss values.
 
         Args:
-            value (array_like): The value to add to the channel coefficients.
+            value: The value to add to the channel coefficients.
 
         Returns:
             None
         """
         self.coefficients += value
-
-
-__all__ = ["Channel"]

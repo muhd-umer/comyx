@@ -14,13 +14,13 @@ def plot_network(
     """Plot the layout of the network.
 
     Args:
-        area (float): The area of the network.
-        radius (float): The radius of the network.
-        bs_pos (list): The positions of the base stations.
-        user_pos (list): The positions of the users.
-        ris_pos (list, optional): The positions of the RIS elements. Defaults to None.
-        save (bool, optional): Whether to save the plot. Defaults to False.
-        save_path (str, optional): The path to save the plot. Defaults to None.
+        area: The area of the network.s
+        radius: The radius of the network.
+        bs_pos: The positions of the base stations.
+        user_pos: The positions of the users.
+        ris_pos: The positions of the RIS elements. Defaults to None.
+        save: Whether to save the plot. Defaults to False.
+        save_path: The path to save the plot. Defaults to None.
 
     Returns:
         None
