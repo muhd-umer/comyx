@@ -96,11 +96,12 @@ html_theme_options = {
     "footer_start": ["copyright"],
     "navbar_start": ["navbar-logo"],
     "navbar_align": "left",
-    "navbar_center": ["navbar-nav", "version-switcher"],
-    "switcher": {
-        "json_url": json_url,
-        "version_match": version_match,
-    },
+    # "navbar_center": ["navbar-nav", "version-switcher"],z
+    "navbar_center": ["navbar-nav"],
+    # "switcher": {
+    #     "json_url": json_url,
+    #     "version_match": version_match,
+    # },
     "show_toc_level": 3,
     "show_nav_level": 3,
 }
