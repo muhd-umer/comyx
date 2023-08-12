@@ -66,13 +66,15 @@ html_css_files = [
     "simcomm.css",
 ]
 
-json_url = "https://raw.githubusercontent.com/muhd-umer/simcomm/main/docs/source/_static/switcher.json"
+# json_url = "https://raw.githubusercontent.com/muhd-umer/simcomm/main/docs/source/_static/switcher.json"
 
-if "dev" in release or "rc" in release:
-    version_match = "dev"
-    json_url = "_static/switcher.json"
-else:
-    version_match = "v" + release
+# if "dev" in release or "rc" in release:
+#     version_match = "dev"
+#     json_url = "_static/switcher.json"
+# else:
+#     version_match = "v" + release
+
+version_match = "v" + release
 
 html_theme_options = {
     "icon_links": [
