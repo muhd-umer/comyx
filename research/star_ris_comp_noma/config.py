@@ -35,38 +35,60 @@ Rician K Factors:
 
 environment = {
     "positions": {
-        "BS1": [-50, 0, 25],
-        "BS2": [50, 0, 25],
-        "RIS": [0, 25, 5],
-        "Uf": [0, 35, 1],
-        "U1c": [-40, 18, 1],
-        "U2c": [30, 22, 1],
+        "BS1": [-50, 0, 25],  # BS1 position
+        "BS2": [50, 0, 25],  # BS2 position
+        "RIS": [0, 25, 5],  # RIS position
+        "Uf": [0, 35, 1],  # Uf position
+        "U1c": [-40, 18, 1],  # U1c position
+        "U2c": [30, 22, 1],  # U2c position
     },
     "fading": {
-        "rayleigh": {"type": "rayleigh", "sigma": 1},
-        "ricianE": {"type": "rician", "K": 5, "sigma": 1},
-        "ricianC": {"type": "rician", "K": 3, "sigma": 1},
+        "rayleigh": {"type": "rayleigh", "sigma": 1},  # Rayleigh fading
+        "ricianE": {
+            "type": "rician",
+            "K": 5,
+            "sigma": 1,
+        },  # Rician fading for edge users
+        "ricianC": {
+            "type": "rician",
+            "K": 3,
+            "sigma": 1,
+        },  # Rician fading for center users
     },
     "pathloss": {
-        "center": {"type": "free-space", "alpha": 3, "p0": 30},
-        "ris": {"type": "free-space", "alpha": 3, "p0": 30},
-        "risOC": {"type": "free-space", "alpha": 2.7, "p0": 30},
-        "risOE": {"type": "free-space", "alpha": 2.3, "p0": 30},
-        "edge": {"type": "free-space", "alpha": 3.5, "p0": 30},
-        "inter": {"type": "free-space", "alpha": 4, "p0": 30},
+        "center": {"type": "free-space", "alpha": 3, "p0": 30},  # Center users
+        "ris": {"type": "free-space", "alpha": 3, "p0": 30},  # BS to RIS
+        "risC": {"type": "free-space", "alpha": 2.7, "p0": 30},  # RIS to center users
+        "risE": {"type": "free-space", "alpha": 2.3, "p0": 30},  # RIS to edge user
+        "edge": {"type": "free-space", "alpha": 3.5, "p0": 30},  # Edge users
+        "inter": {"type": "free-space", "alpha": 4, "p0": 30},  # Interference links
     },
 }
 
 setting = {
     "ris32": {
-        "ris_enhanced": True,
+        "ris_enhanced": True,  # RIS with 32 elements
         "ris_elements": 32,
+        "comp_enabled": True,  # CoMP enabled
     },
     "no_ris": {
-        "ris_enhanced": False,
+        "ris_enhanced": False,  # No RIS
+        "comp_enabled": True,  # CoMP enabled"
     },
     "ris70": {
-        "ris_enhanced": True,
+        "ris_enhanced": True,  # RIS with 70 elements
         "ris_elements": 70,
+        "comp_enabled": True,  # CoMP enabled
     },
+    "no_ris_non_comp": {
+        "ris_enhanced": False,  # No RIS
+        "comp_enabled": False,  # CoMP disabled
+    },
+}
+
+constants = {
+    "BANDWIDTH": 1e6,  # Bandwidth in Hz
+    "TEMP": 300,  # Temperature in Kelvin
+    "FREQ": 2.4e9,  # Frequency of carrier signal in Hz
+    "SIGMA": 6.32,  # Shadowing standard deviation in dB
 }
