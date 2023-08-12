@@ -28,7 +28,7 @@ class Rayleigh:
         A NumPy array of complex numbers representing the fading coefficients.
 
     Attributes:
-        sigma (float): The scale parameter of the Rayleigh distribution.
+        sigma: The scale parameter of the Rayleigh distribution.
 
     Reference:
         https://en.wikipedia.org/wiki/Rayleigh_distribution
@@ -38,7 +38,7 @@ class Rayleigh:
         """Initializes a Rayleigh distribution with the given scale parameter.
 
         Args:
-            sigma (float): The scale parameter of the Rayleigh distribution.
+            sigma: The scale parameter of the Rayleigh distribution.
         """
         self.sigma = sigma
 
@@ -46,10 +46,10 @@ class Rayleigh:
         """Returns the probability density function of the Rayleigh distribution.
 
         Args:
-            x (float): The input value.
+            x: The input value.
 
         Returns:
-            pdf (float): The probability density function value at x.
+            pdf: The probability density function value at x.
         """
         return (x / self.sigma**2) * np.exp(-(x**2) / (2 * self.sigma**2))
 
@@ -57,10 +57,10 @@ class Rayleigh:
         """Returns the cumulative distribution function of the Rayleigh distribution.
 
         Args:
-            x (float): The input value.
+            x: The input value.
 
         Returns:
-            cdf (float): The cumulative distribution function value at x.
+            cdf: The cumulative distribution function value at x.
         """
         return 1 - np.exp(-(x**2) / (2 * self.sigma**2))
 
@@ -68,7 +68,7 @@ class Rayleigh:
         """Calculates the expected value of the Rayleigh distribution.
 
         Returns:
-            expected_value (float): The expected value of the Rayleigh distribution.
+            expected_value: The expected value of the Rayleigh distribution.
         """
         return self.sigma * np.sqrt(np.pi / 2)
 
@@ -76,7 +76,7 @@ class Rayleigh:
         """Calculates the variance of the Rayleigh distribution.
 
         Returns:
-            variance (float): The variance of the Rayleigh distribution.
+            variance: The variance of the Rayleigh distribution.
         """
         return (2 - np.pi / 2) * self.sigma**2
 
@@ -84,7 +84,7 @@ class Rayleigh:
         """Calculates the RMS value of the Rayleigh distribution.
 
         Returns:
-            rms (float): The RMS value of the Rayleigh distribution.
+            rms: The RMS value of the Rayleigh distribution.
         """
         return np.sqrt(2) * self.sigma
 
@@ -95,10 +95,10 @@ class Rayleigh:
         """Generates random variables from the Rayleigh distribution.
 
         Args:
-            size (int or tuple of ints): The number of random variables to generate.
+            size: The number of random variables to generate.
 
         Returns:
-            samples (array_like): An array of size `size` containing random variables from the Rayleigh distribution.
+            samples: An array of size `size` containing random variables from the Rayleigh distribution.
         """
         return np.array(stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size))
 
@@ -108,10 +108,10 @@ class Rayleigh:
         """Generates complex channel coefficients from the Rayleigh distribution.
 
         Args:
-            size (int or tuple of ints): The number of channel coefficients to generate.
+            size: The number of channel coefficients to generate.
 
         Returns:
-            coefficients (array_like): An array of size `size` containing complex channel coefficients from the Rayleigh distribution.
+            coefficients: An array of size `size` containing complex channel coefficients from the Rayleigh distribution.
         """
         return np.array(
             stats.norm.rvs(scale=self.sigma, size=size)

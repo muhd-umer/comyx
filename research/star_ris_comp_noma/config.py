@@ -59,21 +59,14 @@ environment = {
 
 setting = {
     "ris32": {
-        "ris_elements": 32,
         "ris_enhanced": True,
-        "bs1_uf_link": "f",
-        "bs2_uf_link": "f",
+        "ris_elements": 32,
     },
     "no_ris": {
-        "ris_elements": 32,
         "ris_enhanced": False,
-        "bs1_uf_link": "f",
-        "bs2_uf_link": "f",
     },
     "ris70": {
-        "ris_elements": 70,
         "ris_enhanced": True,
-        "bs1_uf_link": "f",
-        "bs2_uf_link": "f",
+        "ris_elements": 70,
     },
 }
