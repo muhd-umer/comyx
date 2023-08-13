@@ -169,7 +169,7 @@ class STAR(SystemObject):
         transmitter: Union[SystemObject, List[SystemObject]],
         receiver: SystemObject,
     ) -> None:
-        """Updates the link between the SystemObject and SystemObject with combined channel. Expects the arguments to be in the order as link is defined.
+        """Updates the link between the transmitter and receiver with combined channel. Expects the arguments to be in the order as link is defined.
 
         Args:
             links: The collection of links in the system.
