@@ -41,7 +41,7 @@
 - **B5G Features**: SimComm supports a variety of B5G specific features, including STAR-RIS, and NOMA.
 - **Channel Models**: SimComm supports including AWGN, Rayleigh fading, and Rician fading.
 - **Signal Models**: SimComm supports a variety of signal models, including BPSK, QPSK, and QAM.
-- **Performance Metrics**: SimComm can calculate a variety of performance metrics, including sum rate, outage probability.
+- **Performance Metrics**: SimComm can calculate a variety of performance metrics, including sum rate, and outage probability.
 
 ## To-Do
 - [ ] Update documentation
