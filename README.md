@@ -26,7 +26,7 @@
         <img src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?flat&logo=PyTorch&logoColor=white" /></a>
 </p> -->
 
-# SimComm: Cellular Network Simulator
+# SimComm: Wireless Network Simulator
 [![build](https://github.com/muhd-umer/simcomm/workflows/build/badge.svg)](https://github.com/muhd-umer/simcomm/actions?query=workflow:"build")
 [![GitHub release](https://img.shields.io/github/release/muhd-umer/simcomm?include_prereleases=&sort=semver&color=blue)](https://github.com/muhd-umer/simcomm/releases/)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat)](#license)
