@@ -13,6 +13,13 @@
 \setlength{\tabcolsep}{10pt}
 \renewcommand{\arraystretch}{1.45}
 
+\newcommand\nnfootnote[1]{%
+  \begin{NoHyper}
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \end{NoHyper}
+}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -20,6 +27,12 @@
 \title{Performance Analysis of STAR-RIS Enhanced CoMP-NOMA Multi-Cell Networks}
 
 \author{
+    % \IEEEauthorblockN{
+    %     Muhammad Umer\IEEEauthorrefmark{1}\textsuperscript{\textsection},
+    %     Muhammad Ahmed Mohsin\IEEEauthorrefmark{1}\textsuperscript{\textsection},
+    %     Syed Ali Hassan\IEEEauthorrefmark{1},
+    %     Haejoon Jung\IEEEauthorrefmark{2},
+    %     and Haris Pervaiz\IEEEauthorrefmark{3}}
     \IEEEauthorblockN{
         Muhammad Umer\IEEEauthorrefmark{1},
         Muhammad Ahmed Mohsin\IEEEauthorrefmark{1},
@@ -45,6 +58,10 @@
 Reconfigurable intelligent surfaces (RISs) offer a promising solution for enhancing spectral efficiency (SE) and coverage in sixth-generation (6G) wireless networks~\cite{wu2019towards, di2020smart}. They are essentially a 2-D metasurface equipped with low-cost, eco-friendly passive elements. Being passive in nature, these devices can enhance signal coverage by adjusting both phase and amplitude so that the signals are combined constructively at the desired receiver. Their passive behavior promotes green internet in digital ecosystems, providing higher data rates and spectral efficiency while being cost-effective. RIS only passively recycles signals that are already part of the wireless network. Despite its advantage of improving the data rates and signal coverage, these surfaces impose a problem called the half-space problem, which requires that the impinging signal and the user must be located on the same side of RIS, introducing additional constraints to the system, as in~\cite{hou2021joint}.
 
 To overcome this limitation, recent research in developing metasurfaces and advanced fabrication technologies led to a novel idea of simultaneously transmitting and reflecting RIS (STAR-RIS), which divides its elements so that some take part in reflection and the rest in transmission. STAR-RIS can enhance the non-line-of-sight (NLoS) coverage of the impinging signal by providing a virtual line-of-sight path by establishing links to both surfaces, which can solve the half-space problem.
+% \begingroup\renewcommand\thefootnote{\textsection}
+% \makeatletter\def\Hy@Warning#1{}\makeatother
+% \footnotetext{These authors contributed equally.}
+% \endgroup
 
 The quest for improved performance in cellular networks has prompted the deployment of numerous low-power, cost-effective, and compact (BSs). However, this proliferation has given rise to a formidable cross-tier inter-cell interference (ICI) obstacle, which hinders further advancements. Furthermore, the substantial power consumption resulting from the dense BS deployment presents a pressing challenge.
 
@@ -147,11 +164,11 @@ where $\textbf{H}_{1, f}$ and $\textbf{H}_{2, f}$ represent the combined channel
 \subsection{Outage Probability Analysis}
 To further investigate the efficacy of strategically placing the STAR-RIS in improving the system performance, we analyze the outage probability experienced by cellular users. Following the principles of NOMA, $\forall i \in \mathcal{I}$, $c \in \mathcal{C}$, and $f \in \mathcal{F}$, if U$_{i,c}$ cannot decode $x_f$, or is capable of decoding $x_f$ but not $x_{i,c}$, an outage occurs, the probability of which is expressed as~\cite{9856598}:
 \begin{multline}
-    P_{i,c} = \text{Pr}\,(\gamma_{i,c \rightarrow f} < \gamma_{th_f}) \\ + \text{Pr}\,(\gamma_{i,c \rightarrow f} > \gamma_{th_f}, \gamma_{c} < \gamma_{th_{c}}),
+    \mathcal{P}_{i,c} = \text{Pr}\,(\gamma_{i,c \rightarrow f} < \gamma_{th_f}) \\ + \text{Pr}\,(\gamma_{i,c \rightarrow f} > \gamma_{th_f}, \gamma_{c} < \gamma_{th_{c}}),
 \end{multline}
 where $\gamma_{th_f}$ and $\gamma_{th_{c}}$ represent the outage thresholds for U$_f$ and U$_{i,c}$, respectively. Similarly, with regards to U$_f$, an outage occurs when it fails to decode x$_f$, and the corresponding outage probability is expressed as:
 \begin{equation}
-    P_{f}=\text{Pr}\,(\gamma_{f}<\gamma_{th_f}).
+    \mathcal{P}_{f}=\text{Pr}\,(\gamma_{f}<\gamma_{th_f}).
 \end{equation}
 
 \subsection{Problem Formulation}
@@ -254,6 +271,10 @@ In Fig. \ref{fig:se_vs_ee}, we present the evaluation of the trade-off between s
 
 \section{Conclusion}
 In this paper, we present a novel approach for STAR-RIS CoMP-NOMA networks, aiming to maximize data rates and improve outage conditions for all cellular users. By thoroughly optimizing STAR-RIS resources, this study effectively harnesses the synergies between STAR-RIS and CoMP-NOMA networks, resulting in elevated data rates and expanded data coverage. An essential aspect of our investigation is including the cell-edge user within NOMA pairs formed by each BS, leading to higher diversity gains. The outcomes of this study pave the way for potential future research directions, including exploring the proposed approach's scalability and adaptability to large-scale networks and diverse communication scenarios. Moreover, future extensions of this work include advanced optimization techniques, such as deep reinforcement learning, to address resource allocation challenges for future research endeavors.
+
+\section*{Acknowledgement}
+The first two authors, M. Umer and M. A. Mohsin, contributed equally to this
+paper. The work of H. Jung was supported by the Korea government (Ministry of Science and ICT) in part under the National Research Foundation of Korea (NRF) grants (NRF-2022R1A4A3033401, NRF-2022R1F1A1065367, NRF-2021M1A2A2061357) and in part under the ITRC support programs (IITP-2023-2021-0-02046) and in part under the Convergence security core talent training business support program (IITP-2023-RS-2023-00266615) supervised by the IITP.
 
 \bibliographystyle{ieeetr}
 \bibliography{references/ref}
