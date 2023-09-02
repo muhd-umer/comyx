@@ -36,12 +36,12 @@
 [![Numba](https://img.shields.io/badge/Numba-009ed9?style=flat&logo=numba&logoColor=white)](https://numba.pydata.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?flat&logo=PyTorch&logoColor=white)](https://pytorch.org/)
 
-**SimComm** is a Python library for simulating wireless communication systems. It uses **NumPy** and **SciPy** for numerical computation, and **Numba** for just-in-time (JIT) compilation. It provides a number of features for simulating wireless communication systems, such as:
+**SimComm** is a Python library for simulating wireless communication systems. It uses **NumPy** and **SciPy** for numerical computation, and **Numba** for just-in-time (JIT) compilation. It provides a number of features for simulating wireless communication systems:
 
-- **B5G Features**: SimComm supports a variety of B5G specific features, including STAR-RIS, and NOMA.
-- **Channel Models**: SimComm supports including AWGN, Rayleigh fading, and Rician fading.
-- **Signal Models**: SimComm supports a variety of signal models, including BPSK, QPSK, and QAM.
-- **Performance Metrics**: SimComm can calculate a variety of performance metrics, including sum rate, and outage probability.
+- **B5G Features**: SimComm supports a variety of B5G specific features, such as STAR-RIS, and NOMA.
+- **Channel Models**: SimComm supports fading models such as AWGN, Rayleigh, and Rician.
+- **Signal Models**: SimComm supports a variety of signal models, such as BPSK, QPSK, and QAM.
+- **Performance Metrics**: SimComm can calculate a variety of performance metrics, such as sum rate, and outage probability.
 
 ## To-Do
 - [ ] Update documentation
