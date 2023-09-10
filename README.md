@@ -51,7 +51,7 @@
 ## Installation
 You can install the latest version of the package using pip:
 ```shell
-$ pip install simcomm
+pip install simcomm
 ```
 
 *Note: It is recommended to create a new virtual environment so that updates/downgrades of packages do not break other projects.*
@@ -59,8 +59,8 @@ $ pip install simcomm
 Or you can clone the repository along with research code and perform an editable installation:
 
 ```shell
-$ git clone https://github.com/muhd-umer/simcomm.git
-$ pip install -e .
+git clone https://github.com/muhd-umer/simcomm.git
+pip install -e .
 ```
 
 **Advanced Dependencies**
@@ -69,14 +69,14 @@ $ pip install -e .
 
 - Install PyTorch (Stable):
 ```shell
-$ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
 - Install Ray for Reinforcement Learning:
 ```shell
-$ pip install ray[default]
-$ pip install ray[air]
-$ pip install ray[tune]
-$ pip install ray[rllib]
-$ pip install ray[serve]
+pip install ray[default]
+pip install ray[air]
+pip install ray[tune]
+pip install ray[rllib]
+pip install ray[serve]
 ```
