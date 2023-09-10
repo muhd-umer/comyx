@@ -54,22 +54,18 @@ You can install the latest version of the package using pip:
 $ pip install simcomm
 ```
 
-Or you can clone the repository and install the package locally in a virtual environment:
+*Note: It is recommended to create a new virtual environment so that updates/downgrades of packages do not break other projects.*
 
-**Clone the repository**
-- Clone the repository to your local machine using the following command:
+Or you can clone the repository along with research code and perform an editable installation:
+
 ```shell
 $ git clone https://github.com/muhd-umer/simcomm.git
+$ pip install -e .
 ```
 
-**Install the dependencies**
+**Advanced Dependencies**
 
-It is recommended to create a new virtual environment so that updates/downgrades of packages do not break other projects.
-
-- Install the required packages:
-```shell
-$ pip install -r requirements.txt
-```
+*Experimental - These libraries are not currently in-use, but will gradually be an integral part of the library.*
 
 - Install PyTorch (Stable):
 ```shell
