@@ -53,7 +53,7 @@ class Nakagami:
             x: The value at which to evaluate the probability density function.
 
         Returns:
-            pdf: The probability density function evaluated at x.
+            The probability density function evaluated at x.
         """
         return (
             2
@@ -70,7 +70,7 @@ class Nakagami:
             x: The value at which to evaluate the cumulative distribution
 
         Returns:
-            cdf: The cumulative distribution function evaluated at x.
+            The cumulative distribution function evaluated at x.
         """
         return stats.nakagami.cdf(x, self.m, scale=np.sqrt(self.omega / self.m))
 
@@ -78,7 +78,7 @@ class Nakagami:
         """Return the expected value of the Nakagami distribution.
 
         Returns:
-            expected_value: The expected value of the Nakagami distribution.
+            The expected value of the Nakagami distribution.
         """
         return gamma(self.m + 1 / 2) / gamma(self.m) * np.sqrt(self.omega / self.m)
 
@@ -86,7 +86,7 @@ class Nakagami:
         """Return the variance of the Nakagami distribution.
 
         Returns:
-            variance: The variance of the Nakagami distribution.
+            The variance of the Nakagami distribution.
         """
         return self.omega * (
             1 - 1 / self.m * (gamma(self.m + 1 / 2) / gamma(self.m)) ** 2
@@ -101,7 +101,7 @@ class Nakagami:
             size: The number of random variables to generate.
 
         Returns:
-            samples: An array of size `size` containing random variables from the Nakagami distribution.
+            An array of size `size` containing random variables from the Nakagami distribution.
         """
         return np.array(
             stats.nakagami.rvs(self.m, scale=np.sqrt(self.omega / self.m), size=size)
