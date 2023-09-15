@@ -6,7 +6,7 @@ import scipy.stats as stats
 
 
 class Rayleigh:
-    r"""The Rayleigh distribution is a continuous probability distribution that describes the magnitude of a random vector with two independent, identically distributed (i.i.d.) Gaussian components with zero mean and equal standard deviation.
+    r"""The Rayleigh distribution is a continuous probability distribution for nonnegative-valued random variables. Up to rescaling, it coincides with the chi distribution with two degrees of freedom.
 
     **Density function**
         .. math::

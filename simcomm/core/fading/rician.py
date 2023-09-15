@@ -9,7 +9,7 @@ from ...utils import laguerre
 
 
 class Rician:
-    r"""The Rician distribution is a continuous probability distribution that describes the length of a two-dimensional vector with components that are independent Gaussian random variables.
+    r"""The Rice distribution or Rician distribution (or, less commonly, Ricean distribution) is the probability distribution of the magnitude of a circularly-symmetric bivariate normal random variable, possibly with non-zero mean (noncentral).
 
     Density Function
         .. math::
