@@ -46,7 +46,7 @@ class Rayleigh:
             x: The input value.
 
         Returns:
-            pdf: The probability density function value at x.
+            The probability density function value at x.
         """
         return (x / self.sigma**2) * np.exp(-(x**2) / (2 * self.sigma**2))
 
@@ -57,7 +57,7 @@ class Rayleigh:
             x: The input value.
 
         Returns:
-            cdf: The cumulative distribution function value at x.
+            The cumulative distribution function value at x.
         """
         return 1 - np.exp(-(x**2) / (2 * self.sigma**2))
 
@@ -65,7 +65,7 @@ class Rayleigh:
         """Calculates the expected value of the Rayleigh distribution.
 
         Returns:
-            expected_value: The expected value of the Rayleigh distribution.
+            The expected value of the Rayleigh distribution.
         """
         return self.sigma * np.sqrt(np.pi / 2)
 
@@ -73,7 +73,7 @@ class Rayleigh:
         """Calculates the variance of the Rayleigh distribution.
 
         Returns:
-            variance: The variance of the Rayleigh distribution.
+            The variance of the Rayleigh distribution.
         """
         return (2 - np.pi / 2) * self.sigma**2
 
@@ -81,7 +81,7 @@ class Rayleigh:
         """Calculates the RMS value of the Rayleigh distribution.
 
         Returns:
-            rms: The RMS value of the Rayleigh distribution.
+            The RMS value of the Rayleigh distribution.
         """
         return np.sqrt(2) * self.sigma
 
@@ -95,6 +95,6 @@ class Rayleigh:
             size: The number of random variables to generate.
 
         Returns:
-            samples: An array of size `size` containing random variables from the Rayleigh distribution.
+            An array of size `size` containing random variables from the Rayleigh distribution.
         """
         return np.array(stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size))
