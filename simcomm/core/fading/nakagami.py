@@ -5,8 +5,6 @@ import numpy.typing as npt
 import scipy.stats as stats
 from scipy.special import gamma
 
-from ...utils import laguerre
-
 
 class Nakagami:
     r"""The Nakagami distribution or the Nakagami-m distribution is a probability distribution related to the gamma distribution. The family of Nakagami distributions has two parameters: a shape parameter :math:`m` with :math:`m\geq 1/2` and a second parameter controlling spread :math:`\Omega > 0`.
@@ -15,7 +13,7 @@ class Nakagami:
         .. math::
             f(x; m, \Omega) = \frac{2m^m}{\Gamma(m)\Omega^m} x^{2m - 1} \exp\left(-\frac{m}{\Omega}x^2\right)
 
-    , where :math:`\Gamma` is the gamma function.
+    , where :math:`\Gamma(.)` is the gamma function.
 
     Expected value
         .. math::
