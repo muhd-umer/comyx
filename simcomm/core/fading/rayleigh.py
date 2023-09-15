@@ -10,7 +10,7 @@ class Rayleigh:
 
     **Density function**
         .. math::
-            f(x) = \frac{x}{\sigma^2} \cdot \exp\left(-\frac{x^2}{2\sigma^2}\right)
+            f(x; \sigma) = \frac{x}{\sigma^2} \cdot \exp\left(-\frac{x^2}{2\sigma^2}\right)
 
     **Expected value**
         .. math::
@@ -23,9 +23,6 @@ class Rayleigh:
     **RMS value**
         .. math::
             \sqrt{2} \cdot \sigma
-
-    Returns:
-        A NumPy array of complex numbers representing the fading coefficients.
 
     Attributes:
         sigma: The scale parameter of the Rayleigh distribution.
@@ -101,19 +98,3 @@ class Rayleigh:
             samples: An array of size `size` containing random variables from the Rayleigh distribution.
         """
         return np.array(stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size))
-
-    def get_coefficients(
-        self, size: Union[int, Tuple[int, ...]]
-    ) -> npt.NDArray[np.complexfloating[Any, Any]]:
-        """Generates complex channel coefficients from the Rayleigh distribution.
-
-        Args:
-            size: The number of channel coefficients to generate.
-
-        Returns:
-            coefficients: An array of size `size` containing complex channel coefficients from the Rayleigh distribution.
-        """
-        return np.array(
-            stats.norm.rvs(scale=self.sigma, size=size)
-            + 1j * stats.norm.rvs(scale=self.sigma, size=size)
-        )
