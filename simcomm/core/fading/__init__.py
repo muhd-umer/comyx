@@ -15,7 +15,7 @@ def get_rvs(
 
     Args:
         type: The type of the fading. ("rayleigh", "rician")
-        shape: The number of fading coefficients to generate.
+        shape: The number of fading samples to generate.
 
     Rayleigh Args:
         sigma: The scale parameter of the Rayleigh distribution.
@@ -34,20 +34,20 @@ def get_rvs(
 
     if type == "rayleigh":
         distribution = Rayleigh(*args, **kwargs)
-        coefficients = distribution.get_samples(size=shape)
+        samples = distribution.get_samples(size=shape)
 
     elif type == "rician":
         distribution = Rician(*args, **kwargs)
-        coefficients = distribution.get_samples(size=shape)
+        samples = distribution.get_samples(size=shape)
 
     elif type == "nakagami":
         distribution = Nakagami(*args, **kwargs)
-        coefficients = distribution.get_samples(size=shape)
+        samples = distribution.get_samples(size=shape)
 
     else:
         raise NotImplementedError(f"Channel type {type} is not implemented")
 
-    return coefficients
+    return samples
 
 
 __all__ = ["get_rvs", "Rayleigh", "Rician", "Nakagami"]
