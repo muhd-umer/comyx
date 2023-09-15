@@ -24,6 +24,10 @@ def get_rvs(
         K: Rician K-factor in dB.
         sigma: The scale parameter of the Rician distribution.
 
+    Nakagami Args:
+        m: The shape parameter of the Nakagami distribution.
+        omega: The scale parameter of the Nakagami distribution.
+
     Returns:
         Channel gains.
     """
