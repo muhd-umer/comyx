@@ -4,7 +4,7 @@ numpy==1.23.5
 pandas==2.0.1
 scipy==1.11.1
 setuptools==68.0.0
-pydata-sphinx-theme
+pydata-sphinx-theme==0.13.0
 Pygments>=2.6.1
 ipykernel
 ipython_genutils
