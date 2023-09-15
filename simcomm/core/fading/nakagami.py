@@ -9,7 +9,7 @@ from ...utils import laguerre
 
 
 class Nakagami:
-    r"""
+    r"""The Nakagami distribution or the Nakagami-m distribution is a probability distribution related to the gamma distribution. The family of Nakagami distributions has two parameters: a shape parameter :math:`m` with :math:`m\geq 1/2` and a second parameter controlling spread :math:`\Omega > 0`.
 
     Density Function
         .. math::
