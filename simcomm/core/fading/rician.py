@@ -13,7 +13,7 @@ class Rician:
 
     Density Function
         .. math::
-            f(x) = \frac{x}{\sigma^2} \exp\left(-\frac{x^2 + \nu^2}{2\sigma^2}\right) I_0\left(\frac{x\nu}{\sigma^2}\right)
+            f(x; \nu, \sigma) = \frac{x}{\sigma^2} \exp\left(-\frac{x^2 + \nu^2}{2\sigma^2}\right) I_0\left(\frac{x\nu}{\sigma^2}\right)
 
     , where :math:`I_0` is the modified Bessel function of the first kind.
 
@@ -120,24 +120,4 @@ class Rician:
         """
         return np.array(
             stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
-        )
-
-    def get_coefficients(
-        self, size: Union[int, Tuple[int, ...]]
-    ) -> npt.NDArray[np.complexfloating[Any, Any]]:
-        """Generate complex fading coefficients from the Rician distribution.
-
-        Args:
-            size: The number of channel coefficients to generate.
-
-        Returns:
-            coefficients: An array of size `size` containing complex channel coefficients from the Rician distribution.
-        """
-        mu = np.sqrt(self.K / (2 * (self.K + 1)))
-        sigma = np.sqrt(1 / (2 * (self.K + 1)))
-
-        # Generate the channel
-        return np.array(
-            (sigma * stats.norm.rvs(size=size) + mu)
-            + 1j * (sigma * stats.norm.rvs(size=size) + mu)
         )
