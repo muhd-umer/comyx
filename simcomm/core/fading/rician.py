@@ -58,7 +58,7 @@ class Rician:
             x: The value at which to evaluate the probability density function.
 
         Returns:
-            pdf: The probability density function evaluated at x.
+            The probability density function evaluated at x.
         """
         return (
             (x / self.sigma**2)
@@ -73,7 +73,7 @@ class Rician:
             x: The value at which to evaluate the cumulative distribution
 
         Returns:
-            cdf: The cumulative distribution function evaluated at x.
+            The cumulative distribution function evaluated at x.
         """
         return stats.rice.cdf(x, self.nu / self.sigma)
 
@@ -81,7 +81,7 @@ class Rician:
         """Return the expected value of the Rician distribution.
 
         Returns:
-            expected_value: The expected value of the Rician distribution.
+            The expected value of the Rician distribution.
         """
         arg = -self.nu**2 / (2 * self.sigma**2)
         return self.sigma * np.sqrt(np.pi / 2) * laguerre(arg, 1 / 2)
@@ -90,7 +90,7 @@ class Rician:
         """Return the variance of the Rician distribution.
 
         Returns:
-            variance: The variance of the Rician distribution.
+            The variance of the Rician distribution.
         """
         arg = -self.nu**2 / (2 * self.sigma**2)
         return (
@@ -103,7 +103,7 @@ class Rician:
         """Return the RMS value of the Rician distribution.
 
         Returns:
-            rms: The RMS value of the Rician distribution.
+            The RMS value of the Rician distribution.
         """
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
@@ -116,7 +116,7 @@ class Rician:
             size: The number of random variables to generate.
 
         Returns:
-            samples: An array of size `size` containing random variables from the Rician distribution.
+            An array of size `size` containing random variables from the Rician distribution.
         """
         return np.array(
             stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
