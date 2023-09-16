@@ -51,7 +51,7 @@ class Rician:
         self.omega = (2 * self.K + 2) * self.sigma**2
         self.nu = np.sqrt((K / (1 + K)) * self.omega)
 
-    def pdf(self, x: float) -> float:
+    def pdf(self, x: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
         """Return the probability density function of the Rician distribution.
 
         Args:
@@ -66,7 +66,9 @@ class Rician:
             * i0(x * self.nu / self.sigma**2)
         )
 
-    def cdf(self, x: float) -> npt.NDArray[np.floating[Any]]:
+    def cdf(
+        self, x: npt.NDArray[np.floating[Any]]
+    ) -> npt.NDArray[np.signedinteger[Any]]:
         """Return the cumulative distribution function of the Rician distribution.
 
         Args:
