@@ -39,7 +39,7 @@ class Rayleigh:
         """
         self.sigma = sigma
 
-    def pdf(self, x: float) -> float:
+    def pdf(self, x: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
         """Returns the probability density function of the Rayleigh distribution.
 
         Args:
@@ -50,7 +50,9 @@ class Rayleigh:
         """
         return (x / self.sigma**2) * np.exp(-(x**2) / (2 * self.sigma**2))
 
-    def cdf(self, x: float) -> float:
+    def cdf(
+        self, x: npt.NDArray[np.floating[Any]]
+    ) -> npt.NDArray[np.signedinteger[Any]]:
         """Returns the cumulative distribution function of the Rayleigh distribution.
 
         Args:

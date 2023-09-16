@@ -44,7 +44,7 @@ class Nakagami:
         self.m = m
         self.omega = omega
 
-    def pdf(self, x: float) -> float:
+    def pdf(self, x: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
         """Return the probability density function of the Nakagami distribution.
 
         Args:
@@ -61,7 +61,9 @@ class Nakagami:
             * np.exp(-self.m * x**2 / self.omega)
         )
 
-    def cdf(self, x: float) -> npt.NDArray[np.floating[Any]]:
+    def cdf(
+        self, x: npt.NDArray[np.floating[Any]]
+    ) -> npt.NDArray[np.signedinteger[Any]]:
         """Return the cumulative distribution function of the Nakagami distribution.
 
         Args:
