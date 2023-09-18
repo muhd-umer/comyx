@@ -72,7 +72,7 @@ class Nakagami:
         Returns:
             The cumulative distribution function evaluated at x.
         """
-        return stats.nakagami.cdf(x, self.m, scale=np.sqrt(self.omega / self.m))
+        return stats.nakagami.cdf(x, self.m, scale=np.sqrt(self.omega))
 
     def expected_value(self) -> float:
         """Return the expected value of the Nakagami distribution.
@@ -104,5 +104,5 @@ class Nakagami:
             An array of size `size` containing random variables from the Nakagami distribution.
         """
         return np.array(
-            stats.nakagami.rvs(self.m, scale=np.sqrt(self.omega / self.m), size=size)
+            stats.nakagami.rvs(self.m, scale=np.sqrt(self.omega), size=size)
         )
