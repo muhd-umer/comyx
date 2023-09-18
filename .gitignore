@@ -162,7 +162,6 @@ cython_debug/
 # Custom
 baseline_simulator/
 .vscode/
-*.ipynb
 *.bkp
 # research/star_ris_comp_noma/resources/tex/*
 # environment.yml
@@ -220,4 +219,4 @@ build/
 
 # Research
 research/star_ris_comp_noma/resources/
-research/statistical_analysis/resources/
+research/statistical_analysis/experimental.ipynb
