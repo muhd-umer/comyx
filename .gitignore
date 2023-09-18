@@ -219,4 +219,6 @@ build/
 
 # Research
 research/star_ris_comp_noma/resources/
+
+research/statistical_analysis/config.py
 research/statistical_analysis/experimental.ipynb
