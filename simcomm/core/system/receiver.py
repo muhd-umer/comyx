@@ -30,9 +30,9 @@ class Receiver(SystemObject):
         """
         super().__init__(name, position)
         self.sensitivity = sensitivity
-        self.rate = None
-        self.outage = None
-        self.snr = None
+        self.rate = np.array([])
+        self.outage = np.array([])
+        self.snr = np.array([])
 
     def demodulate(self, modulation_type, received_signal, *args, **kwargs):
         """

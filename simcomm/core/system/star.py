@@ -137,6 +137,9 @@ class STAR(SystemObject):
             AssertionError: If there are not exactly 2 base stations.
         """
         assert len(transmitters) == 2, "There must be exactly 2 base stations."
+        assert isinstance(
+            receiver, SystemObject
+        ), "The receiver must be a SystemObject."
 
         bs1_uf, bs2_uf = links.get_link(transmitters[0], receiver), links.get_link(
             transmitters[1], receiver
