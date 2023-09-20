@@ -9,7 +9,7 @@ from scipy.special import i0, i1
 
 def db2pow(
     db: Union[float, npt.NDArray[np.floating[Any]]]
-) -> Union[float, npt.NDArray[np.floating[Any]]]:
+) -> npt.NDArray[np.floating[Any]]:
     """Convert decibels to power.
 
     Args:
@@ -18,12 +18,12 @@ def db2pow(
     Returns:
         pow: Power.
     """
-    return 10 ** (db / 10)
+    return np.array(10 ** (db / 10))
 
 
 def pow2db(
     power: Union[float, npt.NDArray[np.floating[Any]]]
-) -> Union[float, npt.NDArray[np.signedinteger[Any]]]:
+) -> npt.NDArray[np.signedinteger[Any]]:
     """Convert power to decibels.
 
     Args:
@@ -32,12 +32,12 @@ def pow2db(
     Returns:
         db: Power in decibels.
     """
-    return 10 * np.log10(power)
+    return np.array(10 * np.log10(power))
 
 
 def dbm2pow(
     dbm: Union[float, npt.NDArray[np.floating[Any]]]
-) -> Union[float, npt.NDArray[np.floating[Any]]]:
+) -> npt.NDArray[np.floating[Any]]:
     """Convert decibels relative to 1 milliwatt to power.
 
     Args:
@@ -46,12 +46,12 @@ def dbm2pow(
     Returns:
         pow: Power in watts.
     """
-    return 10 ** ((dbm - 30) / 10)
+    return np.array(10 ** ((dbm - 30) / 10))
 
 
 def pow2dbm(
     power: Union[float, npt.NDArray[np.floating[Any]]]
-) -> Union[float, npt.NDArray[np.signedinteger[Any]]]:
+) -> npt.NDArray[np.signedinteger[Any]]:
     """Convert power to decibels relative to 1 milliwatt.
 
     Args:
@@ -60,7 +60,7 @@ def pow2dbm(
     Returns:
         dbm: Power in decibels relative to 1 milliwatt.
     """
-    return 10 * np.log10(power * 1000)
+    return np.array(10 * np.log10(power * 1000))
 
 
 def get_distance(pt1: List[Any], pt2: List[Any], dim: int = 2) -> float:
