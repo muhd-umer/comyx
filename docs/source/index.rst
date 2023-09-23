@@ -13,8 +13,9 @@
 |
 **Date** |today|
 
-Welcome to SimComm's documentation! SimComm is an optimized library for simulating wireless communication systems. It is purely written in Python and used NumPy and SciPy for numerical computation. It is designed to be easy to use and flexible to extend.
+Welcome to SimComm's documentation! SimComm is a Python library for simulating wireless communication systems. It uses NumPy and SciPy for numerical computation, and Numba for just-in-time (JIT) compilation. It is designed to be easy to use and flexible to extend.
 The library is actively developed and maintained by **Muhammad Umer** https://github.com/muhd-umer.
+
 
 .. grid:: 3
    :gutter: 3
