@@ -218,7 +218,6 @@ baseline_simulator/
 build/
 
 # Research
-research/star_ris_comp_noma/resources/
-
 research/statistical_analysis/config.py
 research/statistical_analysis/experimental.ipynb
+research/statistical_analysis/statistics.ipynb
