@@ -1,5 +1,5 @@
 .. Keep title but hide it from the main page
-.. title:: Welcome to SimComm
+.. title:: SimComm
 
 .. figure:: _static/logo.svg
    :align: center
