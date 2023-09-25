@@ -4,13 +4,13 @@ close all;
 set(groot,'defaulttextinterpreter','latex');
 set(groot, 'defaultLegendInterpreter','latex');
 set(groot, 'defaultAxesTickLabelInterpreter','latex');
-Pt = load(".\resources\data\tx_power_dB.mat").tx_power;
+Pt = load(".\results\tx_power_dB.mat").tx_power;
 
 %% Links
-% link_both = load(".\resources\data\res_32ris_enhanced_link_both.mat");
-% link_bs1 = load(".\resources\data\res_32ris_enhanced_link_bs1_only.mat");
-% link_bs2 = load(".\resources\data\res_32ris_enhanced_link_bs2_only.mat");
-% link_none = load(".\resources\data\res_32ris_enhanced_link_none.mat");
+% link_both = load(".\results\res_32ris_enhanced_link_both.mat");
+% link_bs1 = load(".\results\res_32ris_enhanced_link_bs1_only.mat");
+% link_bs2 = load(".\results\res_32ris_enhanced_link_bs2_only.mat");
+% link_none = load(".\results\res_32ris_enhanced_link_none.mat");
 % 
 % fig1 = figure();
 % % Plot data
@@ -36,11 +36,12 @@ Pt = load(".\resources\data\tx_power_dB.mat").tx_power;
 % grid('on');
 % set(gca, 'GridAlpha', 0.15);
 
+
 %% Outage
-no_ris_non_comp = load(".\resources\data\results_no_ris_non_comp.mat");
-no_ris = load(".\resources\data\results_no_ris.mat");
-ris32 = load(".\resources\data\results_ris32.mat");
-ris70 = load(".\resources\data\results_ris70.mat");
+no_ris_non_comp = load(".\results\results_no_ris_non_comp.mat");
+no_ris = load(".\results\results_no_ris.mat");
+ris32 = load(".\results\results_ris32.mat");
+ris70 = load(".\results\results_ris70.mat");
 
 fig2 = figure();
 
@@ -85,9 +86,9 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% SE - EE
-no_ris = load(".\resources\data\results_no_ris.mat");
-ris32 = load(".\resources\data\results_ris32.mat");
-ris70 = load(".\resources\data\results_ris70.mat");
+no_ris = load(".\results\results_no_ris.mat");
+ris32 = load(".\results\results_ris32.mat");
+ris70 = load(".\results\results_ris70.mat");
 
 fig3 = figure();
 
@@ -118,10 +119,10 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% User Rates
-no_ris_non_comp = load(".\resources\data\results_no_ris_non_comp.mat");
-no_ris = load(".\resources\data\results_no_ris.mat");
-ris32 = load(".\resources\data\results_ris32.mat");
-ris70 = load(".\resources\data\results_ris70.mat");
+no_ris_non_comp = load(".\results\results_no_ris_non_comp.mat");
+no_ris = load(".\results\results_no_ris.mat");
+ris32 = load(".\results\results_ris32.mat");
+ris70 = load(".\results\results_ris70.mat");
 
 fig4 = figure();
 
@@ -167,10 +168,10 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Sum-rate
-no_ris = load(".\resources\data\results_no_ris.mat");
-ris32 = load(".\resources\data\results_ris32.mat");
-ris70 = load(".\resources\data\results_ris70.mat");
-custom = load(".\resources\data\results_ris70_oPA.mat");
+no_ris = load(".\results\results_no_ris.mat");
+ris32 = load(".\results\results_ris32.mat");
+ris70 = load(".\results\results_ris70.mat");
+custom = load(".\results\results_ris70_oPA.mat");
 
 fig5 = figure();
 
@@ -198,7 +199,7 @@ grid('on');
 set(gca, 'GridAlpha', 0.15);
 
 %% Contour Plot
-load(".\resources\data\results_exhaustive_es_aa.mat");
+load(".\results\results_exhaustive_es_aa.mat");
 [X,Y] = meshgrid(bs2_assignment, beta_t);
 smooth_factor = 9999; % You can adjust this parameter for desired smoothness
 sum_rate_smooth = movmean(sum_rate, [52 30]);
