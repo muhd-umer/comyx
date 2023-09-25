@@ -221,5 +221,5 @@ build/
 research/star_ris_comp_noma/resources/tex/*
 research/star_ris_comp_noma/results/*
 research/statistical_analysis/config.py
-research/statistical_analysis/experimental.ipynb
+research/statistical_analysis/verifications.ipynb
 research/statistical_analysis/statistics.ipynb
