@@ -216,6 +216,7 @@ baseline_simulator/
 .bak 
 .mtc
 build/
+*.asv
 
 # Research
 research/star_ris_comp_noma/resources/tex/*
