@@ -72,6 +72,7 @@ class Simulator:
             P_circuit: Circuit power in Watts.
             comp: Whether to use CoMP or not.
         """
+        print(f"{Fore.GREEN}Running the simulation...{Style.RESET_ALL}")
 
         if self.star is not None:
             # Set the RIS phase shifts
