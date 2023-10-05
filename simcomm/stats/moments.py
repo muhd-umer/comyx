@@ -168,6 +168,7 @@ def approx_gamma_params(
 
 __all__ = [
     "fun_mu_naka",
+    "fun_mu_gamma",
     "fun_mu_doublenaka",
     "fun_mu_effective",
     "approx_gamma_params",
