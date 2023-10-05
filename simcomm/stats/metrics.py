@@ -54,7 +54,7 @@ def get_outage_lt(
     )
 
 
-def outage_clt(
+def get_outage_clt(
     k_a: float,
     m_a: float,
     theta_a: float,
@@ -125,3 +125,10 @@ def outage_clt(
         )
         / (k_a * mpm.beta(k_a, m_a))
     )
+
+
+__all__ = [
+    "get_ergodic_rate",
+    "get_outage_lt",
+    "get_outage_clt",
+]
