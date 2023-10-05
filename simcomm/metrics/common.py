@@ -4,17 +4,17 @@ import numpy as np
 import numpy.typing as npt
 
 
-def get_outage(
+def get_outage_instances(
     instantaneous_rate: Union[float, List[float]], target_rate: float
 ) -> Union[int, List[int]]:
-    """Compute the outage probability.
+    """Compute the instance(s) of outage.
 
     Args:
         instantaneous_rate: The instantaneous rate(s) of the link(s).
         target_rate: The target rate of the link.
 
     Returns:
-        outage: The outage probability of the link(s).
+        outage: The instance(s) of outage.
     """
     if isinstance(instantaneous_rate, list):
         outage = [1 if rate < target_rate else 0 for rate in instantaneous_rate]

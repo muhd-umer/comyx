@@ -3,8 +3,9 @@ from typing import Any, Tuple, Union
 import numpy as np
 import numpy.typing as npt
 import scipy.stats as stats
-from moments import approx_gamma_params
 from scipy.special import gamma
+
+from .moments import approx_gamma_params
 
 
 def approx_gamma_add_params(
@@ -46,7 +47,7 @@ def gamma_add_params(
     a: npt.NDArray[np.floating[Any]] = np.array([1.0]),
     b: npt.NDArray[np.floating[Any]] = np.array([1.0]),
 ) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
-    """Computes the parameters of the sum of two independent Gamma random variables, given the first two moments of each distribution
+    """Computes the parameters of the sum of two independent Gamma random variables, given the first two moments of each distribution. The first distribution is optionally weighted by a, and the second by b.
 
     Args:
         mu_a_1: The first moment of the first Gamma distribution.
