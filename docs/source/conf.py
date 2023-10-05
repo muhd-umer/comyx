@@ -104,7 +104,6 @@ html_theme_options = {
     # },
     "show_toc_level": 3,
     "show_nav_level": 3,
-    "google_analytics_id": "G-9QLBT1BZEX",
 }
 
 html_context = {
@@ -115,6 +114,7 @@ html_context = {
     "default_mode": "light",
 }
 
+html_extra_path = ["_extra/googlee67cda8bc2355b91.html"]
 
 # -- Options for autosummary/autodoc output ------------------------------------
 autosummary_generate = True
