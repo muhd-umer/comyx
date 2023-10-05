@@ -104,6 +104,7 @@ html_theme_options = {
     # },
     "show_toc_level": 3,
     "show_nav_level": 3,
+    "google_analytics_id": "G-9QLBT1BZEX",
 }
 
 html_context = {
