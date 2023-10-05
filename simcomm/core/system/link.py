@@ -108,18 +108,37 @@ class LinkCollection:
         self,
         transmitter: SystemObject,
         receiver: SystemObject,
+        magnitude: bool = False,
     ) -> npt.NDArray[np.complexfloating[Any, Any]]:
         """Gets the channel between a transmitter and receiver.
 
         Args:
             transmitter: The transmitter object.
             receiver: The receiver object.
+            magnitude: Whether to return the magnitude of the channel.
 
         Returns:
             The channel between the transmitter and receiver.
         """
 
-        return self.links[transmitter.name, receiver.name].coefficients
+        if not magnitude:
+            return self.links[transmitter.name, receiver.name].coefficients
+        else:
+            return np.abs(self.links[transmitter.name, receiver.name].coefficients)
+
+    def get_pathloss(
+        self, transmitter: SystemObject, receiver: SystemObject
+    ) -> npt.NDArray[np.floating[Any]]:
+        """Gets the pathloss between a transmitter and receiver.
+
+        Args:
+            transmitter: The transmitter object.
+            receiver: The receiver object.
+
+        Returns:
+            The pathloss between the transmitter and receiver.
+        """
+        return self.links[transmitter.name, receiver.name].pathloss
 
     def get_gain(
         self, transmitter: SystemObject, receiver: SystemObject
@@ -146,6 +165,20 @@ class LinkCollection:
             The type of link between the transmitter and receiver.
         """
         return self.link_types[transmitter.name, receiver.name]
+
+    def get_fading_args(
+        self, transmitter: SystemObject, receiver: SystemObject
+    ) -> dict:
+        """Gets the fading arguments for the link between a transmitter and receiver.
+
+        Args:
+            transmitter: The transmitter object.
+            receiver: The receiver object.
+
+        Returns:
+            The fading arguments for the link between the transmitter and receiver.
+        """
+        return self.links[transmitter.name, receiver.name].fading_args
 
     def update_link(
         self,
