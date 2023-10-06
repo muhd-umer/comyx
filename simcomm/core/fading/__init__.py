@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, Tuple, Union
 
 import numpy as np
@@ -7,10 +9,12 @@ from .nakagami import Nakagami
 from .rayleigh import Rayleigh
 from .rician import Rician
 
+NDArrayFloat = npt.NDArray[np.floating[Any]]
+
 
 def get_rvs(
     type: str, shape: Union[int, Tuple[int, ...]], *args, **kwargs
-) -> npt.NDArray[np.floating[Any]]:
+) -> NDArrayFloat:
     """Generates random variables from a distribution.
 
     Args:

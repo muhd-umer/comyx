@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, Tuple
 
 import numpy as np
@@ -6,14 +8,16 @@ import scipy.stats as stats
 
 from .moments import approx_gamma_params
 
+NDArrayFloat = npt.NDArray[np.floating[Any]]
+
 
 def approx_gamma_add_params(
-    k_a: npt.NDArray[np.floating[Any]],
-    k_b: npt.NDArray[np.floating[Any]],
-    theta_a: npt.NDArray[np.floating[Any]],
-    theta_b: npt.NDArray[np.floating[Any]],
+    k_a: NDArrayFloat,
+    k_b: NDArrayFloat,
+    theta_a: NDArrayFloat,
+    theta_b: NDArrayFloat,
     return_type: str = "params",
-) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """Computes the parameters of the sum of two independent Gamma random variables, given the shape and scale parameters of each distribution.
 
     Args:
@@ -44,14 +48,14 @@ def approx_gamma_add_params(
 
 
 def gamma_add_params(
-    mu_a_1: npt.NDArray[np.floating[Any]],
-    mu_a_2: npt.NDArray[np.floating[Any]],
-    mu_b_1: npt.NDArray[np.floating[Any]],
-    mu_b_2: npt.NDArray[np.floating[Any]],
-    a: npt.NDArray[np.floating[Any]] = np.array([1.0]),
-    b: npt.NDArray[np.floating[Any]] = np.array([1.0]),
+    mu_a_1: NDArrayFloat,
+    mu_a_2: NDArrayFloat,
+    mu_b_1: NDArrayFloat,
+    mu_b_2: NDArrayFloat,
+    a: NDArrayFloat = np.array([1.0]),
+    b: NDArrayFloat = np.array([1.0]),
     return_type: str = "params",
-) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     r"""Computes the parameters of the sum of two independent Gamma random variables, given the first two moments of each distribution. The first distribution is optionally weighted by a, and the second by b.
         .. math::
             z = a h + b g
@@ -93,10 +97,10 @@ def gamma_add_params(
 
 
 def gamma_plus_one_params(
-    mu_a_1: npt.NDArray[np.floating[Any]],
-    mu_a_2: npt.NDArray[np.floating[Any]],
+    mu_a_1: NDArrayFloat,
+    mu_a_2: NDArrayFloat,
     return_type: str = "params",
-) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """Computes the parameters of the sum of a Gamma random variable and one, given the first two moments of the Gamma distribution.
 
     Args:

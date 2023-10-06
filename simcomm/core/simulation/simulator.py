@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from typing import Any, List, Union
 
@@ -8,6 +10,8 @@ from colorama import Fore, Style
 
 from ...utils import dbm2pow, pow2db, qfunc
 from ..system import STAR, LinkCollection, Receiver, Transmitter
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Simulator:
@@ -54,8 +58,8 @@ class Simulator:
     def run(
         self,
         N: int,
-        Pt: npt.NDArray[np.floating[Any]],
-        N0: npt.NDArray[np.floating[Any]],
+        Pt: NDArrayFloat,
+        N0: NDArrayFloat,
         links: LinkCollection,
         sigma: float,
         P_circuit: float,
