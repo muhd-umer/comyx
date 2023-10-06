@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 from typing import Any, Tuple, Union
 
 import numpy as np
 import numpy.typing as npt
 import scipy.stats as stats
 from scipy.special import gamma
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Nakagami:
@@ -44,7 +48,7 @@ class Nakagami:
         self.m = m
         self.omega = omega
 
-    def pdf(self, x: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
+    def pdf(self, x: NDArrayFloat) -> NDArrayFloat:
         """Return the probability density function of the Nakagami distribution.
 
         Args:
@@ -61,9 +65,7 @@ class Nakagami:
             * np.exp(-self.m * x**2 / self.omega)
         )
 
-    def cdf(
-        self, x: npt.NDArray[np.floating[Any]]
-    ) -> npt.NDArray[np.signedinteger[Any]]:
+    def cdf(self, x: NDArrayFloat) -> NDArrayFloat:
         """Return the cumulative distribution function of the Nakagami distribution.
 
         Args:
@@ -92,9 +94,7 @@ class Nakagami:
             1 - 1 / self.m * (gamma(self.m + 1 / 2) / gamma(self.m)) ** 2
         )
 
-    def get_samples(
-        self, size: Union[int, Tuple[int, ...]]
-    ) -> npt.NDArray[np.floating[Any]]:
+    def get_samples(self, size: Union[int, Tuple[int, ...]]) -> NDArrayFloat:
         """Generate random variables from the Nakagami distribution.
 
         Args:

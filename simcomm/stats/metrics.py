@@ -1,7 +1,7 @@
+from __future__ import annotations
+
 import mpmath as mpm
 import numpy as np
-import numpy.typing as npt
-import scipy.stats as stats
 from scipy.special import gamma
 
 mpm.mp.dps = 25

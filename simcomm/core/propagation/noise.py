@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -5,6 +7,8 @@ import numpy.typing as npt
 from scipy.constants import Boltzmann
 
 from simcomm.utils import pow2db, pow2dbm
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 def thermal_noise(temperature: float = 300) -> float:
@@ -22,7 +26,7 @@ def thermal_noise(temperature: float = 300) -> float:
 
 def get_noise_power(
     bandwidth: float, temperature: float = 300, noise_figure: float = 0
-) -> npt.NDArray[np.floating[Any]]:
+) -> NDArrayFloat:
     """Compute the noise power in dBm.
 
     Args:
