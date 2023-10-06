@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Union
 
 import numpy as np
 import numpy.typing as npt
@@ -26,7 +26,7 @@ def thermal_noise(temperature: float = 300) -> float:
 
 def get_noise_power(
     bandwidth: float, temperature: float = 300, noise_figure: float = 0
-) -> NDArrayFloat:
+) -> Union[float, NDArrayFloat]:
     """Compute the noise power in dBm.
 
     Args:
