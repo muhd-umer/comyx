@@ -171,6 +171,6 @@ class Simulator:
             )
             io.savemat(tx_power, {"tx_power": Pt})
 
-            print(f"{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
+            print(f"\n{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
         else:
-            print(f"{Fore.YELLOW}Skipping results.\n")
+            print(f"\n{Fore.YELLOW}Skipping results.\n")
