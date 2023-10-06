@@ -151,5 +151,5 @@ __all__ = [
     "approx_gamma_add_params",
     "gamma_add_params",
     "gamma_plus_one_params",
-    "gamma_div_gamma_params",
+    "gamma_div_gamma_dist",
 ]
