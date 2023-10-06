@@ -123,7 +123,7 @@ def gamma_plus_one_params(
         raise ValueError("return_type must be either 'params' or 'moments'")
 
 
-def gamma_div_gamma_params(k_a, k_b, theta_a, theta_b):
+def gamma_div_gamma_dist(k_a, k_b, theta_a, theta_b):
     r"""Computes the parameters of the ratio of two independent Gamma random variables, given the shape and scale parameters of each distribution.
         .. math::
             z = \frac{h}{g}
