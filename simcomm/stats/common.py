@@ -1,9 +1,8 @@
-from typing import Any, Tuple, Union
+from typing import Any, Tuple
 
 import numpy as np
 import numpy.typing as npt
 import scipy.stats as stats
-from scipy.special import gamma
 
 from .moments import approx_gamma_params
 
@@ -13,6 +12,7 @@ def approx_gamma_add_params(
     k_b: npt.NDArray[np.floating[Any]],
     theta_a: npt.NDArray[np.floating[Any]],
     theta_b: npt.NDArray[np.floating[Any]],
+    return_type: str = "params",
 ) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
     """Computes the parameters of the sum of two independent Gamma random variables, given the shape and scale parameters of each distribution.
 
@@ -21,9 +21,10 @@ def approx_gamma_add_params(
         k_b: The shape parameter of the second Gamma distribution.
         theta_a: The scale parameter of the first Gamma distribution.
         theta_b: The scale parameter of the second Gamma distribution.
+        return_type: The type of the returned value. If "params", returns the shape and scale parameters of the sum of two independent Gamma random variables. If "moments", returns the first two moments of the sum of two independent Gamma random variables.
 
     Returns:
-        The shape and scale parameters of the sum of two independent Gamma random variables.
+        The desired parameters of the sum of two independent Gamma random variables.
     """
     mu_1 = theta_a * k_a + theta_b * k_b
     mu_2 = (
@@ -34,9 +35,12 @@ def approx_gamma_add_params(
         + 2 * k_a * k_b * theta_a * theta_b
     )
 
-    k = mu_1**2 / (mu_2 - mu_1**2)
-    theta = (mu_2 - mu_1**2) / mu_1
-    return np.array(k), np.array(theta)
+    if return_type == "params":
+        return approx_gamma_params(mu_1, mu_2)
+    elif return_type == "moments":
+        return mu_1, mu_2
+    else:
+        raise ValueError("return_type must be either 'params' or 'moments'")
 
 
 def gamma_add_params(
@@ -46,8 +50,23 @@ def gamma_add_params(
     mu_b_2: npt.NDArray[np.floating[Any]],
     a: npt.NDArray[np.floating[Any]] = np.array([1.0]),
     b: npt.NDArray[np.floating[Any]] = np.array([1.0]),
+    return_type: str = "params",
 ) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
-    """Computes the parameters of the sum of two independent Gamma random variables, given the first two moments of each distribution. The first distribution is optionally weighted by a, and the second by b.
+    r"""Computes the parameters of the sum of two independent Gamma random variables, given the first two moments of each distribution. The first distribution is optionally weighted by a, and the second by b.
+        .. math::
+            z = a h + b g
+
+    , where :math:`h \sim \Gamma(k_a, \theta_a)` and :math:`g \sim \Gamma(k_b, \theta_b)`. Also,
+        .. math::
+            k_n = \frac{\mu_{n,1}^2}{\mu_{n,2} - \mu_{n,1}^2}
+        .. math::
+            \theta_n = \frac{\mu_{n,2} - \mu_{n,1}^2}{\mu_{n,1}}
+
+    , where :math:`n \in \{a, b\}`.
+
+    The resulting distribution is a Gamma distribution, expressed as:
+        .. math::
+            z \sim \Gamma(k_z, \theta_z)
 
     Args:
         mu_a_1: The first moment of the first Gamma distribution.
@@ -56,35 +75,48 @@ def gamma_add_params(
         mu_b_2: The second moment of the second Gamma distribution.
         a: The shape parameter of the first Gamma distribution.
         b: The shape parameter of the second Gamma distribution.
+        return_type: The type of the returned value. If "params", returns the shape and scale parameters of the sum of two independent Gamma random variables. If "moments", returns the first two moments of the sum of two independent Gamma random variables.
 
     Returns:
-        The shape and scale parameters of the sum of two independent Gamma random variables.
+        The desired parameters of the sum of two independent Gamma random variables.
     """
 
     mu_1 = (mu_a_1 * a) + (mu_b_1 * b)
     mu_2 = (a**2 * mu_a_2) + (b**2 * mu_b_2) + (2 * a * b * mu_a_1 * mu_b_1)
 
-    return approx_gamma_params(mu_1, mu_2)
+    if return_type == "params":
+        return approx_gamma_params(mu_1, mu_2)
+    elif return_type == "moments":
+        return mu_1, mu_2
+    else:
+        raise ValueError("return_type must be either 'params' or 'moments'")
 
 
 def gamma_plus_one_params(
     mu_a_1: npt.NDArray[np.floating[Any]],
     mu_a_2: npt.NDArray[np.floating[Any]],
+    return_type: str = "params",
 ) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
     """Computes the parameters of the sum of a Gamma random variable and one, given the first two moments of the Gamma distribution.
 
     Args:
         mu_a_1: The first moment of the Gamma distribution.
         mu_a_2: The second moment of the Gamma distribution.
+        return_type: The type of the returned value. If "params", returns the shape and scale parameters of the sum of a Gamma random variable and one. If "moments", returns the first two moments of the sum of a Gamma random variable and one.
 
     Returns:
-        The shape and scale parameters of the sum of a Gamma random variable and one.
+        The desired parameters of the sum of a Gamma random variable and one.
     """
 
     mu_1 = mu_a_1 + 1
     mu_2 = mu_a_2 + 2 * mu_a_1 + 1
 
-    return approx_gamma_params(mu_1, mu_2)
+    if return_type == "params":
+        return approx_gamma_params(mu_1, mu_2)
+    elif return_type == "moments":
+        return mu_1, mu_2
+    else:
+        raise ValueError("return_type must be either 'params' or 'moments'")
 
 
 def gamma_div_gamma_params(k_a, k_b, theta_a, theta_b):
