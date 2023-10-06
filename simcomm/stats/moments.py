@@ -1,15 +1,21 @@
+from __future__ import annotations
+
 from typing import Any, Tuple
 
 import numpy as np
 import numpy.typing as npt
 from scipy.special import gamma
 
+from .moments import approx_gamma_params
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
+
 
 def fun_mu_naka(
     p: int,
     m: float,
-    omega: npt.NDArray[np.floating[Any]],
-) -> npt.NDArray[np.floating[Any]]:
+    omega: NDArrayFloat,
+) -> NDArrayFloat:
     """Computes the p-th moment of the Nakagami-m distribution.
 
     Args:
@@ -26,8 +32,8 @@ def fun_mu_naka(
 def fun_mu_gamma(
     p: int,
     k: float,
-    theta: npt.NDArray[np.floating[Any]],
-) -> npt.NDArray[np.floating[Any]]:
+    theta: NDArrayFloat,
+) -> NDArrayFloat:
     """Computes the p-th moment of the Gamma distribution.
 
     Args:
@@ -45,11 +51,11 @@ def fun_mu_doublenaka(
     p: int,
     m: float,
     k: float,
-    omega: npt.NDArray[np.floating[Any]],
-    theta: npt.NDArray[np.floating[Any]],
+    omega: NDArrayFloat,
+    theta: NDArrayFloat,
     c: float,
     N: int,
-) -> npt.NDArray[np.floating[Any]]:
+) -> NDArrayFloat:
     r"""Computes the p-th moment of the sum of two independent Nakagami-m random variables.
         .. math::
             G = \sqrt{c} \sum_{n=1}^{N} |{h_1}||{h_2}|
@@ -84,9 +90,9 @@ def fun_mu_effective(
     m_h: float,
     m_Ga: float,
     m_Gb: float,
-    omega_h: npt.NDArray[np.floating[Any]],
-    omega_Ga: npt.NDArray[np.floating[Any]],
-    omega_Gb: npt.NDArray[np.floating[Any]],
+    omega_h: NDArrayFloat,
+    omega_Ga: NDArrayFloat,
+    omega_Gb: NDArrayFloat,
     c: float,
     N: int,
 ):
@@ -145,10 +151,10 @@ def fun_mu_effective(
 
 
 def approx_gamma_params(
-    mu_1: npt.NDArray[np.floating[Any]],
-    mu_2: npt.NDArray[np.floating[Any]],
-    const: npt.NDArray[np.floating[Any]] = np.array([1.0]),
-) -> Tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+    mu_1: NDArrayFloat,
+    mu_2: NDArrayFloat,
+    const: NDArrayFloat = np.array([1.0]),
+) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """Approximates the shape and scale parameters of the Gamma distribution given the first two moments.
 
     Args:

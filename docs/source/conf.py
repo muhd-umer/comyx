@@ -138,6 +138,7 @@ autoapi_options = [
     "imported-members",
 ]
 autodoc_typehints = "signature"
+# autodoc_type_aliases = {"NDArray": "NDArray"}
 python_use_unqualified_type_names = True
 
 

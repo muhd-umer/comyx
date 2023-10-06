@@ -11,6 +11,9 @@ from .channel import Channel
 if TYPE_CHECKING:
     from .system import SystemObject
 
+NDArrayFloat = npt.NDArray[np.floating[Any]]
+NDArrayComplex = npt.NDArray[np.complexfloating[Any, Any]]
+
 
 class LinkCollection:
     """Contains a collection of links accessible by name. Used to store all the channel coefficients and their corresponding types for the system under test.
@@ -109,7 +112,7 @@ class LinkCollection:
         transmitter: SystemObject,
         receiver: SystemObject,
         magnitude: bool = False,
-    ) -> npt.NDArray[np.complexfloating[Any, Any]]:
+    ) -> NDArrayComplex:
         """Gets the channel between a transmitter and receiver.
 
         Args:
@@ -128,7 +131,7 @@ class LinkCollection:
 
     def get_pathloss(
         self, transmitter: SystemObject, receiver: SystemObject
-    ) -> npt.NDArray[np.floating[Any]]:
+    ) -> NDArrayFloat:
         """Gets the pathloss between a transmitter and receiver.
 
         Args:
@@ -142,7 +145,7 @@ class LinkCollection:
 
     def get_gain(
         self, transmitter: SystemObject, receiver: SystemObject
-    ) -> npt.NDArray[np.floating[Any]]:
+    ) -> NDArrayFloat:
         """Gets the gain between a transmitter and receiver.
 
         Args:
@@ -184,7 +187,7 @@ class LinkCollection:
         self,
         transmitter: SystemObject,
         receiver: SystemObject,
-        value: npt.NDArray[np.floating[Any]],
+        value: NDArrayFloat,
     ) -> None:
         """Combines a value with the channel between a transmitter and receiver.
 
