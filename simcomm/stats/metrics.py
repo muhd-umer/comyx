@@ -10,7 +10,7 @@ from scipy.special import gamma
 from ..utils import pow2db, qfunc
 
 NDArrayFloat = npt.NDArray[np.floating[Any]]
-mpm.mp.dps = 25
+mpm.mp.dps = 10
 
 
 def get_ergodic_rate(k: float, m: float, theta: float, omega: float) -> float:
