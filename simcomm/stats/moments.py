@@ -55,8 +55,9 @@ def fun_mu_doublenaka(
     N: int,
 ) -> NDArrayFloat:
     r"""Computes the p-th moment of the sum of two independent Nakagami-m random variables.
-        .. math::
-            G = \sqrt{c} \sum_{n=1}^{N} |{h_1}||{h_2}|
+
+    .. math::
+        G = \sqrt{c} \sum_{n=1}^{N} |{h_1}||{h_2}|
 
     , where :math:`h_1 \sim Nakagami(m, \Omega)` and :math:`h_2 \sim Nakagami(k, \theta)`.
 
@@ -72,15 +73,15 @@ def fun_mu_doublenaka(
     Returns:
         The p-th moment of the sum of two independent Nakagami-m random variables.
     """
-    return np.array(
-        (
-            gamma(m + (p / 2))
-            * (np.sqrt(c) * N) ** p
-            * gamma(k + (p / 2))
-            * ((k * m) / (omega * theta)) ** (-p / 2)
-        )
-        / (gamma(k) * gamma(m))
+    mu = (gamma(m + (1 / 2)) * gamma(k + (1 / 2))) / (
+        gamma(m) * gamma(k) * (m * k) ** (1 / 2)
     )
+    app_k = mu**2 / (1 - mu**2)
+    app_theta = (1 - mu**2) / mu
+
+    return (
+        gamma((N * app_k) + p) * (np.sqrt(omega * theta * c) * app_theta) ** p
+    ) / gamma(N * app_k)
 
 
 def fun_mu_effective(
@@ -95,8 +96,9 @@ def fun_mu_effective(
     N: int,
 ):
     r"""Computes the p-th moment of the effective channel distribution.
-        .. math::
-            Z = |H|^2 = (h + G)^2
+
+    .. math::
+        Z = |H|^2 = (h + G)^2
 
     , where :math:`h \sim Nakagami(m, \Omega)` and :math:`G \sim \Gamma(k_G, \theta_G)`.
 
@@ -153,7 +155,15 @@ def approx_gamma_params(
     mu_2: NDArrayFloat,
     const: NDArrayFloat = np.array([1.0]),
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    """Approximates the shape and scale parameters of the Gamma distribution given the first two moments.
+    r"""Approximates the shape and scale parameters of the Gamma distribution given the first two moments of a non-negative RV. The approximation is based on the method of moments, given by:
+
+    .. math::
+        k = \frac{\mu^2}{\mu - \mu^{(2)}}
+
+    .. math::
+        \theta = \frac{\mu - \mu^{(2)}}{\mu}
+
+    , where :math:`\mu` and :math:`\mu^{(2)}` are the first and second moments, respectively.
 
     Args:
         mu_1: The first moment.
