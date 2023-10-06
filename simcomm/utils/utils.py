@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, List, Union
 
 import numpy as np
@@ -6,10 +8,11 @@ import pandas as pd
 import scipy as sp
 from scipy.special import i0, i1
 
+NDArrayFloat = npt.NDArray[np.floating[Any]]
+NDArrayInt = npt.NDArray[np.signedinteger[Any]]
 
-def db2pow(
-    db: Union[float, npt.NDArray[np.floating[Any]]]
-) -> npt.NDArray[np.floating[Any]]:
+
+def db2pow(db: Union[float, NDArrayFloat]) -> NDArrayFloat:
     """Convert decibels to power.
 
     Args:
@@ -21,9 +24,7 @@ def db2pow(
     return np.array(10 ** (db / 10))
 
 
-def pow2db(
-    power: Union[float, npt.NDArray[np.floating[Any]]]
-) -> npt.NDArray[np.signedinteger[Any]]:
+def pow2db(power: Union[float, NDArrayFloat]) -> NDArrayInt:
     """Convert power to decibels.
 
     Args:
@@ -35,9 +36,7 @@ def pow2db(
     return np.array(10 * np.log10(power))
 
 
-def dbm2pow(
-    dbm: Union[float, npt.NDArray[np.floating[Any]]]
-) -> npt.NDArray[np.floating[Any]]:
+def dbm2pow(dbm: Union[float, NDArrayFloat]) -> NDArrayFloat:
     """Convert decibels relative to 1 milliwatt to power.
 
     Args:
@@ -49,9 +48,7 @@ def dbm2pow(
     return np.array(10 ** ((dbm - 30) / 10))
 
 
-def pow2dbm(
-    power: Union[float, npt.NDArray[np.floating[Any]]]
-) -> npt.NDArray[np.signedinteger[Any]]:
+def pow2dbm(power: Union[float, NDArrayFloat]) -> NDArrayInt:
     """Convert power to decibels relative to 1 milliwatt.
 
     Args:
@@ -84,7 +81,7 @@ def get_distance(pt1: List[Any], pt2: List[Any], dim: int = 2) -> float:
         raise ValueError("Invalid dimension. Must be 2 or 3.")
 
 
-def rolling_mean(data: npt.NDArray[np.floating[Any]], window_size: int) -> List[Any]:
+def rolling_mean(data: NDArrayFloat, window_size: int) -> List[Any]:
     """Compute the rolling mean of a curve.
 
     Args:
@@ -131,7 +128,7 @@ def randomize_user_pos(
     return user_pos
 
 
-def qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
+def qfunc(x: Union[float, NDArrayFloat]) -> float:
     """Compute the Q function.
 
     Args:
@@ -143,7 +140,7 @@ def qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
     return 0.5 * sp.special.erfc(x / np.sqrt(2))
 
 
-def inverse_qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
+def inverse_qfunc(x: Union[float, NDArrayFloat]) -> float:
     """Inverse Q function.
 
     Args:
@@ -155,9 +152,7 @@ def inverse_qfunc(x: Union[float, npt.NDArray[np.floating[Any]]]) -> float:
     return np.sqrt(2) * sp.special.erfcinv(2 * x)
 
 
-def laguerre(
-    x: Union[float, npt.NDArray[np.floating[Any]]], n: float
-) -> Union[float, npt.NDArray[np.floating[Any]]]:
+def laguerre(x: Union[float, NDArrayFloat], n: float) -> Union[float, NDArrayFloat]:
     """Compute the Laguerre polynomial.
 
     Args:
@@ -178,7 +173,7 @@ def laguerre(
         return ((2 * n - 1 - x) * laguerre(x, n - 1) - (n - 1) * laguerre(x, n - 2)) / n
 
 
-def wrapTo2Pi(theta: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
+def wrapTo2Pi(theta: NDArrayFloat) -> NDArrayFloat:
     """Wrap an angle to the interval [0, 2 * pi].
 
     Args:
