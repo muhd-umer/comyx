@@ -128,7 +128,7 @@ def randomize_user_pos(
     return user_pos
 
 
-def qfunc(x: Union[float, NDArrayFloat]) -> float:
+def qfunc(x: Union[float, NDArrayFloat]) -> NDArrayFloat:
     """Compute the Q function.
 
     Args:
@@ -140,7 +140,7 @@ def qfunc(x: Union[float, NDArrayFloat]) -> float:
     return 0.5 * sp.special.erfc(x / np.sqrt(2))
 
 
-def inverse_qfunc(x: Union[float, NDArrayFloat]) -> float:
+def inverse_qfunc(x: Union[float, NDArrayFloat]) -> NDArrayFloat:
     """Inverse Q function.
 
     Args:

@@ -59,7 +59,7 @@ class Simulator:
         self,
         N: int,
         Pt: NDArrayFloat,
-        N0: NDArrayFloat,
+        N0: Union[float, NDArrayFloat],
         links: LinkCollection,
         sigma: float,
         P_circuit: float,
