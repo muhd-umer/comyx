@@ -12,6 +12,7 @@ ipython_genutils
 sphinx-design
 sphinx_copybutton
 sphinx-autoapi
+sphinx-autodoc-typehints
 ablog
 numpydoc
 sphinx-togglebutton
