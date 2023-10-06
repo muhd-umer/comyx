@@ -24,7 +24,11 @@ def db2pow(db: Union[float, NDArrayFloat]) -> NDArrayFloat:
     return np.array(10 ** (db / 10))
 
 
+<<<<<<< HEAD
 def pow2db(power: Union[float, NDArrayFloat]) -> NDArraySigned:
+=======
+def pow2db(power: Union[float, NDArrayFloat]) -> NDArrayInt:
+>>>>>>> 6b45b3e6cba439d167782934cac4654d7d0a19e1
     """Convert power to decibels.
 
     Args:
@@ -48,7 +52,11 @@ def dbm2pow(dbm: Union[float, NDArrayFloat]) -> NDArrayFloat:
     return np.array(10 ** ((dbm - 30) / 10))
 
 
+<<<<<<< HEAD
 def pow2dbm(power: Union[float, NDArrayFloat]) -> NDArraySigned:
+=======
+def pow2dbm(power: Union[float, NDArrayFloat]) -> NDArrayInt:
+>>>>>>> 6b45b3e6cba439d167782934cac4654d7d0a19e1
     """Convert power to decibels relative to 1 milliwatt.
 
     Args:
