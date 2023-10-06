@@ -73,15 +73,15 @@ def fun_mu_doublenaka(
     Returns:
         The p-th moment of the sum of two independent Nakagami-m random variables.
     """
-    mu = (gamma(m + (1 / 2)) * gamma(k + (1 / 2))) / (
-        gamma(m) * gamma(k) * (m * k) ** (1 / 2)
+    return np.array(
+        (
+            gamma(m + (p / 2))
+            * (np.sqrt(c) * N) ** p
+            * gamma(k + (p / 2))
+            * ((k * m) / (omega * theta)) ** (-p / 2)
+        )
+        / (gamma(k) * gamma(m))
     )
-    app_k = mu**2 / (1 - mu**2)
-    app_theta = (1 - mu**2) / mu
-
-    return (
-        gamma((N * app_k) + p) * (np.sqrt(omega * theta * c) * app_theta) ** p
-    ) / gamma(N * app_k)
 
 
 def fun_mu_effective(
