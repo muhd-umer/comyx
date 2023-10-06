@@ -138,6 +138,7 @@ autoapi_options = [
     "imported-members",
 ]
 autodoc_typehints = "signature"
+python_use_unqualified_type_names = True
 
 
 def skip_submodules(app, what, name, obj, skip, options):
