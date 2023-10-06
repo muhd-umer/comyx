@@ -1,9 +1,13 @@
-from typing import Any, Union
+from __future__ import annotations
+
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
 
 from ...utils import pow2db
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 def get_pathloss(
@@ -12,7 +16,7 @@ def get_pathloss(
     frequency: float,
     *args,
     **kwargs,
-) -> npt.NDArray[np.floating[Any]]:
+) -> NDArrayFloat:
     """Get path loss in dB.
 
     Args:
@@ -45,9 +49,7 @@ def get_pathloss(
         raise NotImplementedError(f"Path loss model {type} not implemented.")
 
 
-def free_space(
-    distance: float, alpha: float, p0: float
-) -> npt.NDArray[np.floating[Any]]:
+def free_space(distance: float, alpha: float, p0: float) -> NDArrayFloat:
     """Free space path loss model.
 
     Args:
@@ -62,7 +64,7 @@ def free_space(
     return np.array(loss)
 
 
-def friis(distance: float, frequency: float) -> npt.NDArray[np.floating[Any]]:
+def friis(distance: float, frequency: float) -> NDArrayFloat:
     """Friis path loss model.
 
     Args:
@@ -79,7 +81,7 @@ def friis(distance: float, frequency: float) -> npt.NDArray[np.floating[Any]]:
 
 def log_distance(
     distance: float, frequency: float, d0: float, alpha: float, sigma: float
-) -> npt.NDArray[np.floating[Any]]:
+) -> NDArrayFloat:
     """Log distance path loss model.
 
     Args:

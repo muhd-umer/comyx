@@ -1,9 +1,16 @@
-from typing import List
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, List
 
 import numpy as np
 import numpy.typing as npt
 
 from .system import SystemObject
+
+if TYPE_CHECKING:
+    from .system import SystemObject
+
+NDArrayFloat = npt.ArrayLike
 
 
 class Transmitter(SystemObject):
@@ -27,7 +34,7 @@ class Transmitter(SystemObject):
         self,
         name: str,
         position: List[float],
-        transmit_power: npt.ArrayLike,
+        transmit_power: NDArrayFloat,
         allocations: dict = {},
     ) -> None:
         """Initializes a Transmitter object with the given parameters.

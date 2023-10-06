@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, Tuple, Union
 
 import numpy as np
@@ -6,6 +8,8 @@ import scipy.stats as stats
 from scipy.special import i0
 
 from ...utils import laguerre
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Rician:
@@ -51,7 +55,7 @@ class Rician:
         self.omega = (2 * self.K + 2) * self.sigma**2
         self.nu = np.sqrt((K / (1 + K)) * self.omega)
 
-    def pdf(self, x: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
+    def pdf(self, x: NDArrayFloat) -> NDArrayFloat:
         """Return the probability density function of the Rician distribution.
 
         Args:
@@ -66,9 +70,7 @@ class Rician:
             * i0(x * self.nu / self.sigma**2)
         )
 
-    def cdf(
-        self, x: npt.NDArray[np.floating[Any]]
-    ) -> npt.NDArray[np.signedinteger[Any]]:
+    def cdf(self, x: NDArrayFloat) -> NDArrayFloat:
         """Return the cumulative distribution function of the Rician distribution.
 
         Args:
@@ -109,9 +111,7 @@ class Rician:
         """
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
-    def get_samples(
-        self, size: Union[int, Tuple[int, ...]]
-    ) -> npt.NDArray[np.floating[Any]]:
+    def get_samples(self, size: Union[int, Tuple[int, ...]]) -> NDArrayFloat:
         """Generate random variables from the Rician distribution.
 
         Args:

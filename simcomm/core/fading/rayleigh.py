@@ -1,8 +1,13 @@
+from __future__ import annotations
+
 from typing import Any, Tuple, Union
 
 import numpy as np
 import numpy.typing as npt
 import scipy.stats as stats
+from scipy.special import gamma
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Rayleigh:
@@ -39,7 +44,7 @@ class Rayleigh:
         """
         self.sigma = sigma
 
-    def pdf(self, x: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
+    def pdf(self, x: NDArrayFloat) -> NDArrayFloat:
         """Returns the probability density function of the Rayleigh distribution.
 
         Args:
@@ -50,9 +55,7 @@ class Rayleigh:
         """
         return (x / self.sigma**2) * np.exp(-(x**2) / (2 * self.sigma**2))
 
-    def cdf(
-        self, x: npt.NDArray[np.floating[Any]]
-    ) -> npt.NDArray[np.signedinteger[Any]]:
+    def cdf(self, x: NDArrayFloat) -> NDArrayFloat:
         """Returns the cumulative distribution function of the Rayleigh distribution.
 
         Args:
@@ -90,7 +93,7 @@ class Rayleigh:
     def get_samples(
         self,
         size: Union[int, Tuple[int, ...]],
-    ) -> npt.NDArray[np.floating[Any]]:
+    ) -> NDArrayFloat:
         """Generates random variables from the Rayleigh distribution.
 
         Args:
