@@ -1,7 +1,12 @@
+from __future__ import annotations
+
 from typing import Any, List, Union
 
 import numpy as np
 import numpy.typing as npt
+
+NDArrayFloat = npt.NDArray[np.floating[Any]]
+NDArrayInt = npt.NDArray[np.signedinteger[Any]]
 
 
 def get_outage_instances(
@@ -25,8 +30,8 @@ def get_outage_instances(
 
 
 def get_snr(
-    signal_power: Union[float, npt.NDArray[np.floating]], noise_power: float
-) -> Union[float, npt.NDArray[np.signedinteger[Any]]]:
+    signal_power: Union[float, NDArrayFloat], noise_power: float
+) -> Union[float, NDArrayInt]:
     """Calculate the signal-to-noise ratio (SNR) in decibels.
 
     Args:
