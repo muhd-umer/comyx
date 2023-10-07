@@ -1,4 +1,4 @@
-sphinx==7.2.6
+sphinx==6.2.1
 colorama==0.4.6
 numpy==1.23.5
 pandas==2.0.1
