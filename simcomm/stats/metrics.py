@@ -56,8 +56,8 @@ def get_outage_lt(
     """
     assert not isinstance(k, np.ndarray), "mpmath does not operate on numpy arrays"
     return (
-        (((2 ** (lambda_th / 10) * omega) / theta) ** k)
-        * mpm.hyp2f1(k, m + k, k + 1, -((2 ** (lambda_th / 10) * omega) / theta))
+        (((10 ** (lambda_th / 10) * omega) / theta) ** k)
+        * mpm.hyp2f1(k, m + k, k + 1, -((10 ** (lambda_th / 10) * omega) / theta))
         / (k * mpm.beta(k, m))
     )
 
@@ -71,13 +71,13 @@ def get_outage_clt(
     m_b: float,
     theta_b: float,
     omega_b: float,
-    lambda_th_a: float,
-    lambda_th_b: float,
+    lambda_th: float,
+    gamma_th: float,
 ):
     r"""Computes the probability of inter-related SNRs being greater than one threshold, but less than another.
     
     .. math::
-        Pr(\lambda_{a}\gt\lambda_{th_a}, \lambda_{b}\lt\lambda_{b})=\frac{1}{k_b \Gamma\left(m_a\right) B\left(k_b,m_b\right)}{\left(\frac{2^{\gamma /10} \Omega _b}{\theta_b}\right){}^{k_b} {_2F_1\left(k_b,k_b+m_b;k_b+1;-\frac{2^{\gamma /10} \Omega_b}{\theta _b}\right)}} \\
+        Pr(\lambda_{a}\gt\lambda_{th}, \lambda_{b}\lt\gamma_{th})=\frac{1}{k_b \Gamma\left(m_a\right) B\left(k_b,m_b\right)}{\left(\frac{2^{\gamma /10} \Omega _b}{\theta_b}\right){}^{k_b} {_2F_1\left(k_b,k_b+m_b;k_b+1;-\frac{2^{\gamma /10} \Omega_b}{\theta _b}\right)}} \\
         {\left(\Gamma \left(m_a\right)-\Gamma\left(k_a+m_a\right) \left(\frac{2^{\lambda /10} \Omega_a}{\theta _a}\right){}^{k_a} {_2\tilde{F}_1\left(k_a,k_a+m_a;k_a+1;-\frac{2^{\lambda /10}\Omega _a}{\theta _a}\right)}\right)}
             
     , where :math:`\lambda_{a}=10\ln(x)`, with :math:`x \sim \beta'(k_a, m_a, \theta_a / \Omega_a)` and :math:`\lambda_{b}=10\ln(y)`, with :math:`y \sim \beta'(k_b, m_b, \theta_b / \Omega_b)`.
@@ -91,19 +91,19 @@ def get_outage_clt(
         m_b: The shape parameter of the denominator Gamma distribution of the second threshold.
         theta_b: The scale parameter of the numerator Gamma distribution of the second threshold.
         omega_b: The scale parameter of the denominator Gamma distribution of the second threshold.
-        lambda_th_a: The first threshold of the received SNR.
-        lambda_th_b: The second threshold of the received SNR.
+        lambda_th: The first threshold of the received SNR.
+        gamma_th: The second threshold of the received SNR.
 
     Returns:
         The outage probability between two thresholds.
     """
     return (
-        (((2 ** (lambda_th_a / 10) * omega_b) / theta_b) ** k_b)
+        (((10 ** (gamma_th / 10) * omega_b) / theta_b) ** k_b)
         * mpm.hyp2f1(
             k_b,
             m_b + k_b,
             k_b + 1,
-            -((2 ** (lambda_th_a / 10) * omega_b) / theta_b),
+            -((10 ** (gamma_th / 10) * omega_b) / theta_b),
         )
         / (k_b * mpm.beta(k_b, m_b))
     ) * (
@@ -111,14 +111,14 @@ def get_outage_clt(
             gamma(m_a)
             - (
                 gamma(m_a + k_a)
-                * (((2 ** (lambda_th_b / 10) * omega_a) / theta_a) ** k_a)
+                * (((10 ** (lambda_th / 10) * omega_a) / theta_a) ** k_a)
                 * (
                     (
                         mpm.hyp2f1(
                             k_a,
                             m_a + k_a,
                             k_a + 1,
-                            -((2 ** (lambda_th_b / 10) * omega_a) / theta_a),
+                            -((10 ** (lambda_th / 10) * omega_a) / theta_a),
                         )
                     )
                     / (gamma(k_a + 1))
@@ -126,15 +126,6 @@ def get_outage_clt(
             )
         )
         / (gamma(m_a))
-    ) + (
-        (((2 ** (lambda_th_b / 10) * omega_a) / theta_a) ** k_a)
-        * mpm.hyp2f1(
-            k_a,
-            m_a + k_a,
-            k_a + 1,
-            -((2 ** (lambda_th_b / 10) * omega_a) / theta_a),
-        )
-        / (k_a * mpm.beta(k_a, m_a))
     )
 
 
