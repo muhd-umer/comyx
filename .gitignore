@@ -221,5 +221,7 @@ build/
 # Research
 research/star_ris_comp_noma/resources/*
 research/star_ris_comp_noma/results/*
+research/star_ris_comp_noma/*.m
 research/statistical_analysis/results/*
 research/statistical_analysis/*
+research/statistical_analysis/*.m
