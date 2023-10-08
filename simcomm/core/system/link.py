@@ -50,8 +50,8 @@ class LinkCollection:
         self,
         transmitter: SystemObject,
         receiver: SystemObject,
-        fading_args: dict,
-        pathloss_args: dict,
+        fading_args: dict[str, Any],
+        pathloss_args: dict[str, Any],
         type: str,
     ) -> None:
         """Adds a link to the collection.
