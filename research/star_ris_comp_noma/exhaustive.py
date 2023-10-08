@@ -36,7 +36,7 @@ def main(N, save_path):
     TEMP = constants["TEMP"]  # Temperature in Kelvin
     FREQ = constants["FREQ"]  # Frequency of carrier signal in Hz
 
-    Pt = np.linspace(-50, 30, 161)  # Transmit power in dBm
+    Pt = np.array([-15])  # Transmit power in dBm
     Pt_lin = dbm2pow(Pt)  # Transmit power in linear scale
     N0 = prop.get_noise_power(BANDWIDTH, TEMP, 12)  # Noise power in dBm
     N0_lin = dbm2pow(N0)  # Noise power in linear scale
@@ -151,13 +151,18 @@ def main(N, save_path):
 
             sum_rate[i, k] = np.mean(U1c.rate + U2c.rate + Uf.rate)
 
-    print(f"{Fore.CYAN}Done!{Style.RESET_ALL}")
+            print(
+                f"\r{Fore.CYAN}Progress: {Style.RESET_ALL}{i+1}/{len(beta_r)}", end=""
+            )
 
-    res_file = os.path.join(save_path, f"results_exhaustive_es_aa.mat")
+    print(f"\n{Fore.CYAN}Done!{Style.RESET_ALL}")
 
-    if save_path is not None:
+    if save_path != "":
+        res_file = os.path.join(save_path, f"results_exhaustive_es_aa.mat")
+
+        # Save the results
         io.savemat(
-            "results/contour_plot.mat",
+            res_file,
             {
                 "sum_rate": sum_rate,
                 "beta_r": beta_r,
@@ -166,9 +171,10 @@ def main(N, save_path):
                 "bs2_assignment": bs2_assignment,
             },
         )
-        print(f"{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
+
+        print(f"\n{Fore.YELLOW}Results saved to: './{res_file}'{Style.RESET_ALL}\n")
     else:
-        print(f"{Fore.YELLOW}Skipping results.\n")
+        print(f"\n{Fore.YELLOW}Skipping results.\n")
 
 
 if __name__ == "__main__":
