@@ -115,7 +115,6 @@ html_context = {
 }
 
 html_extra_path = ["_extra/googlee67cda8bc2355b91.html"]
-html_baseurl = "/"
 
 # -- Options for autosummary/autodoc output ------------------------------------
 autosummary_generate = True
