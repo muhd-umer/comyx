@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -66,8 +66,8 @@ class Channel:
         transmitter: SystemObject,
         receiver: SystemObject,
         frequency: float,
-        fading_args: dict,
-        pathloss_args: dict,
+        fading_args: dict[str, Any],
+        pathloss_args: dict[str, Any],
         shape: tuple,
         no_link: bool = False,
     ) -> None:
