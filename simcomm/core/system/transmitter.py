@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, Any, List
 
 import numpy as np
 import numpy.typing as npt
@@ -35,7 +35,7 @@ class Transmitter(SystemObject):
         name: str,
         position: List[float],
         transmit_power: NDArrayFloat,
-        allocations: dict = {},
+        allocations: dict[str, Any] = {},
     ) -> None:
         """Initializes a Transmitter object with the given parameters.
 
