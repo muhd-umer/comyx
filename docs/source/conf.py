@@ -75,7 +75,7 @@ html_css_files = [
 #     version_match = "v" + release
 
 # Add canonical URL
-html_baseurl = "https://simcomm.readthedocs.io/"
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 
 html_theme_options = {
     "icon_links": [
