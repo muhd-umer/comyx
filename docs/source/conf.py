@@ -74,6 +74,9 @@ html_css_files = [
 # else:
 #     version_match = "v" + release
 
+# Add canonical URL
+html_baseurl = "https://simcomm.readthedocs.io/"
+
 html_theme_options = {
     "icon_links": [
         {
