@@ -23,8 +23,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    .. grid-item-card:: :material-regular:`rocket_launch;3.5em`
       :class-card: api-reference
       :class-body: sd-text-white
-      :link: quickstart
-      :link-type: ref
+      :link: quickstart.html
       :text-align: center
 
       **Quickstart**
@@ -32,8 +31,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    .. grid-item-card:: :material-regular:`api;3.5em`
       :class-card: quickstart
       :class-body: sd-text-white
-      :link: api
-      :link-type: ref
+      :link: api/index.html
       :text-align: center
 
       **API Reference**
@@ -41,8 +39,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    .. grid-item-card:: :material-regular:`science;3.5em`
       :class-card: research
       :class-body: sd-text-white
-      :link: research
-      :link-type: ref
+      :link: research.html
       :text-align: center
 
       **Research**
@@ -53,6 +50,6 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
 
    Installation <installation>
    Quickstart <quickstart>
-   API Reference <api>
+   API Reference <api/index>
    Research <research>
    Changelog <https://github.com/muhd-umer/simcomm/releases>
