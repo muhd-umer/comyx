@@ -8,6 +8,7 @@ import scipy.stats as stats
 from scipy.special import gamma
 
 NDArrayFloat = npt.NDArray[np.floating[Any]]
+NDArraySigned = npt.NDArray[np.signedinteger[Any]]
 
 
 class Rayleigh:
@@ -55,7 +56,7 @@ class Rayleigh:
         """
         return (x / self.sigma**2) * np.exp(-(x**2) / (2 * self.sigma**2))
 
-    def cdf(self, x: NDArrayFloat) -> NDArrayFloat:
+    def cdf(self, x: NDArrayFloat) -> NDArraySigned:
         """Returns the cumulative distribution function of the Rayleigh distribution.
 
         Args:
