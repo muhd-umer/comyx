@@ -158,10 +158,10 @@ def approx_gamma_params(
     r"""Approximates the shape and scale parameters of the Gamma distribution given the first two moments of a non-negative RV. The approximation is based on the method of moments, given by:
 
     .. math::
-        k = \frac{\mu^2}{\mu - \mu^{(2)}}
+        k = \frac{\mu^2}{\mu^{(2)} - \mu^2}
 
     .. math::
-        \theta = \frac{\mu - \mu^{(2)}}{\mu}
+        \theta = \frac{\mu^{(2)} - \mu^2}{\mu}
 
     , where :math:`\mu` and :math:`\mu^{(2)}` are the first and second moments, respectively.
 
