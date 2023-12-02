@@ -68,15 +68,17 @@ pip install -e .
 *Experimental - These libraries are not currently in-use, but will gradually be an integral part of the library.*
 
 - Install PyTorch (Stable):
-```shell
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
+
+    ```shell
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    ```
 
 - Install Ray for Reinforcement Learning:
-```shell
-pip install ray[default]
-pip install ray[air]
-pip install ray[tune]
-pip install ray[rllib]
-pip install ray[serve]
-```
+
+    ```shell
+    pip install ray[default]
+    pip install ray[air]
+    pip install ray[tune]
+    pip install ray[rllib]
+    pip install ray[serve]
+    ```
