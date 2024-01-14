@@ -1,3 +1,40 @@
 [build-system]
-requires = ["setuptools>=46.4.0", "wheel"]
 build-backend = "setuptools.build_meta"
+requires = ["setuptools", "setuptools-scm"]
+
+[project]
+name = "comyx"
+requires-python = ">=3.10"
+description = "Comyx is an optimized and modular Python library for simulating wireless communication systems."
+authors = [{ name = "Muhammad Umer", email = "thisismumer@gmail.com" }]
+keywords = ["python", "communication", "simulator", "wireless communication"]
+dependencies = [
+	"numpy>=1.23.5",
+	"pandas>=2.0.1",
+	"scipy>=1.11.1",
+	"mpmath>=1.3.0",
+	"colorama>=0.4.6",
+]
+classifiers = [
+	"Development Status :: 3 - Alpha",
+	"Intended Audience :: Developers",
+	"Intended Audience :: Science/Research",
+	"Topic :: Software Development :: Build Tools",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3 :: Only",
+	"License :: OSI Approved :: MIT License",
+	"Operating System :: OS Independent",
+]
+dynamic = ["version", "readme"]
+
+[project.urls]
+homepage = "https://github.com/muhd-umer/comyx"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"], content-type = "text/markdown"}
+version = {attr = "comyx.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["comyx*"]
