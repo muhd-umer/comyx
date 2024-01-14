@@ -6,12 +6,12 @@ Quickstart
 Installation
 ------------
 
-Refer to the `Installation <installation.html>`_ page for instructions on how to install SimComm.
+Refer to the `Installation <installation.html>`_ page for instructions on how to install Comyx.
 
 Getting Started
 ---------------
 
-This following example shows how to use SimComm to simulate a simple wireless network. Let us assume that we have a network with two base stations with two respective cell-center users and one cell-edge user, as shown in the following figure:
+This following example shows how to use Comyx to simulate a simple wireless network. Let us assume that we have a network with two base stations with two respective cell-center users and one cell-edge user, as shown in the following figure:
 
 .. figure:: _static/system.png
     :class: dark-light
@@ -64,9 +64,9 @@ Next, we need to define the system objects, which include the base stations, use
     import numpy as np
     from config import constants, environment, setting
 
-    import simcomm.core.propagation as prop
-    from simcomm.core import STAR, LinkCollection, Receiver, Simulator, Transmitter
-    from simcomm.utils import dbm2pow
+    import comyx.core.propagation as prop
+    from comyx.core import STAR, LinkCollection, Receiver, Simulator, Transmitter
+    from comyx.utils import dbm2pow
 
     Pt = np.linspace(-50, 30, 161)  # Transmit power in dBm
     Pt_lin = dbm2pow(Pt)  # Transmit power in linear scale
