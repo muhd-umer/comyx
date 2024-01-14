@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from simcomm.utils import (
+from comyx.utils import (
     db2pow,
     dbm2pow,
     get_distance,

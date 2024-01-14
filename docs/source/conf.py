@@ -12,11 +12,11 @@ import sys
 sys.path.insert(0, os.path.abspath("../.."))
 
 # Package information
-import simcomm
+import comyx
 
-version = simcomm.__version__
+version = comyx.__version__
 
-project = "SimComm"
+project = "Comyx"
 copyright = "2023, Muhammad Umer"
 author = "Muhammad Umer"
 release = str(version)
@@ -63,10 +63,10 @@ html_logo = "./_static/fav.svg"
 html_static_path = ["_static"]
 html_js_files = ["custom-icon.js"]
 html_css_files = [
-    "simcomm.css",
+    "comyx.css",
 ]
 
-# json_url = "https://raw.githubusercontent.com/muhd-umer/simcomm/main/docs/source/_static/switcher.json"
+# json_url = "https://raw.githubusercontent.com/muhd-umer/comyx/main/docs/source/_static/switcher.json"
 
 # if "dev" in release or "rc" in release:
 #     version_match = "dev"
@@ -81,20 +81,20 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "GitHub",
-            "url": "https://github.com/muhd-umer/simcomm",
+            "url": "https://github.com/muhd-umer/comyx",
             "icon": "fa-brands fa-github",
         },
         {
             "name": "PyPI",
-            "url": "https://pypi.org/project/simcomm/",
+            "url": "https://pypi.org/project/comyx/",
             "icon": "https://pypi.org/static/images/logo-small.2a411bc6.svg",
             "type": "url",
         },
     ],
     # "logo": {
-    #     "text": "SimComm",
+    #     "text": "Comyx",
     #     "image_dark": "_static/fav.svg",
-    #     "alt_text": "SimComm",
+    #     "alt_text": "Comyx",
     # },
     "footer_start": ["copyright"],
     "navbar_start": ["navbar-logo"],
@@ -111,7 +111,7 @@ html_theme_options = {
 
 html_context = {
     "github_user": "muhd-umer",
-    "github_repo": "simcomm",
+    "github_repo": "comyx",
     "github_version": "main",
     "doc_path": "docs",
     "default_mode": "light",
@@ -127,7 +127,7 @@ autosummary_generate = True
 # Optionally disable autoapi generation for all files in a directory
 autoapi_generate_api_docs = True
 autoapi_type = "python"
-autoapi_dirs = ["../../simcomm"]
+autoapi_dirs = ["../../comyx"]
 autoapi_keep_files = False
 autoapi_root = "api"
 autoapi_member_order = "groupwise"

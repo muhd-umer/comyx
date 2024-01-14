@@ -20,9 +20,9 @@ import scipy.io as io
 from colorama import Fore, Style
 from config import constants, environment, setting
 
-import simcomm.core.propagation as prop
-from simcomm.core import STAR, LinkCollection, Receiver, Transmitter
-from simcomm.utils import dbm2pow
+import comyx.core.propagation as prop
+from comyx.core import STAR, LinkCollection, Receiver, Transmitter
+from comyx.utils import dbm2pow
 
 
 def main(N, save_path):
