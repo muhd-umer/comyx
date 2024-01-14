@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/muhd-umer/comyx/main/resources/logo.svg" width="500" height="200">
+  <img src="resources/logo.svg" width="600" height="250">
 </p>
 
 <!-- <p align="center">
