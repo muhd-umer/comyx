@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from simcomm.core.propagation import get_noise_power, get_pathloss
+from comyx.core.propagation import get_noise_power, get_pathloss
 
 
 class TestGetNoisePower(unittest.TestCase):

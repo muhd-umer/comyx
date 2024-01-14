@@ -15,9 +15,9 @@ import os
 import numpy as np
 from config import constants, environment, setting
 
-import simcomm.core.propagation as prop
-from simcomm.core import STAR, LinkCollection, Receiver, Simulator, Transmitter
-from simcomm.utils import dbm2pow
+import comyx.core.propagation as prop
+from comyx.core import STAR, LinkCollection, Receiver, Simulator, Transmitter
+from comyx.utils import dbm2pow
 
 
 def main(N, link_option, custom_run, save_path):
