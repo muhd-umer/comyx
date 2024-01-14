@@ -1,19 +1,19 @@
 .. Keep title but hide it from the main page
-.. title:: SimComm
+.. title:: Comyx
 
-.. figure:: _static/logo.svg
+.. figure:: _static/logo_full.svg
    :align: center
    :class: dark-light
-   :width: 530px
+   :width: 580px
 
-.. **SimComm** Documentation
+.. **Comyx** Documentation
 .. =========================
 
 **Release** |release|
 |
 **Date** |today|
 
-Welcome to SimComm's documentation! SimComm is a Python library for simulating wireless communication systems. It uses NumPy and SciPy for numerical computation, and Numba for just-in-time (JIT) compilation. It is designed to be easy to use and flexible to extend.
+Welcome to Comyx's documentation! Comyx is a Python library for simulating wireless communication systems. It uses NumPy and SciPy for numerical computation, and Numba for just-in-time (JIT) compilation. It is designed to be easy to use and flexible to extend.
 The library is actively developed and maintained by **Muhammad Umer** https://github.com/muhd-umer.
 
 
@@ -52,4 +52,4 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    Quickstart <quickstart>
    API Reference <api/index>
    Research <research>
-   Changelog <https://github.com/muhd-umer/simcomm/releases>
+   Changelog <https://github.com/muhd-umer/comyx/releases>
