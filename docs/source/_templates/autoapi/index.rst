@@ -1,11 +1,11 @@
 API Reference
 =============
 
+API reference for the ``comyx`` package.
+
 .. toctree::
    :titlesonly:
-
-   {% for page in pages %}
-   {% if page.top_level_object and page.display %}
-   {{ page.include_path }}
-   {% endif %}
-   {% endfor %}
+   
+{% for module in ['core', 'metrics', 'stats', 'utils', 'visualize'] %}
+   comyx/{{ module }}/index
+{% endfor %}
