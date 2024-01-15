@@ -112,9 +112,7 @@ class Channel:
         self.shape = shape
         self.fading_args = fading_args
         self.no_link = no_link
-        self.distance = get_distance(
-            self.transmitter.position, self.receiver.position, 3
-        )
+        self.distance = get_distance(self.transmitter.position, self.receiver.position)
         self.pathloss = get_pathloss(
             **pathloss_args, distance=self.distance, frequency=self.frequency
         )

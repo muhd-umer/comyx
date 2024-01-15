@@ -53,7 +53,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(get_distance([0, 0, 0], [3, 4, 0]), 5)
         self.assertEqual(get_distance([0, 0], [3, 4, 0]), 5)
         with self.assertRaises(ValueError):
-            get_distance([0, 0], [3, 4], dim=4)
+            get_distance([0, 0], [3, 4])
 
     def test_qfunc(self):
         self.assertEqual(qfunc(0), 0.5)

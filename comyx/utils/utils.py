@@ -60,20 +60,20 @@ def pow2dbm(power: Union[float, NDArrayFloat]) -> NDArraySigned:
     return np.array(10 * np.log10(power * 1000))
 
 
-def get_distance(pt1: List[Any], pt2: List[Any], dim: int = 2) -> float:
+def get_distance(pt1: List[Any], pt2: List[Any]) -> float:
     """Calculate the Euclidean distance between two points.
 
     Args:
         pt1: First point as a list of [x, y] or [x, y, z] coordinates.
         pt2: Second point as a list of [x, y] or [x, y, z] coordinates.
-        dim: Dimension of the points. Default is 2.
 
     Returns:
         distance: Euclidean distance between the two points.
     """
-    if dim == 2:
+    assert len(pt1) == len(pt2), ValueError("Points must have the same dimension.")
+    if len(pt1) == 2:
         return np.sqrt((pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2)
-    elif dim == 3:
+    elif len(pt1) == 3:
         return np.sqrt(
             (pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2 + (pt1[2] - pt2[2]) ** 2
         )
