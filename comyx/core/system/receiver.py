@@ -1,8 +1,11 @@
 from typing import List
 
 import numpy as np
+import numpy.typing as npt
 
 from .system import SystemObject
+
+NDArrayFloat = npt.ArrayLike
 
 
 class Receiver(SystemObject):
@@ -16,8 +19,8 @@ class Receiver(SystemObject):
     Attributes:
         sensitivity: Stores the sensitivity of the receiver in dBm.
         rate: Stores the rate of the receiver in bits per second.
-        outage: Stores the outage of the receiver in dB.
-        snr: Stores the SNR of the receiver in dB.
+        outage: Stores the outages of the receiver in linear scale.
+        snr: Stores the SNR of the receiver in linear scale.
     """
 
     def __init__(self, name: str, position: List[float], sensitivity: float) -> None:
