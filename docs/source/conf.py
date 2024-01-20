@@ -61,7 +61,6 @@ html_show_sphinx = False
 html_favicon = "./_static/favicon.ico"
 html_logo = "./_static/fav.svg"
 html_static_path = ["_static"]
-html_js_files = ["custom-icon.js"]
 html_css_files = [
     "comyx.css",
 ]
