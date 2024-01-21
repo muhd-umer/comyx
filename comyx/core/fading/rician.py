@@ -13,7 +13,10 @@ NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Rician:
-    r"""The Rice distribution or Rician distribution (or, less commonly, Ricean distribution) is the probability distribution of the magnitude of a circularly-symmetric bivariate normal random variable, possibly with non-zero mean (noncentral).
+    r"""The Rice distribution or Rician distribution (or, less commonly, Ricean
+    distribution) is the probability distribution of the magnitude of a
+    circularly-symmetric bivariate normal random variable, possibly with
+    non-zero mean (noncentral).
 
     Density Function
         .. math::
@@ -33,12 +36,6 @@ class Rician:
         .. math::
             \sigma \sqrt{2 + \frac{\pi}{2}}
 
-    Attributes:
-        K: The Rician factor, which is the ratio between the power of the direct path and the power of the scattered paths.
-        omega: The scale parameter, which is the total power from both the line-of-sight and scattered paths.
-        sigma: The scale parameter, which is the standard deviation of the distribution.
-        nu: The location parameter, which is the shift of the distribution.
-
     Reference:
         https://en.wikipedia.org/wiki/Rice_distribution
     """
@@ -47,8 +44,10 @@ class Rician:
         """Initialize the Rician distribution with the given parameters.
 
         Args:
-            K: Rician factor := ratio between the power of direct path and the power of scattered paths.
-            sigma: The scale parameter, which is the standard deviation of the distribution.
+            K: Rician factor := ratio between the power of direct path and the
+              power of scattered paths.
+            sigma: The scale parameter, which is the standard deviation of the
+              distribution.
         """
         self.K = K
         self.sigma = sigma
@@ -56,13 +55,13 @@ class Rician:
         self.nu = np.sqrt((K / (1 + K)) * self.omega)
 
     def pdf(self, x: NDArrayFloat) -> NDArrayFloat:
-        """Return the probability density function of the Rician distribution.
+        """Probability density function of the Rician distribution.
 
         Args:
-            x: The value at which to evaluate the probability density function.
+            x: Value at which pdf is evaluated.
 
         Returns:
-            The probability density function evaluated at x.
+            Value of the probability density function evaluated at x.
         """
         return (
             (x / self.sigma**2)
@@ -71,31 +70,23 @@ class Rician:
         )
 
     def cdf(self, x: NDArrayFloat) -> NDArrayFloat:
-        """Return the cumulative distribution function of the Rician distribution.
+        """Cumulative distribution function of the the Rician distribution.
 
         Args:
-            x: The value at which to evaluate the cumulative distribution
+            x: Value at which cdf is evaluated.
 
         Returns:
-            The cumulative distribution function evaluated at x.
+            Value of the cumulative distribution function evaluated at x.
         """
         return stats.rice.cdf(x, self.nu / self.sigma)
 
     def expected_value(self) -> float:
-        """Return the expected value of the Rician distribution.
-
-        Returns:
-            The expected value of the Rician distribution.
-        """
+        """Returns the expected value of the Rician distribution."""
         arg = -self.nu**2 / (2 * self.sigma**2)
         return self.sigma * np.sqrt(np.pi / 2) * laguerre(arg, 1 / 2)
 
     def variance(self) -> float:
-        """Return the variance of the Rician distribution.
-
-        Returns:
-            The variance of the Rician distribution.
-        """
+        """Returns the variance of the Rician distribution."""
         arg = -self.nu**2 / (2 * self.sigma**2)
         return (
             2 * self.sigma**2
@@ -104,21 +95,18 @@ class Rician:
         )
 
     def rms_value(self) -> float:
-        """Return the RMS value of the Rician distribution.
-
-        Returns:
-            The RMS value of the Rician distribution.
-        """
+        """Returns the RMS value of the Rician distribution."""
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
     def get_samples(self, size: Union[int, Tuple[int, ...]]) -> NDArrayFloat:
         """Generate random variables from the Rician distribution.
 
         Args:
-            size: The number of random variables to generate.
+            size: Nnumber of random variables to generate.
 
         Returns:
-            An array of size `size` containing random variables from the Rician distribution.
+            An array of size `size` containing random variables from the Rician
+              distribution.
         """
         return np.array(
             stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)

@@ -79,7 +79,7 @@ class Nakagami:
         return stats.nakagami.cdf(x, self.m, scale=np.sqrt(self.omega))
 
     def expected_value(self) -> float:
-        """Return the expected value of the Nakagami distribution."""
+        """Returns the expected value of the Nakagami distribution."""
         return gamma(self.m + 1 / 2) / gamma(self.m) * np.sqrt(self.omega / self.m)
 
     def variance(self) -> float:
@@ -92,11 +92,11 @@ class Nakagami:
         """Generate random variables from the Nakagami distribution.
 
         Args:
-            size: The number of random variables to generate.
+            size: Number of random variables to generate.
 
         Returns:
             An array of size `size` containing random variables from the
-            Nakagami distribution.
+              Nakagami distribution.
         """
         return np.array(
             stats.nakagami.rvs(self.m, scale=np.sqrt(self.omega), size=size)
