@@ -54,7 +54,7 @@ class Nakagami:
         """Probability density function of the Nakagami distribution.
 
         Args:
-            x: Value at which to evaluate the probability density function.
+            x: Value at which pdf is evaluated.
 
         Returns:
             Value of the probability density function evaluated at x.
@@ -71,7 +71,7 @@ class Nakagami:
         """Cumulative distribution function of the Nakagami distribution.
 
         Args:
-            x: Value at which to evaluate the cumulative distribution
+            x: Value at which cdf is evaluated.
 
         Returns:
             Value of the cumulative distribution function evaluated at x.
