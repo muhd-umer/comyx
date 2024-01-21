@@ -156,5 +156,3 @@ def get_outage_q(
 
 
 __all__ = ["get_ergodic_rate", "get_outage_lt", "get_outage_clt", "get_outage_q"]
-__all__ = ["get_ergodic_rate", "get_outage_lt", "get_outage_clt", "get_outage_q"]
-__all__ = ["get_ergodic_rate", "get_outage_lt", "get_outage_clt", "get_outage_q"]
