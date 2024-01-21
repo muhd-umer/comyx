@@ -22,56 +22,78 @@ author = "Muhammad Umer"
 release = str(version)
 
 # -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 master_doc = "index"
+templates_path = ["_templates"]
+exclude_patterns = []
+
+# -- Extension configuration -------------------------------------------------
+
 extensions = [
-    "sphinx.ext.napoleon",
+    "ablog",
+    "autoapi.extension",
+    "numpydoc",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
-    "sphinx_design",
     "sphinx_copybutton",
-    "autoapi.extension",
-    # For extension examples and demos
-    "ablog",
-    "numpydoc",
-    "sphinx_togglebutton",
+    "sphinx_design",
     "sphinx_favicon",
+    "sphinx_togglebutton",
 ]
+
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy-1.8.1/", None),
 }
 
-templates_path = ["_templates"]
-exclude_patterns = []
-
-
 # -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "pydata_sphinx_theme"
 html_title = ""
 html_static_path = ["_static"]
 html_show_sourcelink = False
 html_show_sphinx = False
-html_favicon = "./_static/favicon.ico"
-html_logo = "./_static/fav.svg"
-html_static_path = ["_static"]
+html_logo = "./_static/comyx.png"
+html_favicon = "./_static/favicon.png"
 html_css_files = [
     "comyx.css",
 ]
 
-# json_url = "https://raw.githubusercontent.com/muhd-umer/comyx/main/docs/source/_static/switcher.json"
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 
-# if "dev" in release or "rc" in release:
-#     version_match = "dev"
-#     json_url = "_static/switcher.json"
-# else:
-#     version_match = "v" + release
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/muhd-umer/comyx",
+            "icon": "fa-brands fa-github",
+        },
+        {
+            "name": "PyPI",
+            "url": "https://pypi.org/project/comyx/",
+            "icon": "https://pypi.org/static/images/logo-small.2a411bc6.svg",
+            "type": "url",
+        },
+    ],
+    "footer_start": ["copyright"],
+    "navbar_start": ["navbar-logo"],
+    "navbar_align": "left",
+    "navbar_center": ["navbar-nav"],
+    "show_toc_level": 3,
+    "show_nav_level": 3,
+}
+
+html_context = {
+    "github_user": "muhd-umer",
+    "github_repo": "comyx",
+    "github_version": "main",
+    "doc_path": "docs",
+    "default_mode": "light",
+}
 
 # Add canonical URL
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
