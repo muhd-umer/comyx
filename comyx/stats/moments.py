@@ -178,12 +178,3 @@ def approx_gamma_params(
     theta = (mu_2 - mu_1**2) / mu_1
 
     return np.repeat(k, len(const)), theta * const
-
-
-__all__ = [
-    "fun_mu_naka",
-    "fun_mu_gamma",
-    "fun_mu_doublenaka",
-    "fun_mu_effective",
-    "approx_gamma_params",
-]

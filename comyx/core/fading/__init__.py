@@ -52,6 +52,3 @@ def get_rvs(
         raise NotImplementedError(f"Channel type {type} is not implemented")
 
     return samples
-
-
-__all__ = ["get_rvs", "Rayleigh", "Rician", "Nakagami"]
