@@ -11,7 +11,11 @@ NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Nakagami:
-    r"""The Nakagami distribution or the Nakagami-m distribution is a probability distribution related to the gamma distribution. The family of Nakagami distributions has two parameters: a shape parameter :math:`m` with :math:`m\geq 1/2` and a second parameter controlling spread :math:`\Omega > 0`.
+    r"""The Nakagami distribution or the Nakagami-m distribution is a
+    probability distribution related to the gamma distribution. The family
+    of Nakagami distributions has two parameters: a shape parameter
+    :math:`m` with :math:`m\geq 1/2` and a second parameter controlling
+    spread :math:`\Omega > 0`.
 
     Density Function
         .. math::
@@ -28,10 +32,6 @@ class Nakagami:
         .. math::
             \Omega \left(1 - \frac{1}{m}\left(\frac{\Gamma\left(m + \frac{1}{2}\right)}{\Gamma(m)}\right)^2\right)
 
-    Attributes:
-        m: The shape parameter, which is the fading severity.
-        omega: The scale parameter, which controls the spread of the distribution.
-
     Reference:
         https://en.wikipedia.org/wiki/Nakagami_distribution
     """
@@ -40,8 +40,10 @@ class Nakagami:
         """Initialize the Nakagami distribution with the given parameters.
 
         Args:
-            m: The shape parameter, which is the fading severity.
-            omega: The scale parameter, which controls the spread of the distribution.
+        m: Shape parameter, which is the fading severity. It must be greater than
+          or equal to 0.5.
+        omega: Scale parameter, which controls the spread of the distribution. It
+          must be greater than 0.
         """
         assert m >= 0.5, "The shape parameter must be greater than or equal to 0.5."
         assert omega > 0, "The scale parameter must be greater than 0."
@@ -49,13 +51,13 @@ class Nakagami:
         self.omega = omega
 
     def pdf(self, x: NDArrayFloat) -> NDArrayFloat:
-        """Return the probability density function of the Nakagami distribution.
+        """Probability density function of the Nakagami distribution.
 
         Args:
-            x: The value at which to evaluate the probability density function.
+            x: Value at which to evaluate the probability density function.
 
         Returns:
-            The probability density function evaluated at x.
+            Value of the probability density function evaluated at x.
         """
         return (
             2
@@ -66,30 +68,22 @@ class Nakagami:
         )
 
     def cdf(self, x: NDArrayFloat) -> NDArrayFloat:
-        """Return the cumulative distribution function of the Nakagami distribution.
+        """Cumulative distribution function of the Nakagami distribution.
 
         Args:
-            x: The value at which to evaluate the cumulative distribution
+            x: Value at which to evaluate the cumulative distribution
 
         Returns:
-            The cumulative distribution function evaluated at x.
+            Value of the cumulative distribution function evaluated at x.
         """
         return stats.nakagami.cdf(x, self.m, scale=np.sqrt(self.omega))
 
     def expected_value(self) -> float:
-        """Return the expected value of the Nakagami distribution.
-
-        Returns:
-            The expected value of the Nakagami distribution.
-        """
+        """Return the expected value of the Nakagami distribution."""
         return gamma(self.m + 1 / 2) / gamma(self.m) * np.sqrt(self.omega / self.m)
 
     def variance(self) -> float:
-        """Return the variance of the Nakagami distribution.
-
-        Returns:
-            The variance of the Nakagami distribution.
-        """
+        """Returns the variance of the Nakagami distribution."""
         return self.omega * (
             1 - 1 / self.m * (gamma(self.m + 1 / 2) / gamma(self.m)) ** 2
         )
@@ -101,7 +95,8 @@ class Nakagami:
             size: The number of random variables to generate.
 
         Returns:
-            An array of size `size` containing random variables from the Nakagami distribution.
+            An array of size `size` containing random variables from the
+            Nakagami distribution.
         """
         return np.array(
             stats.nakagami.rvs(self.m, scale=np.sqrt(self.omega), size=size)
