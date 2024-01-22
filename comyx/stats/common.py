@@ -21,9 +21,9 @@ def gamma_add_params(
     b: NDArrayFloat = np.array([1.0]),
     return_type: str = "params",
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    r"""Computes the parameters of the sum of two independent Gamma random
-    variables, given the first two moments of each distribution. The first
-    distribution is optionally weighted by a, and the second by b.
+    r"""Computes the parameters of the sum of two independent Gamma random variables.
+
+    The first distribution is optionally weighted by a, and the second by b.
 
     .. math::
         z = a h + b g
@@ -79,8 +79,7 @@ def gamma_plus_one_params(
     a: NDArrayFloat = np.array([1.0]),
     return_type: str = "params",
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    r"""Computes the parameters of the sum of a Gamma random variable and one,
-    given the first two moments of the Gamma distribution.
+    r"""Computes the parameters of the sum of a Gamma random variable and one.
 
     .. math::
         z = h + 1
@@ -121,8 +120,7 @@ def gamma_plus_one_params(
 def gamma_div_gamma_dist(
     k_a: NDArrayFloat, k_b: NDArrayFloat, theta_a: NDArrayFloat, theta_b: NDArrayFloat
 ) -> RVDistribution:
-    r"""Computes the parameters of the ratio of two independent Gamma random
-    variables, given the shape and scale parameters of each distribution.
+    r"""Computes the parameters of the ratio of two independent Gamma random variables.
 
     .. math::
         z = \frac{h}{g}
@@ -147,3 +145,10 @@ def gamma_div_gamma_dist(
 
     dist = stats.betaprime(k_a, k_b, loc=0, scale=theta_a / theta_b)
     return dist
+
+
+__all__ = [
+    "gamma_add_params",
+    "gamma_plus_one_params",
+    "gamma_div_gamma_dist",
+]

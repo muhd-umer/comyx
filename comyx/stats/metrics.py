@@ -37,8 +37,7 @@ def get_ergodic_rate(k: float, m: float, theta: float, omega: float) -> float:
 def get_outage_lt(
     k: float, m: float, theta: float, omega: float, lambda_th: float
 ) -> float:
-    r"""Computes the probability of the received SNR being less than the
-    threshold.
+    r"""Computes the probability of the received SNR being less than the threshold.
 
     .. math::
         Pr(\lambda_{r}\lt\lambda_{th})=\frac{1}{{k B(k,m)}}{\left(\frac{10^{\lambda_{th} /10} \Omega}{\theta }\right)^k{_2F_1\left(k,k+m;k+1;-\frac{10^{\lambda_{th} /10} \Omega }{\theta}\right)}}
@@ -75,8 +74,10 @@ def get_outage_clt(
     lambda_a: float,
     lambda_b: float,
 ) -> float:
-    r"""Computes the probability of inter-related SNRs being greater than one
-    threshold, but less than another.
+    r"""Computes the probability of inter-related SNRs.
+    
+    More specifically, it computes the probability of SNRs being greater than
+    one threshold, but less than another.
     
     .. math::
         Pr(\lambda_{a}\gt\lambda_{th}, \lambda_{b}\lt\gamma_{th})=\frac{1}{k_b \Gamma\left(m_a\right) B\left(k_b,m_b\right)}{\left(\frac{10^{\gamma /10} \Omega _b}{\theta_b}\right){}^{k_b} {_2F_1\left(k_b,k_b+m_b;k_b+1;-\frac{10^{\gamma /10} \Omega_b}{\theta _b}\right)}} \\
@@ -152,3 +153,6 @@ def get_outage_q(Pr: NDArrayFloat, threshold: float) -> NDArrayFloat:
     """
 
     return qfunc((threshold - float(np.mean(Pr))) / float(np.std(Pr)))
+
+
+__all__ = ["get_ergodic_rate", "get_outage_lt", "get_outage_clt", "get_outage_q"]

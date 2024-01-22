@@ -54,8 +54,7 @@ def fun_mu_doublenaka(
     c: float,
     N: int,
 ) -> NDArrayFloat:
-    r"""Computes the p-th moment of the sum of two independent Nakagami-m random
-    variables.
+    r"""Computes the p-th moment of the sum of two independent Nakagami-m RVs.
 
     .. math::
         G = \sqrt{c} \sum_{n=1}^{N} |{h_1}||{h_2}|
@@ -162,7 +161,9 @@ def approx_gamma_params(
     mu_2: NDArrayFloat,
     const: NDArrayFloat = np.array([1.0]),
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    r"""Approximates the shape and scale parameters of the Gamma distribution
+    r"""Approximates the shape and scale of the Gamma distribution.
+
+    Approximates the shape and scale parameters of the Gamma distribution
     given the first two moments of a non-negative RV. The approximation is
     based on the method of moments, given by:
 
@@ -189,3 +190,12 @@ def approx_gamma_params(
     theta = (mu_2 - mu_1**2) / mu_1
 
     return np.repeat(k, len(const)), theta * const
+
+
+__all__ = [
+    "fun_mu_naka",
+    "fun_mu_gamma",
+    "fun_mu_doublenaka",
+    "fun_mu_effective",
+    "approx_gamma_params",
+]
