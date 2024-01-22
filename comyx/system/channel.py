@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
-from ...utils import db2pow, get_distance
 from ..fading import *
 from ..propagation import *
+from ..utils import db2pow, get_distance
 
 if TYPE_CHECKING:
     from .system import SystemObject

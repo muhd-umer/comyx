@@ -7,7 +7,7 @@ import numpy.typing as npt
 import scipy.stats as stats
 from scipy.special import i0
 
-from ...utils import laguerre
+from ..utils import laguerre
 
 NDArrayFloat = npt.NDArray[np.floating[Any]]
 

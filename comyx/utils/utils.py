@@ -13,49 +13,49 @@ NDArraySigned = npt.NDArray[np.signedinteger[Any]]
 
 
 def db2pow(db: Union[float, NDArrayFloat]) -> NDArrayFloat:
-    """Convert decibels to power.
+    """Convert power in decibels to watts.
 
     Args:
         db: Power in decibels.
 
     Returns:
-        pow: Power.
+        Power in watts.
     """
     return np.array(10 ** (db / 10))
 
 
 def pow2db(power: Union[float, NDArrayFloat]) -> NDArraySigned:
-    """Convert power to decibels.
+    """Convert power in watts to decibels.
 
     Args:
         power: Power in watts.
 
     Returns:
-        db: Power in decibels.
+        Power in decibels.
     """
     return np.array(10 * np.log10(power))
 
 
 def dbm2pow(dbm: Union[float, NDArrayFloat]) -> NDArrayFloat:
-    """Convert decibels relative to 1 milliwatt to power.
+    """Convert decibels relative to 1 milliwatt to watts.
 
     Args:
         dbm: Power in decibels relative to 1 milliwatt.
 
     Returns:
-        pow: Power in watts.
+        Power in watts.
     """
     return np.array(10 ** ((dbm - 30) / 10))
 
 
 def pow2dbm(power: Union[float, NDArrayFloat]) -> NDArraySigned:
-    """Convert power to decibels relative to 1 milliwatt.
+    """Convert power in watts to decibels relative to 1 milliwatt.
 
     Args:
         pow: Power in watts.
 
     Returns:
-        dbm: Power in decibels relative to 1 milliwatt.
+        Power in decibels relative to 1 milliwatt.
     """
     return np.array(10 * np.log10(power * 1000))
 
@@ -63,12 +63,20 @@ def pow2dbm(power: Union[float, NDArrayFloat]) -> NDArraySigned:
 def get_distance(pt1: List[Any], pt2: List[Any]) -> float:
     """Calculate the Euclidean distance between two points.
 
+    Points must have the same dimension and be a list of length 2 or 3.
+
+    Example usage:
+        >>> get_distance([0, 0], [1, 1])
+        1.4142135623730951
+        >>> get_distance([0, 0, 0], [1, 1, 1])
+        1.7320508075688772
+
     Args:
-        pt1: First point as a list of [x, y] or [x, y, z] coordinates.
-        pt2: Second point as a list of [x, y] or [x, y, z] coordinates.
+        pt1: The first point.
+        pt2: The second point.
 
     Returns:
-        distance: Euclidean distance between the two points.
+        The Euclidean distance between the two points.
     """
     assert len(pt1) == len(pt2), ValueError("Points must have the same dimension.")
     if len(pt1) == 2:
@@ -81,7 +89,7 @@ def get_distance(pt1: List[Any], pt2: List[Any]) -> float:
         raise ValueError("Invalid dimension. Must be 2 or 3.")
 
 
-def rolling_mean(data: NDArrayFloat, window_size: int) -> List[Any]:
+def rolling_mean(data: NDArrayFloat, window_size: int) -> NDArrayFloat:
     """Compute the rolling mean of a curve.
 
     Args:
@@ -89,43 +97,12 @@ def rolling_mean(data: NDArrayFloat, window_size: int) -> List[Any]:
         window_size: The size of the window.
 
     Returns:
-        list: The filtered curve.
+        Data list with the rolling mean applied.
     """
 
     filtered_curve = pd.Series(data).rolling(window_size).mean()
 
-    return filtered_curve.tolist()
-
-
-def randomize_user_pos(
-    bs_pos: List[Any],
-    user_pos: List[Any],
-    edge_idx: int,
-    r_min: List[Any] = [30],
-    r_max: List[Any] = [100],
-) -> List[Any]:
-    """Randomize the positions of the users in the network, except for the edge user.
-
-    Args:
-        bs_pos: A list of the positions of the base stations.
-        user_pos: A list of the positions of the users.
-        edge_idx: The index of the edge user.
-        r_min: A list of minimum distances between the users and the base stations. Defaults to [30].
-        r_max: A list of maximum distances between the users and the base stations. Defaults to [100].
-
-    Returns:
-        list: A list of the positions of the users.
-    """
-    for i in range(len(user_pos)):
-        if i == edge_idx:
-            continue
-        bs_idx = np.argmin(np.linalg.norm(bs_pos - user_pos[i], axis=1))
-        rm = r_min[i] if len(r_min) > i else r_min[-1]
-        rM = r_max[i] if len(r_max) > i else r_max[-1]
-        r = np.random.uniform(rm, rM)
-        theta = np.random.uniform(0, 2 * np.pi)
-        user_pos[i] = bs_pos[bs_idx] + r * np.array([np.cos(theta), np.sin(theta), 0])
-    return user_pos
+    return np.array(filtered_curve.tolist())
 
 
 def qfunc(x: Union[float, NDArrayFloat]) -> NDArrayFloat:
@@ -180,7 +157,7 @@ def wrapTo2Pi(theta: NDArrayFloat) -> NDArrayFloat:
         theta: The angle to wrap.
 
     Returns:
-        wrapped_theta: The wrapped angle.
+        The wrapped angle.
     """
 
     return np.mod(theta, 2 * np.pi)

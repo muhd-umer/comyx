@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, List, Union
 
 import numpy as np
 
-from ...utils import wrapTo2Pi
+from ..utils import wrapTo2Pi
 from .system import SystemObject
 
 if TYPE_CHECKING:

@@ -8,8 +8,8 @@ import numpy.typing as npt
 import scipy.io as io
 from colorama import Fore, Style
 
-from ...utils import dbm2pow, pow2db, qfunc
 from ..system import STAR, LinkCollection, Receiver, Transmitter
+from ..utils import dbm2pow, pow2db, qfunc
 
 NDArrayFloat = npt.NDArray[np.floating[Any]]
 

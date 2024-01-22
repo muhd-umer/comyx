@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 import numpy as np
 import numpy.typing as npt
 
-from ...utils import wrapTo2Pi
+from ..utils import wrapTo2Pi
 from .channel import Channel
 
 if TYPE_CHECKING:

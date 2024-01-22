@@ -5,7 +5,7 @@ from typing import Any
 import numpy as np
 import numpy.typing as npt
 
-from ...utils import pow2db
+from ..utils import pow2db
 
 NDArrayFloat = npt.NDArray[np.floating[Any]]
 
@@ -19,6 +19,15 @@ def get_pathloss(
 ) -> NDArrayFloat:
     """Get path loss in dB.
 
+    FSPL Args:
+        alpha: Path loss exponent.
+        p0: Reference path loss at 1m.
+
+    Log Distance Args:
+        d0: The breakpoint distance.
+        alpha: The path loss exponent.
+        sigma: The shadow fading standard deviation.
+
     Args:
         type: Path loss model type. ("free-space", "log-distance", "friis")
         distance: Distance between transmitter and receiver.
@@ -28,15 +37,6 @@ def get_pathloss(
 
     Returns:
         Path loss in dB.
-
-    - FSPL Args:
-        - alpha: Path loss exponent.
-        - p0: Reference path loss at 1m.
-
-    - Log Distance Args:
-        - d0: The breakpoint distance.
-        - alpha: The path loss exponent.
-        - sigma: The shadow fading standard deviation.
 
     """
     if type == "free-space":

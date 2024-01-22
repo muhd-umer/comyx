@@ -17,9 +17,9 @@ def fun_mu_naka(
     """Computes the p-th moment of the Nakagami-m distribution.
 
     Args:
-        p: The order of the moment.
-        m: The shape parameter of the distribution.
-        omega: The scale parameter of the distribution.
+        p: Order of the moment to compute.
+        m: Shape parameter of the distribution.
+        omega: Scale parameter of the distribution.
 
     Returns:
         The p-th moment of the Nakagami-m distribution.
@@ -35,9 +35,9 @@ def fun_mu_gamma(
     """Computes the p-th moment of the Gamma distribution.
 
     Args:
-        p: The order of the moment.
-        k: The shape parameter of the distribution.
-        theta: The scale parameter of the distribution.
+        p: Order of the moment to compute.
+        k: Shape parameter of the distribution.
+        theta: Scale parameter of the distribution.
 
     Returns:
         The p-th moment of the Gamma distribution.
@@ -54,24 +54,27 @@ def fun_mu_doublenaka(
     c: float,
     N: int,
 ) -> NDArrayFloat:
-    r"""Computes the p-th moment of the sum of two independent Nakagami-m random variables.
+    r"""Computes the p-th moment of the sum of two independent Nakagami-m random
+    variables.
 
     .. math::
         G = \sqrt{c} \sum_{n=1}^{N} |{h_1}||{h_2}|
 
-    , where :math:`h_1 \sim Nakagami(m, \Omega)` and :math:`h_2 \sim Nakagami(k, \theta)`.
+    , where :math:`h_1 \sim Nakagami(m, \Omega)` and :math:`h_2 \sim Nakagami(k,
+    \theta)`.
 
     Args:
-        p: The order of the moment.
-        m: The shape parameter of the first distribution.
-        k: The shape parameter of the second distribution.
-        omega: The scale parameter of the first distribution.
-        theta: The scale parameter of the second distribution.
+        p: Order of the moment to compute.
+        m: Shape parameter of the first distribution :math:`h_1`.
+        k: Shape parameter of the second distribution :math:`h_2`.
+        omega: Scale parameter of the first distribution :math:`h_1`.
+        theta: Scale parameter of the second distribution :math:`h_2`.
         c: Summation constant.
-        N: The number of summation terms.
+        N: Number of summation terms.
 
     Returns:
-        The p-th moment of the sum of two independent Nakagami-m random variables.
+        The p-th moment of the sum of two independent Nakagami-m random
+        variables.
     """
     return np.array(
         (
@@ -100,21 +103,25 @@ def fun_mu_effective(
     .. math::
         Z = |H|^2 = (h + G)^2
 
-    , where :math:`h \sim Nakagami(m, \Omega)` and :math:`G \sim \Gamma(k_G, \theta_G)`.
+    , where :math:`h \sim Nakagami(m, \Omega)` and :math:`G \sim \Gamma(k_G,
+    \theta_G)`. Furthermore, :math:`G` is defined as:
+
+    .. math::
+        G = \sqrt{c} \sum_{n=1}^{N} |{h_1}||{h_2}|
 
     Args:
-        p: The order of the moment.
-        m_h: The shape parameter of h distribution.
-        m_Ga: The shape parameter of the first distribution of G.
-        m_Gb: The shape parameter of the second distribution of G.
-        omega_h: The scale parameter of h distribution.
-        omega_Ga: The scale parameter of the first distribution of G.
-        omega_Gb: The scale parameter of the second distribution of G.
+        p: Order of the moment to compute. Only p = 1 and p = 2 are supported.
+        m_h: Shape parameter of h distribution.
+        m_Ga: Shape parameter of the first distribution of :math:`G`.
+        m_Gb: Shape parameter of the second distribution of :math:`G`.
+        omega_h: Scale parameter of h distribution.
+        omega_Ga: Scale parameter of the first distribution of :math:`G`.
+        omega_Gb: Scale parameter of the second distribution of :math:`G`.
         c: Summation constant.
-        N: The number of summation terms.
+        N: Number of summation terms.
 
     Returns:
-        The p-th moment of the effective channel distribution. Only p = 1 and p = 2 are supported.
+        The p-th moment of the effective channel distribution.
     """
     assert p in [1, 2], "p must be 1 or 2, higher moments are not supported."
 
@@ -155,7 +162,9 @@ def approx_gamma_params(
     mu_2: NDArrayFloat,
     const: NDArrayFloat = np.array([1.0]),
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    r"""Approximates the shape and scale parameters of the Gamma distribution given the first two moments of a non-negative RV. The approximation is based on the method of moments, given by:
+    r"""Approximates the shape and scale parameters of the Gamma distribution
+    given the first two moments of a non-negative RV. The approximation is
+    based on the method of moments, given by:
 
     .. math::
         k = \frac{\mu^2}{\mu^{(2)} - \mu^2}
@@ -163,15 +172,17 @@ def approx_gamma_params(
     .. math::
         \theta = \frac{\mu^{(2)} - \mu^2}{\mu}
 
-    , where :math:`\mu` and :math:`\mu^{(2)}` are the first and second moments, respectively.
+    , where :math:`\mu` and :math:`\mu^{(2)}` are the first and second moments,
+    respectively.
 
     Args:
-        mu_1: The first moment.
-        mu_2: The second moment.
-        const: The constant to multiply the scale parameter by. Defaults to 1.0.
+        mu_1: First moment of the RV.
+        mu_2: Second moment of the RV.
+        const: Constant to multiply the scale parameter by.
+          Defaults to 1.0.
 
     Returns:
-        The shape and scale parameters of the Gamma distribution.
+        Shape and scale parameters of the Gamma distribution.
     """
 
     k = (mu_1**2) / (mu_2 - mu_1**2)

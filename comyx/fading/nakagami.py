@@ -40,10 +40,10 @@ class Nakagami:
         """Initialize the Nakagami distribution with the given parameters.
 
         Args:
-        m: Shape parameter, which is the fading severity. It must be greater than
-          or equal to 0.5.
-        omega: Scale parameter, which controls the spread of the distribution. It
-          must be greater than 0.
+            m: Shape parameter, which is the fading severity. It must be greater than
+              or equal to 0.5.
+            omega: Scale parameter, which controls the spread of the distribution. It
+              must be greater than 0.
         """
         assert m >= 0.5, "The shape parameter must be greater than or equal to 0.5."
         assert omega > 0, "The scale parameter must be greater than 0."

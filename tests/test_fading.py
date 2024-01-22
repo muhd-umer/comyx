@@ -2,7 +2,7 @@ from unittest import TestCase, main
 
 import numpy as np
 
-from comyx.core.fading import get_rvs
+from comyx.fading import get_rvs
 
 
 class TestGetRvs(TestCase):

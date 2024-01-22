@@ -21,15 +21,19 @@ def gamma_add_params(
     b: NDArrayFloat = np.array([1.0]),
     return_type: str = "params",
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    r"""Computes the parameters of the sum of two independent Gamma random variables, given the first two moments of each distribution. The first distribution is optionally weighted by a, and the second by b.
+    r"""Computes the parameters of the sum of two independent Gamma random
+    variables, given the first two moments of each distribution. The first
+    distribution is optionally weighted by a, and the second by b.
 
     .. math::
         z = a h + b g
 
-    , where :math:`h \sim \Gamma(k_a, \theta_a)` and :math:`g \sim \Gamma(k_b, \theta_b)`. Also,
+    , where :math:`h \sim \Gamma(k_a, \theta_a)` and :math:`g \sim \Gamma(k_b,
+    \theta_b)`. Also,
 
     .. math::
         k_n = \frac{\mu_{n,1}^{(2)}}{\mu_{n,2} - \mu_{n,1}^{(2)}}
+
     .. math::
         \theta_n = \frac{\mu_{n,2} - \mu_{n,1}^{(2)}}{\mu_{n,1}}
 
@@ -41,16 +45,21 @@ def gamma_add_params(
         z \sim \Gamma(k_z, \theta_z)
 
     Args:
-        mu_a_1: The first moment of the first Gamma distribution.
-        mu_a_2: The second moment of the first Gamma distribution.
-        mu_b_1: The first moment of the second Gamma distribution.
-        mu_b_2: The second moment of the second Gamma distribution.
-        a: The shape parameter of the first Gamma distribution.
-        b: The shape parameter of the second Gamma distribution.
-        return_type: The type of the returned value. If "params", returns the shape and scale parameters of the sum of two independent Gamma random variables. If "moments", returns the first two moments of the sum of two independent Gamma random variables.
+        mu_a_1: First moment of the first Gamma distribution :math:`h`.
+        mu_a_2: Second moment of the first Gamma distribution :math:`h`.
+        mu_b_1: First moment of the second Gamma distribution :math:`g`.
+        mu_b_2: Second moment of the second Gamma distribution :math:`g`.
+        a: Shape parameter of the first Gamma distribution :math:`h`.
+        b: Shape parameter of the second Gamma distribution :math:`g`.
+        return_type: Return type of the function. Must be either "params" or
+          "moments".
 
     Returns:
-        The desired parameters of the sum of two independent Gamma random variables.
+        Desired parameters of the sum of a Gamma random variable and one. If
+        return_type is "params", returns the shape and scale parameters of the
+        sum of two independent Gamma random variables. If return_type is
+        "moments", returns the first two moments of the sum of two independent
+        Gamma random variables.
     """
 
     mu_1 = (mu_a_1 * a) + (mu_b_1 * b)
@@ -70,7 +79,8 @@ def gamma_plus_one_params(
     a: NDArrayFloat = np.array([1.0]),
     return_type: str = "params",
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    r"""Computes the parameters of the sum of a Gamma random variable and one, given the first two moments of the Gamma distribution.
+    r"""Computes the parameters of the sum of a Gamma random variable and one,
+    given the first two moments of the Gamma distribution.
 
     .. math::
         z = h + 1
@@ -84,12 +94,17 @@ def gamma_plus_one_params(
         \theta_a = \frac{\mu_{a,2} - \mu_{a,1}^{(2)}}{\mu_{a,1}}
 
     Args:
-        mu_a_1: The first moment of the Gamma distribution.
-        mu_a_2: The second moment of the Gamma distribution.
-        return_type: The type of the returned value. If "params", returns the shape and scale parameters of the sum of a Gamma random variable and one. If "moments", returns the first two moments of the sum of a Gamma random variable and one.
+        mu_a_1: First moment of the Gamma distribution.
+        mu_a_2: Second moment of the Gamma distribution.
+        return_type: Return type of the function. Must be either "params" or
+          "moments".
 
     Returns:
-        The desired parameters of the sum of a Gamma random variable and one.
+        Desired parameters of the sum of a Gamma random variable and one. If
+        return_type is "params", returns the shape and scale parameters of the
+        sum of a Gamma random variable and one. If return_type is "moments",
+        returns the first two moments of the sum of a Gamma random variable and
+        one.
     """
 
     mu_1 = (a * mu_a_1) + 1
@@ -106,61 +121,29 @@ def gamma_plus_one_params(
 def gamma_div_gamma_dist(
     k_a: NDArrayFloat, k_b: NDArrayFloat, theta_a: NDArrayFloat, theta_b: NDArrayFloat
 ) -> RVDistribution:
-    r"""Computes the parameters of the ratio of two independent Gamma random variables, given the shape and scale parameters of each distribution.
+    r"""Computes the parameters of the ratio of two independent Gamma random
+    variables, given the shape and scale parameters of each distribution.
 
     .. math::
         z = \frac{h}{g}
 
-    , where :math:`h \sim \Gamma(k_a, \theta_a)` and :math:`g \sim \Gamma(k_b, \theta_b)`. The resulting distribution is a Beta prime distribution, expressed as:
+    , where :math:`h \sim \Gamma(k_a, \theta_a)` and :math:`g \sim \Gamma(k_b,
+    \theta_b)`. The resulting distribution is a Beta prime distribution,
+    expressed as:
 
     .. math::
         z \sim \beta'(k_a, k_b, \theta_a / \theta_b)
 
     Args:
-        k_a: The shape parameter of the first Gamma distribution.
-        k_b: The shape parameter of the second Gamma distribution.
-        theta_a: The scale parameter of the first Gamma distribution.
-        theta_b: The scale parameter of the second Gamma distribution.
+        k_a: Shape parameter of the first Gamma distribution :math:`h`.
+        k_b: Shape parameter of the second Gamma distribution :math:`g`.
+        theta_a: Scale parameter of the first Gamma distribution :math:`h`.
+        theta_b: Scale parameter of the second Gamma distribution :math:`g`.
 
     Returns:
-        A beta prime distribution with shape parameters k_a and k_b, and scale parameter theta_a / theta_b.
+        A beta prime distribution with shape parameters k_a and k_b, and scale
+        parameter theta_a / theta_b.
     """
 
     dist = stats.betaprime(k_a, k_b, loc=0, scale=theta_a / theta_b)
     return dist
-
-
-# def approx_gamma_add_params(
-#     k_a: NDArrayFloat,
-#     k_b: NDArrayFloat,
-#     theta_a: NDArrayFloat,
-#     theta_b: NDArrayFloat,
-#     return_type: str = "params",
-# ) -> Tuple[NDArrayFloat, NDArrayFloat]:
-#     """Computes the parameters of the sum of two independent Gamma random variables, given the shape and scale parameters of each distribution.
-
-#     Args:
-#         k_a: The shape parameter of the first Gamma distribution.
-#         k_b: The shape parameter of the second Gamma distribution.
-#         theta_a: The scale parameter of the first Gamma distribution.
-#         theta_b: The scale parameter of the second Gamma distribution.
-#         return_type: The type of the returned value. If "params", returns the shape and scale parameters of the sum of two independent Gamma random variables. If "moments", returns the first two moments of the sum of two independent Gamma random variables.
-
-#     Returns:
-#         The desired parameters of the sum of two independent Gamma random variables.
-#     """
-#     mu_1 = theta_a * k_a + theta_b * k_b
-#     mu_2 = (
-#         k_a * theta_a**2
-#         + k_a**2 * theta_a**2
-#         + k_b * theta_b**2
-#         + k_b**2 * theta_b**2
-#         + 2 * k_a * k_b * theta_a * theta_b
-#     )
-
-#     if return_type == "params":
-#         return approx_gamma_params(mu_1, mu_2)
-#     elif return_type == "moments":
-#         return mu_1, mu_2
-#     else:
-#         raise ValueError("return_type must be either 'params' or 'moments'")

@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from comyx.core.propagation import get_noise_power, get_pathloss
+from comyx.propagation import get_noise_power, get_pathloss
 
 
 class TestGetNoisePower(unittest.TestCase):
