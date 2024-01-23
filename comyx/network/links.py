@@ -27,18 +27,14 @@ class Link:
     A link is a connection between two transceivers. It is characterized by the
     distance between the two transceivers, the path loss, and the channel gain.
 
-    The path loss is the loss of signal strength due to the distance between the
-    transceivers, and the channel gain is the gain of signal strength due to the
-    channel between the transceivers.
-
     Mathematically, the channel gain is given by
 
     .. math::
-        h_{\mathrm{tx,rx}} = g_{\mathrm{tx,rx}} \sqrt{PL(d_{\mathrm{tx,rx}})},
+        h_{t,r} = g_{t,r} \sqrt{PL(d_{t,r})},
 
-    where :math:`g_{\mathrm{tx,rx}}` is the small-scale fading (sampled from a
-    distribution), :math:`PL(d_{\mathrm{tx,rx}})` is the path loss, and
-    :math:`d_{\mathrm{tx,rx}}` is the distance between the transceivers.
+    where :math:`g_{t,r}` is the small-scale fading (sampled from a
+    distribution), :math:`PL(d_{t,r})` is the path loss, and
+    :math:`d_{t,r}` is the distance between the transceivers.
     """
 
     def __init__(
@@ -100,19 +96,14 @@ class EffectiveLink(Link):
     transceivers, the respective path losses, the cascaded channel gain, and the
     effective channel gain.
 
-    The effective channel gain is the gain of signal strength due to the channel
-    between the transceivers through the RIS, and the effective channel gain is
-    the gain of signal strength due to the channel between the transceivers plus
-    the effective channel gain.
-
     Mathematically, the effective channel gain is given by
 
     .. math::
-        h_{\mathrm{eff}} = h_{\mathrm{tx,rx}} + \mathbf{h}_{\mathrm{ris,rx}}^H \mathbf{R} \mathbf{h}_{\mathrm{tx,ris}},
+        h_{eff}= h_{t,r} + \mathbf{h}_{R,r}^H \mathbf{R} \mathbf{h}_{t,R},
 
-    where :math:`h_{\mathrm{tx,rx}}` is the channel gain between the
-    transceivers, :math:`\mathbf{h}_{\mathrm{tx,ris}}` is the channel gain
-    between the transceiver and the RIS, :math:`\mathbf{h}_{\mathrm{ris,rx}}` is
+    where :math:`h_{t,r}` is the channel gain between the
+    transceivers, :math:`\mathbf{h}_{t,R}` is the channel gain
+    between the transceiver and the RIS, :math:`\mathbf{h}_{R,r}` is
     the channel gain between the RIS and the receiver, and :math:`\mathbf{R}` is
     the reflection matrix of the RIS. The superscript :math:`H` denotes the
     Hermitian (complex conjugate) operator.

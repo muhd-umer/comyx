@@ -11,6 +11,22 @@ NDArrayComplex = npt.NDArray[np.complexfloating[Any, Any]]
 
 
 class RIS:
+    r"""Represent a reconfigurable intelligent surface (RIS).
+
+    An RIS is a surface with a large number of elements that can be
+    electronically controlled to reflect the incoming signal in a desired
+    direction. The RIS is assumed to be a square surface with a uniform element
+    spacing.
+
+    Mathematically, the reflection matrix of the RIS is given by
+
+    .. math::
+        \mathbf{R} = \text{diag}(\mathbf{a} \odot \exp(j \mathbf{\Phi})),
+
+    where :math:`\mathbf{a}` is the vector of amplitudes, :math:`\mathbf{\Phi}`
+    is the vector of phase shifts, and :math:`\odot` is the Hadamard product.
+    """
+
     def __init__(
         self,
         id_: str,
