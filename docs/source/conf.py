@@ -30,9 +30,7 @@ exclude_patterns = []
 # -- Extension configuration -------------------------------------------------
 
 extensions = [
-    "ablog",
     "autoapi.extension",
-    "numpydoc",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
@@ -63,38 +61,6 @@ html_css_files = [
     "comyx.css",
 ]
 
-html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
-
-html_theme_options = {
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/muhd-umer/comyx",
-            "icon": "fa-brands fa-github",
-        },
-        {
-            "name": "PyPI",
-            "url": "https://pypi.org/project/comyx/",
-            "icon": "https://pypi.org/static/images/logo-small.2a411bc6.svg",
-            "type": "url",
-        },
-    ],
-    "footer_start": ["copyright"],
-    "navbar_start": ["navbar-logo"],
-    "navbar_align": "left",
-    "navbar_center": ["navbar-nav"],
-    "show_toc_level": 3,
-    "show_nav_level": 3,
-}
-
-html_context = {
-    "github_user": "muhd-umer",
-    "github_repo": "comyx",
-    "github_version": "main",
-    "doc_path": "docs",
-    "default_mode": "light",
-}
-
 # Add canonical URL
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 
@@ -112,20 +78,10 @@ html_theme_options = {
             "type": "url",
         },
     ],
-    # "logo": {
-    #     "text": "Comyx",
-    #     "image_dark": "_static/fav.svg",
-    #     "alt_text": "Comyx",
-    # },
     "footer_start": ["copyright"],
     "navbar_start": ["navbar-logo"],
     "navbar_align": "left",
     "navbar_center": ["navbar-nav"],
-    # "navbar_center": ["navbar-nav"],
-    # "switcher": {
-    #     "json_url": json_url,
-    #     "version_match": version_match,
-    # },
     "show_toc_level": 3,
     "show_nav_level": 3,
 }
@@ -161,7 +117,6 @@ autoapi_options = [
     "imported-members",
 ]
 autodoc_typehints = "signature"
-# autodoc_type_aliases = {"NDArray": "NDArray"}
 python_use_unqualified_type_names = True
 
 
