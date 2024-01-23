@@ -10,27 +10,28 @@ from .rayleigh import Rayleigh
 from .rician import Rician
 
 NDArrayFloat = npt.NDArray[np.floating[Any]]
+NDArrayComplex = npt.NDArray[np.complexfloating[Any, Any]]
 
 
 def get_rvs(
-    type: str, shape: Union[int, Tuple[int, ...]], *args, **kwargs
-) -> NDArrayFloat:
+    shape: Union[int, Tuple[int, ...]], type: str, *args, **kwargs
+) -> NDArrayComplex:
     """Generates random variables from a distribution.
 
-    Args:
-        type: Type of the fading. ("rayleigh", "rician")
-        shape: Number of fading samples to generate.
-
-    Rayleigh Args:
+    Rayleigh:
         sigma: Scale parameter of the Rayleigh distribution.
 
-    Rician Args:
+    Rician:
         K: Rician K-factor in dB.
         sigma: Scale parameter of the Rician distribution.
 
-    Nakagami Args:
+    Nakagami:
         m: Shape parameter of the Nakagami distribution.
         omega: Scale parameter of the Nakagami distribution.
+
+    Args:
+        shape: Number of fading samples to generate.
+        type: Type of the fading. ("rayleigh", "rician")
 
     Returns:
         Channel gains.
@@ -51,7 +52,9 @@ def get_rvs(
     else:
         raise NotImplementedError(f"Channel type {type} is not implemented")
 
-    return samples
+    return np.array(
+        samples * np.exp(1j * np.random.uniform(0, 2 * np.pi, shape)), dtype=complex
+    )
 
 
 __all__ = ["get_rvs"]
