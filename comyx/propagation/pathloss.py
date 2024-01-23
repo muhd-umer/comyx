@@ -100,3 +100,6 @@ def log_distance(
         loss_break + 10 * alpha * np.log10(distance / d0) + np.random.normal(0, sigma)
     )
     return loss
+
+
+__all__ = ["get_pathloss"]

@@ -11,7 +11,9 @@ NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Nakagami:
-    r"""The Nakagami distribution or the Nakagami-m distribution is a
+    r"""Class for Nakagami distribution.
+
+    The Nakagami distribution or the Nakagami-m distribution is a
     probability distribution related to the gamma distribution. The family
     of Nakagami distributions has two parameters: a shape parameter
     :math:`m` with :math:`m\geq 1/2` and a second parameter controlling
@@ -96,8 +98,11 @@ class Nakagami:
 
         Returns:
             An array of size `size` containing random variables from the
-              Nakagami distribution.
+            Nakagami distribution.
         """
         return np.array(
             stats.nakagami.rvs(self.m, scale=np.sqrt(self.omega), size=size)
         )
+
+
+__all__ = ["Nakagami"]

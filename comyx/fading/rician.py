@@ -13,7 +13,9 @@ NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Rician:
-    r"""The Rice distribution or Rician distribution (or, less commonly, Ricean
+    r"""Class for Rician distribution.
+
+    The Rice distribution or Rician distribution (or, less commonly, Ricean
     distribution) is the probability distribution of the magnitude of a
     circularly-symmetric bivariate normal random variable, possibly with
     non-zero mean (noncentral).
@@ -106,8 +108,11 @@ class Rician:
 
         Returns:
             An array of size `size` containing random variables from the Rician
-              distribution.
+            distribution.
         """
         return np.array(
             stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
         )
+
+
+__all__ = ["Rician"]

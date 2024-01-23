@@ -46,3 +46,6 @@ def get_noise_power(
     BW = pow2db(bandwidth)
     NF = noise_figure
     return np.asarray(kT + NF + BW)
+
+
+__all__ = ["thermal_noise", "get_noise_power"]

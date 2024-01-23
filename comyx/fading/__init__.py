@@ -18,19 +18,19 @@ def get_rvs(
     """Generates random variables from a distribution.
 
     Args:
-        type: The type of the fading. ("rayleigh", "rician")
-        shape: The number of fading samples to generate.
+        type: Type of the fading. ("rayleigh", "rician")
+        shape: Number of fading samples to generate.
 
     Rayleigh Args:
-        sigma: The scale parameter of the Rayleigh distribution.
+        sigma: Scale parameter of the Rayleigh distribution.
 
     Rician Args:
         K: Rician K-factor in dB.
-        sigma: The scale parameter of the Rician distribution.
+        sigma: Scale parameter of the Rician distribution.
 
     Nakagami Args:
-        m: The shape parameter of the Nakagami distribution.
-        omega: The scale parameter of the Nakagami distribution.
+        m: Shape parameter of the Nakagami distribution.
+        omega: Scale parameter of the Nakagami distribution.
 
     Returns:
         Channel gains.
@@ -52,3 +52,6 @@ def get_rvs(
         raise NotImplementedError(f"Channel type {type} is not implemented")
 
     return samples
+
+
+__all__ = ["get_rvs"]

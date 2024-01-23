@@ -11,7 +11,9 @@ NDArraySigned = npt.NDArray[np.signedinteger[Any]]
 
 
 class Rayleigh:
-    r"""The Rayleigh distribution is a continuous probability distribution for
+    r"""Class for Rayleigh distribution.
+
+    The Rayleigh distribution is a continuous probability distribution for
     nonnegative-valued random variables. Up to rescaling, it coincides with
     the chi distribution with two degrees of freedom.
 
@@ -89,6 +91,9 @@ class Rayleigh:
 
         Returns:
             An array of size `size` containing random variables from the
-              Rayleigh distribution.
+            Rayleigh distribution.
         """
         return np.array(stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size))
+
+
+__all__ = ["Rayleigh"]
