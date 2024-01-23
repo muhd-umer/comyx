@@ -11,26 +11,26 @@ NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 def get_pathloss(
-    type: str,
     distance: float,
+    type: str,
     frequency: float,
     *args,
     **kwargs,
 ) -> NDArrayFloat:
     """Get path loss in dB.
 
-    FSPL Args:
+    FSPL:
         alpha: Path loss exponent.
         p0: Reference path loss at 1m.
 
-    Log Distance Args:
+    Log Distance:
         d0: The breakpoint distance.
         alpha: The path loss exponent.
         sigma: The shadow fading standard deviation.
 
     Args:
-        type: Path loss model type. ("free-space", "log-distance", "friis")
         distance: Distance between transmitter and receiver.
+        type: Path loss model type. ("free-space", "log-distance", "friis")
         frequency: Frequency of the signal.
         *args: Positional arguments for the path loss model.
         **kwargs: Keyword arguments for the path loss model.
