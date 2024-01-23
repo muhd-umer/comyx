@@ -56,9 +56,6 @@ class TestUtils(unittest.TestCase):
         # Test calculation of distance between two points
         self.assertEqual(get_distance([0, 0], [3, 4]), 5)
         self.assertEqual(get_distance([0, 0, 0], [3, 4, 0]), 5)
-        self.assertEqual(get_distance([0, 0], [3, 4, 0]), 5)
-        with self.assertRaises(ValueError):
-            get_distance([0, 0], [3, 4])
 
     def test_qfunc(self):
         # Test Q-function

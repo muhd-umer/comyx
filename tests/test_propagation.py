@@ -37,7 +37,7 @@ class TestGetPathloss(unittest.TestCase):
     def test_invalid_type(self):
         # Test that an invalid path loss model raises a NotImplementedError.
         with self.assertRaises(NotImplementedError):
-            get_pathloss("invalid-type", 1e3, 1e9)
+            get_pathloss(1e3, "invalid-type", 1e9)
 
 
 if __name__ == "__main__":
