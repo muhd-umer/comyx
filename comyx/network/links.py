@@ -95,30 +95,17 @@ class Link:
         return channel_gain
 
 
-class EffectiveLink(Link):
-    r"""Represents an effective link in the modelled environment.
+class RISLink(Link):
+    r"""Represents an RIS link in the modelled environment.
 
-    An effective link is a connection between two transceivers through a RIS. It
-    is characterized by the distance between the transceivers, the distance
-    between the transceivers and the RIS, the distance between the RIS and the
-    transceivers, the respective path losses, the cascaded channel gain, and the
-    effective channel gain.
-
-    Mathematically, the effective channel gain is given by
-
-    .. math::
-        h_{eff}= h_{t,r} + \mathbf{h}_{R,r}^H \mathbf{R} \mathbf{h}_{t,R},
-
-    where :math:`h_{t,r}` is the channel gain between the
-    transceivers, :math:`\mathbf{h}_{t,R}` is the channel gain
-    between the transceiver and the RIS, :math:`\mathbf{h}_{R,r}` is
-    the channel gain between the RIS and the receiver, and :math:`\mathbf{R}` is
-    the reflection matrix of the RIS. The superscript :math:`H` denotes the
-    Hermitian (complex conjugate) operator.
+    An RIS link is a connection between two transceivers through a RIS. It is
+    characterized by the distance between the transceivers and the RIS, the
+    distance between the RIS and the transceivers, the respective path losses,
+    and the respective channel gains.
 
     *EffectiveLink does not compute either the cascaded channel gain or the
-    effective channel gain since they require the optimization of the RIS
-    reflection matrix. It is supposed to be a subcontainer for the possible
+    effective channel gain implicitly since they require the optimization of the
+    RIS reflection matrix. It is supposed to be a subcontainer for the possible
     channels between the transceivers and the RIS, and the RIS and the
     receivers.*
 
@@ -128,14 +115,11 @@ class EffectiveLink(Link):
         rx: Receiver of the cascaded link.
         shape: Number of shape for the channel gain matrix.
         distance: Dictionary containing distances between different components.
-          Keys are 'tr' for transceivers, 'tR' for transceiver and RIS, 'Rr' for
-          RIS and receiver.
+          Keys are 'tR' for transceiver and RIS, 'Rr' for RIS and receiver.
         pathloss: Dictionary containing path loss between different components.
-          Keys are 'tr' for transceivers, 'tR' for transceiver and RIS, 'Rr' for
-          RIS and receiver.
+          Keys are 'tR' for transceiver and RIS, 'Rr' for RIS and receiver.
         channel_gain: Dictionary containing channel gain between different components.
-          Keys are 'tr' for transceivers, 'tR' for transceiver and RIS, 'Rr' for
-          RIS and receiver.
+          Keys are 'tR' for transceiver and RIS, 'Rr' for RIS and receiver.
     """
 
     def __init__(
@@ -149,13 +133,11 @@ class EffectiveLink(Link):
     ) -> None:
         """Initialize a cascaded link object.
 
-        For fading and path loss arguments, either a list of length 3 or a
+        For fading and path loss arguments, either a list of length 2 or a
         single dictionary can be provided. In the former case, the first element
         of the list corresponds to the fading and path loss arguments between
-        the tx and the rx, while the second and third elements correspond to the
-        fading and path loss arguments between the tx and the RIS, and the RIS
-        and the rx, respectively. In the latter case, the same fading and path
-        loss arguments are used for all three links.
+        the tx and the RIS, and the RIS and the rx, respectively. In the latter
+        case, the same fading and path loss arguments are used for both links.
 
         Args:
             tx: Transmitter of the cascaded link.
@@ -173,8 +155,8 @@ class EffectiveLink(Link):
         self._fading_args = ensure_list(fading_args)
         self._pathloss_args = ensure_list(pathloss_args)
 
-        assert len(self._fading_args) == 3 and len(self._pathloss_args) == 3, (
-            "Fading and path loss arguments must be either a list of length 3 "
+        assert len(self._fading_args) == 2 and len(self._pathloss_args) == 2, (
+            "Fading and path loss arguments must be either a list of length 2 "
             "or a single dictionary."
         )
 
@@ -191,36 +173,24 @@ class EffectiveLink(Link):
     def _distance(self) -> dict[str, float]:
         """Calculate the distances between the nodes."""
 
-        distance_tr = get_distance(self.tx.position, self.rx.position)
         distance_tR = get_distance(self.tx.position, self.ris.position)
         distance_Rr = get_distance(self.ris.position, self.rx.position)
 
-        return {"tr": distance_tr, "tR": distance_tR, "Rr": distance_Rr}
+        return {"tR": distance_tR, "Rr": distance_Rr}
 
     def _pathloss(self) -> dict[str, NDArrayFloat]:
         """Calculate the path losses."""
 
-        pathloss_tr = get_pathloss(self.distance["tr"], **self._pathloss_args[0])
-        pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[1])
-        pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[2])
+        pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[0])
+        pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[1])
 
-        return {"tr": pathloss_tr, "tR": pathloss_tR, "Rr": pathloss_Rr}
-
-    def _direct_channel_gain(self) -> NDArrayComplex:
-        """Calculate the direct channel gain."""
-
-        rvs_tr = get_rvs(self.shape, **self._fading_args[0])
-
-        pathloss_tr = db2pow(-self.pathloss["tr"])
-        channel_gain_tr = np.sqrt(pathloss_tr) * rvs_tr
-
-        return channel_gain_tr
+        return {"tR": pathloss_tR, "Rr": pathloss_Rr}
 
     def _ris_channel_gain(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
         """Calculate the cascaded channel gain."""
 
-        rvs_tR = get_rvs(self.shape, **self._fading_args[1])
-        rvs_Rr = get_rvs(self.shape, **self._fading_args[2])
+        rvs_tR = get_rvs(self.shape, **self._fading_args[0])
+        rvs_Rr = get_rvs(self.shape, **self._fading_args[1])
 
         pathloss_tR = db2pow(-self.pathloss["tR"])
         pathloss_Rr = db2pow(-self.pathloss["Rr"])
@@ -233,14 +203,113 @@ class EffectiveLink(Link):
     def _channel_gain(self) -> dict[str, NDArrayComplex]:
         """Calculate the channel gain."""
 
-        channel_gain_tr = self._direct_channel_gain()
         channel_gain_tR, channel_gain_Rr = self._ris_channel_gain()
 
         return {
-            "tr": channel_gain_tr,
             "tR": channel_gain_tR,
             "Rr": channel_gain_Rr,
         }
 
 
-__all__ = ["Link", "EffectiveLink"]
+def cascaded_channel_gain(ris_link: RISLink, style: str = "sum") -> NDArrayComplex:
+    r"""Calculate the cascaded channel gain.
+
+    The cascaded channel gain is the channel gain between the transceiver and
+    the receiver through the RIS. Mathematically, the cascaded channel gain
+    through the RIS is given by
+
+    .. math::
+        h_{csc}= \mathbf{h}_{R,r}^H \mathbf{R} \mathbf{h}_{t,R},
+
+    where :math:`\mathbf{h}_{t,R}` is the channel gain between the transceiver
+    and the RIS, :math:`\mathbf{h}_{R,r}` is the channel gain between the RIS
+    and the receiver, and :math:`\mathbf{R}` is the reflection matrix of the
+    RIS. The superscript :math:`H` denotes the Hermitian (complex conjugate)
+    operator.
+
+    If channel_gain_tR is of shape (Nt, K, Mc), and channel_gain_Rr is of shape
+    (K, Nr, Mc), where Nt is the number of transmit antennas, K is the number of
+    RIS elements, Nr is the number of receive antennas, and Mc is the number of
+    channel realizations, then the cascaded channel gain is of shape (Nt, Nr,
+    Mc). For SISO links, the cascaded channel gain is of shape (1, 1, Mc).
+
+    Args:
+        ris_link: RIS link.
+        style: Formula used to calculate the cascaded channel gain.
+          Possible values are 'sum' and 'matrix'.
+
+    Returns:
+        Cascaded channel gain.
+    """
+
+    channel_gain_tR = ris_link.channel_gain["tR"]
+    channel_gain_Rr = ris_link.channel_gain["Rr"]
+
+    if style == "sum":
+        cascaded_channel_gain = np.sum(
+            np.conj(channel_gain_Rr) * ris_link.ris.reflection_matrix * channel_gain_tR,
+            axis=1,
+        )
+
+    elif style == "matrix":
+        if channel_gain_tR.ndim != 2 or channel_gain_Rr.ndim != 2:
+            raise NotImplementedError(
+                "The matrix style is only implemented when the channel realization "
+                + "dimension is absent. Use the sum style instead."
+            )
+
+        cascaded_channel_gain = (
+            np.conj(channel_gain_Rr).T
+            @ ris_link.ris.reflection_matrix
+            @ channel_gain_tR
+        )
+
+    else:
+        raise NotImplementedError(
+            f"Style {style} not implemented. Possible values are 'sum' and 'matrix'."
+        )
+
+    return cascaded_channel_gain
+
+
+def effective_channel_gain(
+    direct_link: Link,
+    cascaded_link: RISLink,
+    style: str = "sum",
+) -> NDArrayComplex:
+    r"""Calculate the effective channel gain.
+
+    The effective channel gain is the channel gain between the transceiver and
+    the receiver through the RIS. Mathematically, the effective channel gain
+    through the RIS is given by
+
+    .. math::
+        h_{eff}= h_{t,r} + \mathbf{h}_{R,r}^H \mathbf{R} \mathbf{h}_{t,R},
+
+    where :math:`\mathbf{h}_{t,R}` is the channel gain between the transceiver
+    and the RIS, :math:`\mathbf{h}_{R,r}` is the channel gain between the RIS
+    and the receiver, :math:`\mathbf{R}` is the reflection matrix of the RIS,
+    and :math:`h_{t,r}` is the channel gain between the transceiver and the
+    receiver. The superscript :math:`H` denotes the Hermitian (complex
+    conjugate) operator.
+
+    Args:
+        direct_link: Direct link.
+        cascaded_link: Cascaded link.
+        style: Formula used to calculate the cascaded channel gain.
+          Possible values are 'sum' and 'matrix'.
+
+    Returns:
+        Effective channel gain.
+    """
+
+    channel_gain_tr = direct_link.channel_gain
+
+    effective_channel_gain = channel_gain_tr + cascaded_channel_gain(
+        cascaded_link, style=style
+    )
+
+    return effective_channel_gain
+
+
+__all__ = ["cascaded_channel_gain", "effective_channel_gain", "Link", "RISLink"]
