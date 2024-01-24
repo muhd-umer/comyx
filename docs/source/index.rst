@@ -1,10 +1,11 @@
-.. Keep title but hide it from the main page
+:html_theme.sidebar_secondary.remove:
+
 .. title:: Comyx
 
-.. figure:: _static/logo_full.svg
+.. figure:: _static/header.png
    :align: center
    :class: dark-light
-   :width: 580px
+   :width: 500px
 
 .. **Comyx** Documentation
 .. =========================

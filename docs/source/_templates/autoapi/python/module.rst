@@ -1,4 +1,4 @@
-:html_theme.sidebar_secondary.remove:
+.. :html_theme.sidebar_secondary.remove:
 
 {% if not obj.display %}
 :orphan:
