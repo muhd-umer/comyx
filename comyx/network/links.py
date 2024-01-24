@@ -35,6 +35,14 @@ class Link:
     where :math:`g_{t,r}` is the small-scale fading (sampled from a
     distribution), :math:`PL(d_{t,r})` is the path loss, and
     :math:`d_{t,r}` is the distance between the transceivers.
+
+    Attributes:
+        tx: Transmitter of the link.
+        rx: Receiver of the link.
+        shape: Number of shape for the channel gain.
+        distance: Distance between the transceivers.
+        pathloss: Path loss between the transceivers.
+        channel_gain: Channel gain between the transceivers.
     """
 
     def __init__(
@@ -52,13 +60,13 @@ class Link:
             rx: Receiver of the link.
             fading_args: Arguments for the fading model.
             pathloss_args: Arguments for the path loss model.
-            shape: Number of shape for the channel gain.
+            shape: Shape for the channel gain matrix.
         """
 
         self.tx = tx
         self.rx = rx
-        self.fading_args = fading_args
-        self.pathloss_args = pathloss_args
+        self._fading_args = fading_args
+        self._pathloss_args = pathloss_args
         self.shape = shape
 
         self.distance = self._distance()
@@ -75,12 +83,12 @@ class Link:
     def _pathloss(self) -> NDArrayFloat:
         """Calculate the path loss."""
 
-        return get_pathloss(self.distance, **self.pathloss_args)
+        return get_pathloss(self.distance, **self._pathloss_args)
 
     def _channel_gain(self) -> NDArrayComplex:
         """Calculate the channel gain."""
 
-        rvs = get_rvs(self.shape, **self.fading_args)
+        rvs = get_rvs(self.shape, **self._fading_args)
         pathloss = db2pow(-self.pathloss)
         channel_gain = np.sqrt(pathloss) * rvs
 
@@ -107,6 +115,27 @@ class EffectiveLink(Link):
     the channel gain between the RIS and the receiver, and :math:`\mathbf{R}` is
     the reflection matrix of the RIS. The superscript :math:`H` denotes the
     Hermitian (complex conjugate) operator.
+
+    *EffectiveLink does not compute either the cascaded channel gain or the
+    effective channel gain since they require the optimization of the RIS
+    reflection matrix. It is supposed to be a subcontainer for the possible
+    channels between the transceivers and the RIS, and the RIS and the
+    receivers.*
+
+    Attributes:
+        tx: Transmitter of the cascaded link.
+        ris: RIS of the cascaded link.
+        rx: Receiver of the cascaded link.
+        shape: Number of shape for the channel gain matrix.
+        distance: Dictionary containing distances between different components.
+          Keys are 'tr' for transceivers, 'tR' for transceiver and RIS, 'Rr' for
+          RIS and receiver.
+        pathloss: Dictionary containing path loss between different components.
+          Keys are 'tr' for transceivers, 'tR' for transceiver and RIS, 'Rr' for
+          RIS and receiver.
+        channel_gain: Dictionary containing channel gain between different components.
+          Keys are 'tr' for transceivers, 'tR' for transceiver and RIS, 'Rr' for
+          RIS and receiver.
     """
 
     def __init__(
@@ -124,7 +153,7 @@ class EffectiveLink(Link):
         single dictionary can be provided. In the former case, the first element
         of the list corresponds to the fading and path loss arguments between
         the tx and the rx, while the second and third elements correspond to the
-        fading and path loss arguments between the tx and the ris, and the ris
+        fading and path loss arguments between the tx and the RIS, and the RIS
         and the rx, respectively. In the latter case, the same fading and path
         loss arguments are used for all three links.
 
@@ -134,89 +163,84 @@ class EffectiveLink(Link):
             rx: Receiver of the cascaded link.
             fading_args: Arguments for the fading model.
             pathloss_args: Arguments for the path loss model.
-            shape: Shape of the channel gain.
+            shape: Shape for the channel gain matrix.
         """
 
         self.tx = tx
         self.ris = ris
         self.rx = rx
 
-        self.fading_args = ensure_list(fading_args)
-        self.pathloss_args = ensure_list(pathloss_args)
+        self._fading_args = ensure_list(fading_args)
+        self._pathloss_args = ensure_list(pathloss_args)
 
-        assert len(self.fading_args) == 3 and len(self.pathloss_args) == 3, (
+        assert len(self._fading_args) == 3 and len(self._pathloss_args) == 3, (
             "Fading and path loss arguments must be either a list of length 3 "
             "or a single dictionary."
         )
 
         self.shape = shape
-        (
-            self.distance_tx_rx,
-            self.distance_tx_ris,
-            self.distance_ris_rx,
-        ) = self._distance()
-        (
-            self.pathloss_tx_rx,
-            self.pathloss_tx_ris,
-            self.pathloss_ris_rx,
-        ) = self._pathloss()
+        self.distance = self._distance()
+        self.pathloss = self._pathloss()
+        self.channel_gain = self._channel_gain()
 
-        self.cascaded_channel_gain = self._cascaded_channel_gain()
-        self.effective_channel_gain = self._effective_channel_gain()
+        self.magnitudes = {
+            key: np.abs(value) for key, value in self.channel_gain.items()
+        }
+        self.phases = {key: np.angle(value) for key, value in self.channel_gain.items()}
 
-        self.channel_gain = self.effective_channel_gain
-        self.magnitude = np.abs(self.channel_gain)
-        self.phase = np.angle(self.channel_gain)
-
-    def _distance(self) -> Tuple[float, float, float]:
+    def _distance(self) -> dict[str, float]:
         """Calculate the distances between the nodes."""
 
-        distance_tx_ris = get_distance(self.tx.position, self.ris.position)
-        distance_ris_rx = get_distance(self.ris.position, self.rx.position)
-        distance_tx_rx = get_distance(self.tx.position, self.rx.position)
+        distance_tr = get_distance(self.tx.position, self.rx.position)
+        distance_tR = get_distance(self.tx.position, self.ris.position)
+        distance_Rr = get_distance(self.ris.position, self.rx.position)
 
-        return distance_tx_ris, distance_ris_rx, distance_tx_rx
+        return {"tr": distance_tr, "tR": distance_tR, "Rr": distance_Rr}
 
-    def _pathloss(self) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
+    def _pathloss(self) -> dict[str, NDArrayFloat]:
         """Calculate the path losses."""
 
-        pathloss_tx_rx = get_pathloss(self.distance_tx_rx, **self.pathloss_args[0])
-        pathloss_tx_ris = get_pathloss(self.distance_tx_ris, **self.pathloss_args[1])
-        pathloss_ris_rx = get_pathloss(self.distance_ris_rx, **self.pathloss_args[2])
+        pathloss_tr = get_pathloss(self.distance["tr"], **self._pathloss_args[0])
+        pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[1])
+        pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[2])
 
-        return pathloss_tx_ris, pathloss_ris_rx, pathloss_tx_rx
+        return {"tr": pathloss_tr, "tR": pathloss_tR, "Rr": pathloss_Rr}
 
-    def _cascaded_channel_gain(self) -> NDArrayComplex:
+    def _direct_channel_gain(self) -> NDArrayComplex:
+        """Calculate the direct channel gain."""
+
+        rvs_tr = get_rvs(self.shape, **self._fading_args[0])
+
+        pathloss_tr = db2pow(-self.pathloss["tr"])
+        channel_gain_tr = np.sqrt(pathloss_tr) * rvs_tr
+
+        return channel_gain_tr
+
+    def _ris_channel_gain(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
         """Calculate the cascaded channel gain."""
 
-        rvs_tx_ris = get_rvs(self.shape, **self.fading_args[1])
-        rvs_ris_rx = get_rvs(self.shape, **self.fading_args[2])
+        rvs_tR = get_rvs(self.shape, **self._fading_args[1])
+        rvs_Rr = get_rvs(self.shape, **self._fading_args[2])
 
-        pathloss_tx_ris = db2pow(-self.pathloss_tx_ris)
-        pathloss_ris_rx = db2pow(-self.pathloss_ris_rx)
+        pathloss_tR = db2pow(-self.pathloss["tR"])
+        pathloss_Rr = db2pow(-self.pathloss["Rr"])
 
-        channel_gain_tx_ris = np.sqrt(pathloss_tx_ris) * rvs_tx_ris
-        channel_gain_ris_rx = np.sqrt(pathloss_ris_rx) * rvs_ris_rx
+        channel_gain_tR = np.sqrt(pathloss_tR) * rvs_tR
+        channel_gain_Rr = np.sqrt(pathloss_Rr) * rvs_Rr
 
-        cascaded_channel_gain = (
-            np.conj(channel_gain_ris_rx).T
-            @ self.ris.reflection_matrix()
-            @ channel_gain_tx_ris
-        )
+        return channel_gain_tR, channel_gain_Rr
 
-        return cascaded_channel_gain
+    def _channel_gain(self) -> dict[str, NDArrayComplex]:
+        """Calculate the channel gain."""
 
-    def _effective_channel_gain(self) -> NDArrayComplex:
-        """Calculate the effective channel gain."""
+        channel_gain_tr = self._direct_channel_gain()
+        channel_gain_tR, channel_gain_Rr = self._ris_channel_gain()
 
-        rvs_tx_rx = get_rvs(self.shape, **self.fading_args[0])
-
-        pathloss_tx_rx = db2pow(-self.pathloss_tx_rx)
-        channel_gain_tx_rx = np.sqrt(pathloss_tx_rx) * rvs_tx_rx
-
-        effective_channel_gain = channel_gain_tx_rx + self.cascaded_channel_gain
-
-        return effective_channel_gain
+        return {
+            "tr": channel_gain_tr,
+            "tR": channel_gain_tR,
+            "Rr": channel_gain_Rr,
+        }
 
 
 __all__ = ["Link", "EffectiveLink"]
