@@ -13,7 +13,7 @@ NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Rician:
-    r"""Class for Rician distribution.
+    r"""Represents the :math:`\text{Rician}(K, \sigma)` distribution.
 
     The Rice distribution or Rician distribution (or, less commonly, Ricean
     distribution) is the probability distribution of the magnitude of a
