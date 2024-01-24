@@ -11,7 +11,7 @@ NDArraySigned = npt.NDArray[np.signedinteger[Any]]
 
 
 class Rayleigh:
-    r"""Class for Rayleigh distribution.
+    r"""Represents the :math:`\text{Rayleigh}(\sigma)` distribution.
 
     The Rayleigh distribution is a continuous probability distribution for
     nonnegative-valued random variables. Up to rescaling, it coincides with

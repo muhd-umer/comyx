@@ -11,7 +11,7 @@ NDArrayFloat = npt.NDArray[np.floating[Any]]
 
 
 class Nakagami:
-    r"""Class for Nakagami distribution.
+    r"""Represents the :math:`\text{Nakagami}(m, \Omega)` distribution.
 
     The Nakagami distribution or the Nakagami-m distribution is a
     probability distribution related to the gamma distribution. The family
