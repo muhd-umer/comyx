@@ -89,6 +89,7 @@ class RIS:
         ), "Amplitudes must be a vector of length equal to the number of elements."
         self._amplitudes = amplitudes
 
+    @property
     def reflection_matrix(self) -> NDArrayComplex:
         """Return the reflection matrix of the RIS.
 
@@ -100,12 +101,13 @@ class RIS:
         each element of the RIS reflects the incoming signal independently of
         the other elements.
 
-        Args:
-            wavelength: Wavelength of the signal.
-
         Returns:
             The reflection matrix of the RIS.
         """
+        if not hasattr(self, "_phase_shifts"):
+            raise ValueError("Phase shifts must be set before accessing.")
+        if not hasattr(self, "_amplitudes"):
+            raise ValueError("Amplitudes must be set before accessing.")
 
         return np.diag(self.amplitudes * np.exp(1j * self.phase_shifts))
 
