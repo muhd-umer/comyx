@@ -57,4 +57,4 @@ def get_rvs(
     )
 
 
-__all__ = ["get_rvs"]
+__all__ = ["get_rvs", "Rayleigh", "Rician", "Nakagami"]
