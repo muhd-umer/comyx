@@ -40,6 +40,7 @@ extensions = [
     "sphinx_design",
     "sphinx_favicon",
     "sphinx_togglebutton",
+    "myst_nb",
 ]
 
 intersphinx_mapping = {
@@ -48,8 +49,9 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy-1.12.0/", None),
 }
 
-# -- Options for HTML output -------------------------------------------------
+source_suffix = [".rst", ".ipynb", ".md"]
 
+# -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_book_theme"
 html_title = ""
 html_static_path = ["_static"]
