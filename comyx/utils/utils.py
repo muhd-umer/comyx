@@ -112,7 +112,7 @@ def qfunc(x: Union[float, NDArrayFloat]) -> NDArrayFloat:
         x: Input to the Q function.
 
     Returns:
-        qfunc: The Q function.
+        Q function computed at x.
     """
     return 0.5 * sp.special.erfc(x / np.sqrt(2))
 
@@ -124,7 +124,7 @@ def inverse_qfunc(x: Union[float, NDArrayFloat]) -> NDArrayFloat:
         x: Input to the inverse Q function.
 
     Returns:
-        inverse_qfunc: The inverse Q function.
+        Inverse Q function computed at x.
     """
     return np.sqrt(2) * sp.special.erfcinv(2 * x)
 
@@ -137,7 +137,7 @@ def laguerre(x: Union[float, NDArrayFloat], n: float) -> Union[float, NDArrayFlo
         n: The order of the Laguerre polynomial.
 
     Returns:
-        laguerre: The Laguerre polynomial.
+        Laguerre polynomial computed at x and order n.
     """
 
     if n == 0:
@@ -163,6 +163,20 @@ def wrapTo2Pi(theta: NDArrayFloat) -> NDArrayFloat:
     return np.mod(theta, 2 * np.pi)
 
 
+def ensure_list(arg, length=3) -> List[Any]:
+    """Ensure that the argument is a list of desired length.
+
+    Args:
+        arg: The argument to check.
+        length: The desired length of the list.
+
+    Returns:
+        Argument repeated length times if it is not a list, otherwise the
+        argument itself.
+    """
+    return arg if isinstance(arg, list) else [arg for _ in range(length)]
+
+
 __all__ = [
     "db2pow",
     "pow2db",
@@ -174,4 +188,5 @@ __all__ = [
     "inverse_qfunc",
     "laguerre",
     "wrapTo2Pi",
+    "ensure_list",
 ]
