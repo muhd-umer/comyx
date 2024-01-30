@@ -19,7 +19,7 @@ def get_pathloss(
 ) -> NDArrayFloat:
     """Get path loss in dB.
 
-    FSPL:
+    Reference:
         alpha: Path loss exponent.
         p0: Reference path loss at 1m.
 
@@ -39,8 +39,8 @@ def get_pathloss(
         Path loss in dB.
 
     """
-    if type == "free-space":
-        return free_space(distance, *args, **kwargs)
+    if type == "reference":
+        return reference(distance, *args, **kwargs)
     if type == "friis":
         return friis(distance, frequency)
     elif type == "log-distance":
@@ -49,8 +49,8 @@ def get_pathloss(
         raise NotImplementedError(f"Path loss model {type} not implemented.")
 
 
-def free_space(distance: float, alpha: float, p0: float) -> NDArrayFloat:
-    """Free space path loss model.
+def reference(distance: float, alpha: float, p0: float) -> NDArrayFloat:
+    """General path loss model.
 
     Args:
         distance: Distance between transmitter and receiver.
