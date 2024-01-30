@@ -14,7 +14,7 @@ from .transceiver import Transceiver
 class UserEquipment(Transceiver):
     """Represents a user equipment in the modelled environment.
 
-    Identifiers must be of the form "UEx", where x is a positive integer. The
+    Identifiers may be of the form "UEx", where x is a positive integer. The
     first two characters indicate the type of transceiver, i.e., "UE" for user
     equipment. The remaining characters are the unique identifier of the user
     equipment. For example, "UE42" is a user equipment with identifier 42.
@@ -38,6 +38,23 @@ class UserEquipment(Transceiver):
             r_sensitivity: Sensitivity of the transceiver.
         """
         super().__init__(id_, position, n_antennas, t_power, r_sensitivity)
+
+    @property
+    def rate(self, mean_axis=-1) -> NDArrayFloat:
+        """Calculate the rate of the transceiver (Shannon formula)
+
+        Args:
+            mean_axis: Axis along which the mean is calculated.
+              Default is -1 (last axis, i.e., over all realizations).
+
+        Returns:
+            Rate of the transceiver.
+        """
+
+        if not hasattr(self, "sinr"):
+            raise ValueError("SINR not set")
+
+        return np.log2(1 + self.sinr).mean(axis=mean_axis)
 
 
 __all__ = ["UserEquipment"]

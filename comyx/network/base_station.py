@@ -14,7 +14,7 @@ from .transceiver import Transceiver
 class BaseStation(Transceiver):
     """Represents a base station in the modelled environment.
 
-    Identifiers must be of the form "BSx", where x is a positive integer. The
+    Identifiers may be of the form "BSx", where x is a positive integer. The
     first two characters indicate the type of transceiver, i.e., "BS" for base
     station. The remaining characters are the unique identifier of the base
     station. For example, "BS1" is a base station with identifier 1.

@@ -18,7 +18,7 @@ class Transceiver:
     All transceivers have a unique identifier, a position in the environment, number
     of antennas, and optionally a transmit power and a sensitivity. The transmit power
     is the power at which a transceiver transmits signals, and the sensitivity is the
-    minimum power at which a transceiver can receive signals. Both are given in dBm.
+    minimum power at which a transceiver can receive signals.
     """
 
     def __init__(
@@ -39,7 +39,6 @@ class Transceiver:
             r_sensitivity: Sensitivity of the transceiver.
         """
         assert isinstance(id_, str), "ID must be a string."
-        assert id_[:2] in ("BS", "UE"), "ID must start with 'BS' or 'UE'."
         assert len(position) in (2, 3), "Position must be 2D or 3D."
 
         self._id = id_
@@ -64,7 +63,7 @@ class Transceiver:
         return self._n_antennas
 
     @property
-    def t_power(self) -> Union[float, None]:
+    def t_power(self) -> Union[float, NDArrayFloat, None]:
         """Return the transmit power of the transceiver."""
         return self._t_power
 
