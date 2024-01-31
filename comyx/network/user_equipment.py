@@ -54,7 +54,7 @@ class UserEquipment(Transceiver):
         if not hasattr(self, "sinr"):
             raise ValueError("SINR not set")
 
-        return np.log2(1 + self.sinr).mean(axis=mean_axis)
+        return np.mean(np.log2(1 + self.sinr), axis=mean_axis)
 
 
 __all__ = ["UserEquipment"]
