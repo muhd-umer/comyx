@@ -37,6 +37,8 @@
 
   /* set background color to transparent */
   background-color: transparent !important;
+
+  border-radius: 10px;
 }
 
 .system {
