@@ -13,6 +13,7 @@ sphinx-design
 sphinx_copybutton
 sphinx-autoapi==3.0.0
 sphinx-autodoc-typehints
+myst-nb
 ablog
 numpydoc
 sphinx-togglebutton
