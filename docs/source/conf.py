@@ -55,6 +55,7 @@ myst_enable_extensions = [
     "dollarmath",
     "html_image",
 ]
+nb_execution_mode = "off"
 
 # -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_book_theme"
