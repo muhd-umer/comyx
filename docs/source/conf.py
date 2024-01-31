@@ -30,9 +30,7 @@ exclude_patterns = []
 # -- Extension configuration -------------------------------------------------
 
 extensions = [
-    "ablog",
     "autoapi.extension",
-    "numpydoc",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
@@ -42,92 +40,42 @@ extensions = [
     "sphinx_design",
     "sphinx_favicon",
     "sphinx_togglebutton",
+    "myst_nb",
 ]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy-1.8.1/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy-1.12.0/", None),
 }
+source_suffix = [".rst", ".ipynb", ".md"]
+
+myst_enable_extensions = [
+    "amsmath",
+    "dollarmath",
+    "html_image",
+]
 
 # -- Options for HTML output -------------------------------------------------
-
-html_theme = "pydata_sphinx_theme"
+html_theme = "sphinx_book_theme"
 html_title = ""
 html_static_path = ["_static"]
 html_show_sourcelink = False
 html_show_sphinx = False
-html_logo = "./_static/comyx.png"
+html_logo = "./_static/comyx_200px.png"
 html_favicon = "./_static/favicon.png"
 html_css_files = [
     "comyx.css",
 ]
 
-html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
-
-html_theme_options = {
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/muhd-umer/comyx",
-            "icon": "fa-brands fa-github",
-        },
-        {
-            "name": "PyPI",
-            "url": "https://pypi.org/project/comyx/",
-            "icon": "https://pypi.org/static/images/logo-small.2a411bc6.svg",
-            "type": "url",
-        },
-    ],
-    "footer_start": ["copyright"],
-    "navbar_start": ["navbar-logo"],
-    "navbar_align": "left",
-    "navbar_center": ["navbar-nav"],
-    "show_toc_level": 3,
-    "show_nav_level": 3,
-}
-
-html_context = {
-    "github_user": "muhd-umer",
-    "github_repo": "comyx",
-    "github_version": "main",
-    "doc_path": "docs",
-    "default_mode": "light",
-}
-
 # Add canonical URL
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 
 html_theme_options = {
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/muhd-umer/comyx",
-            "icon": "fa-brands fa-github",
-        },
-        {
-            "name": "PyPI",
-            "url": "https://pypi.org/project/comyx/",
-            "icon": "https://pypi.org/static/images/logo-small.2a411bc6.svg",
-            "type": "url",
-        },
-    ],
-    # "logo": {
-    #     "text": "Comyx",
-    #     "image_dark": "_static/fav.svg",
-    #     "alt_text": "Comyx",
-    # },
-    "footer_start": ["copyright"],
-    "navbar_start": ["navbar-logo"],
-    "navbar_align": "left",
-    "navbar_center": ["navbar-nav"],
-    # "navbar_center": ["navbar-nav"],
-    # "switcher": {
-    #     "json_url": json_url,
-    #     "version_match": version_match,
-    # },
-    "show_toc_level": 3,
-    "show_nav_level": 3,
+    "show_toc_level": 2,
+    "repository_url": "https://github.com/muhd-umer/comyx",
+    "use_repository_button": True,  # add a "link to repository" button
+    "navigation_with_keys": False,
 }
 
 html_context = {
@@ -161,7 +109,6 @@ autoapi_options = [
     "imported-members",
 ]
 autodoc_typehints = "signature"
-# autodoc_type_aliases = {"NDArray": "NDArray"}
 python_use_unqualified_type_names = True
 
 
@@ -173,3 +120,6 @@ def skip_submodules(app, what, name, obj, skip, options):
 
 def setup(sphinx):
     sphinx.connect("autoapi-skip-member", skip_submodules)
+
+
+remove_from_toctrees = ["_autosummary/*"]
