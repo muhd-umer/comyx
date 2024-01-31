@@ -1,4 +1,5 @@
 :html_theme.sidebar_secondary.remove:
+:og:description: Comyx is a Python library for simulating wireless communication systems.
 
 .. title:: Comyx
 
@@ -86,7 +87,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    :caption: Getting Started
 
    installation
-
+   quickstart
 
 .. toctree::
    :hidden:
