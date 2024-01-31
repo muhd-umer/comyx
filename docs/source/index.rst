@@ -86,7 +86,6 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    :caption: Getting Started
 
    installation
-   quickstart
 
 
 .. toctree::
