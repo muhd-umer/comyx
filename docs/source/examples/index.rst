@@ -6,7 +6,7 @@ Examples
 ========
 
 This section contains a collection of examples that make use of the
-`comyx` library.
+``comyx`` library.
 
 .. toctree::
   :maxdepth: 1
@@ -14,4 +14,4 @@ This section contains a collection of examples that make use of the
 
   siso_dl_noma
 
-More to be added soon.
+*More to be added soon*.

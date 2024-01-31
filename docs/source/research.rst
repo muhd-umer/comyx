@@ -3,7 +3,7 @@
 Research
 ========
 
-The following research papers have been published utilizing **Comyx**:
+The following research papers have been published utilizing ``comyx``:
 
 * To be updated soon
 
