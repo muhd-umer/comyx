@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any, List, Tuple, Union
 import numpy as np
 import numpy.typing as npt
 
+from ..network import Link, RISLink
 from ..utils import ensure_list
 
 if TYPE_CHECKING:
