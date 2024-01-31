@@ -1,24 +1,27 @@
-colorama==0.4.6
-numpy==1.23.5
-pandas==2.0.1
-scipy==1.11.1
-setuptools==68.0.0
+numpy>=1.23.5
+pandas>=2.0.1
+scipy>=1.11.1
+mpmath>=1.3.0
+colorama>=0.4.6
+setuptools
 mpmath==1.3.0
-pydata-sphinx-theme==0.13.3
+sphinx>=6.0.0
+sphinx-autodoc-typehints
+sphinx-book-theme>=1.0.1
+sphinx-copybutton>=0.5.0
+sphinx-remove-toctrees
+sphinx-design
 Pygments>=2.6.1
 ipykernel
 ipython_genutils
 sphinx==7.2.6
-sphinx-design
-sphinx_copybutton
 sphinx-autoapi==3.0.0
-sphinx-autodoc-typehints
-myst-nb
 ablog
 numpydoc
 sphinx-togglebutton
 sphinx-favicon
 docutils
+myst-nb>=1.0.0
 
 # The next packages are for notebooks.
 matplotlib

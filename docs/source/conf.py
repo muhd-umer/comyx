@@ -46,18 +46,19 @@ extensions = [
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy-1.8.1/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy-1.12.0/", None),
 }
 source_suffix = [".rst", ".ipynb", ".md"]
 
-# -- Options for HTML output -------------------------------------------------
+source_suffix = [".rst", ".ipynb", ".md"]
 
-html_theme = "pydata_sphinx_theme"
+# -- Options for HTML output -------------------------------------------------
+html_theme = "sphinx_book_theme"
 html_title = ""
 html_static_path = ["_static"]
 html_show_sourcelink = False
 html_show_sphinx = False
-html_logo = "./_static/comyx.png"
+html_logo = "./_static/comyx_200px.png"
 html_favicon = "./_static/favicon.png"
 html_css_files = [
     "comyx.css",
@@ -67,25 +68,10 @@ html_css_files = [
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 
 html_theme_options = {
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/muhd-umer/comyx",
-            "icon": "fa-brands fa-github",
-        },
-        {
-            "name": "PyPI",
-            "url": "https://pypi.org/project/comyx/",
-            "icon": "https://pypi.org/static/images/logo-small.2a411bc6.svg",
-            "type": "url",
-        },
-    ],
-    "footer_start": ["copyright"],
-    "navbar_start": ["navbar-logo"],
-    "navbar_align": "left",
-    "navbar_center": ["navbar-nav"],
-    "show_toc_level": 3,
-    "show_nav_level": 3,
+    "show_toc_level": 2,
+    "repository_url": "https://github.com/muhd-umer/comyx",
+    "use_repository_button": True,  # add a "link to repository" button
+    "navigation_with_keys": False,
 }
 
 html_context = {
@@ -130,3 +116,6 @@ def skip_submodules(app, what, name, obj, skip, options):
 
 def setup(sphinx):
     sphinx.connect("autoapi-skip-member", skip_submodules)
+
+
+remove_from_toctrees = ["_autosummary/*"]
