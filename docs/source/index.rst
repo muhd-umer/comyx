@@ -94,6 +94,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
    :maxdepth: 2
    :caption: Additional Resources
 
+   examples/index
    api/index
    research
 

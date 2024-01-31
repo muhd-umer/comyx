@@ -50,7 +50,11 @@ intersphinx_mapping = {
 }
 source_suffix = [".rst", ".ipynb", ".md"]
 
-source_suffix = [".rst", ".ipynb", ".md"]
+myst_enable_extensions = [
+    "amsmath",
+    "dollarmath",
+    "html_image",
+]
 
 # -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_book_theme"
