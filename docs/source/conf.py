@@ -41,6 +41,14 @@ extensions = [
     "sphinx_favicon",
     "sphinx_togglebutton",
     "myst_nb",
+    "sphinxext.opengraph",
+]
+
+ogp_site_url = "https://comyx.readthedocs.io/latest/"
+ogp_image = "http://comyx.readthedocs.io/latest/_static/ogp_image.png"
+ogp_enable_meta_description = False
+ogp_custom_meta_tags = [
+    '<meta name="description" content="Comyx is a Python library for simulating wireless communication systems."/>',
 ]
 
 intersphinx_mapping = {
@@ -54,6 +62,12 @@ myst_enable_extensions = [
     "amsmath",
     "dollarmath",
     "html_image",
+]
+suppress_warnings = [
+    "ref.citation",
+    "ref.footnote",
+    "myst.header",
+    "misc.highlighting_failure",
 ]
 nb_execution_mode = "off"
 

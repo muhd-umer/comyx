@@ -20,6 +20,7 @@ ablog
 numpydoc
 sphinx-togglebutton
 sphinx-favicon
+sphinxext-opengraph
 docutils
 myst-nb>=1.0.0
 
