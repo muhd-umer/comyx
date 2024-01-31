@@ -36,9 +36,6 @@ class Link:
         tx: Transmitter of the link.
         rx: Receiver of the link.
         shape: Number of shape for the channel gain.
-        distance: Distance between the transceivers.
-        pathloss: Path loss between the transceivers.
-        channel_gain: Channel gain between the transceivers.
     """
 
     def __init__(
@@ -67,19 +64,19 @@ class Link:
 
     @property
     def distance(self) -> float:
-        """Calculate the distance between the nodes."""
+        """Distance between the transceivers."""
 
         return get_distance(self.tx.position, self.rx.position)
 
     @property
     def pathloss(self) -> NDArrayFloat:
-        """Calculate the path loss."""
+        """Path loss between the transceivers."""
 
         return get_pathloss(self.distance, **self._pathloss_args)
 
     @property
     def channel_gain(self) -> NDArrayComplex:
-        """Calculate the channel gain."""
+        """Channel gain between the transceivers."""
 
         rvs = get_rvs(self.shape, **self._fading_args)
         pathloss = db2pow(-self.pathloss)
@@ -107,12 +104,6 @@ class RISLink(Link):
         ris: RIS of the cascaded link.
         rx: Receiver of the cascaded link.
         shape: Number of shape for the channel gain matrix.
-        distance: Dictionary containing distances between different components.
-          Keys are 'tR' for transceiver and RIS, 'Rr' for RIS and receiver.
-        pathloss: Dictionary containing path loss between different components.
-          Keys are 'tR' for transceiver and RIS, 'Rr' for RIS and receiver.
-        channel_gain: Dictionary containing channel gain between different components.
-          Keys are 'tR' for transceiver and RIS, 'Rr' for RIS and receiver.
     """
 
     def __init__(
@@ -157,7 +148,10 @@ class RISLink(Link):
 
     @property
     def distance(self) -> dict[str, float]:
-        """Calculate the distances between the nodes."""
+        """Dictionary containing distances between different components.
+
+        Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver.
+        """
 
         distance_tR = get_distance(self.tx.position, self.ris.position)
         distance_Rr = get_distance(self.ris.position, self.rx.position)
@@ -166,7 +160,9 @@ class RISLink(Link):
 
     @property
     def pathloss(self) -> dict[str, NDArrayFloat]:
-        """Calculate the path losses."""
+        """Dictionary containing path loss between different components.
+
+        Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver."""
 
         pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[0])
         pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[1])
@@ -174,8 +170,6 @@ class RISLink(Link):
         return {"tR": pathloss_tR, "Rr": pathloss_Rr}
 
     def _ris_channel_gain(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
-        """Calculate the cascaded channel gain."""
-
         rvs_tR = get_rvs(self.tR_shape, **self._fading_args[0])
         rvs_Rr = get_rvs(self.Rr_shape, **self._fading_args[1])
 
@@ -189,7 +183,9 @@ class RISLink(Link):
 
     @property
     def channel_gain(self) -> dict[str, NDArrayComplex]:
-        """Calculate the channel gain."""
+        """Dictionary containing channel gain between different components.
+
+        Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver."""
 
         channel_gain_tR, channel_gain_Rr = self._ris_channel_gain()
 
