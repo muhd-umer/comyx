@@ -68,29 +68,33 @@ In this example, we will simulate the downlink NOMA system described above. Firs
 from comyx.network import UserEquipment, BaseStation
 from comyx.core import SISOCollection
 from comyx.propagation import get_noise_power
-from comyx.utils import pow2db, db2pow, dbm2pow, pow2dbm, get_distance
+from comyx.utils import dbm2pow, get_distance
 
 import numpy as np
+from numba import jit
 from matplotlib import pyplot as plt
+
+plt.rcParams["font.family"] = "STIXGeneral"
+plt.rcParams["figure.figsize"] = (6, 4)
 ```
 
-Next, we define the simulation parameters.
+Here, we import `numba` to drastically increase the simulation loop speed. Next, we define the simulation parameters.
 
 ```python
-Pt = np.linspace(0, 40, 100)  # dBm
+Pt = np.linspace(-10, 30, 80)  # dBm
 Pt_lin = dbm2pow(Pt)  # Watt
 bandwidth = 1e6  # Bandwidth in Hz
 frequency = 2.4e9  # Carrier frequency
 temperature = 300  # Kelvin
 mc = 100000  # Number of channel realizations
 
-N0 = get_noise_power(temperature, bandwidth)  # dB
-N0_lin = db2pow(N0)  # Watt
+N0 = get_noise_power(temperature, bandwidth)  # dBm
+N0_lin = dbm2pow(N0)  # Watt
 
 fading_args = {"type": "rayleigh", "sigma": 1 / 2}
 pathloss_args = {
     "type": "reference",
-    "alpha": 3,
+    "alpha": 3.5,
     "p0": 20,
     "frequency": frequency,
 }  # p0 is the reference power in dBm
@@ -103,7 +107,7 @@ Next, we define the users and the base station.
 ```python
 BS = BaseStation("BS", position=[0, 0, 10], n_antennas=1, t_power=Pt_lin)
 UEn = UserEquipment("UEn", position=[200, 200, 1], n_antennas=1)
-UEf = UserEquipment("UEf", position=[350, 350, 1], n_antennas=1)
+UEf = UserEquipment("UEf", position=[400, 400, 1], n_antennas=1)
 
 print("Distance between BS and UEn:", get_distance(BS.position, UEn.position))
 print("Distance between BS and UEf:", get_distance(BS.position, UEf.position))
@@ -111,7 +115,7 @@ print("Distance between BS and UEf:", get_distance(BS.position, UEf.position))
 
 ```{code-block} python
 Distance between BS and UEn: 282.98586537139977
-Distance between BS and UEf: 495.0565624249415
+Distance between BS and UEf: 565.7570149808131
 ```
 
 Here, `t_power` is the transmit power of the base station. It could have been either in dBm or Watt. `comyx` aims to be low-level and modular, and therefore, it expects the user to keep track of the units. In this example, we have used Watt as the unit for power.
@@ -149,24 +153,52 @@ Now, we can write the simulation loop and compute the achievable rates as per th
 UEn.sinr_pre = np.zeros((len(Pt), mc))
 UEn.sinr = np.zeros((len(Pt), mc))
 UEf.sinr = np.zeros((len(Pt), mc))
-UEn.outage = np.zeros((len(Pt), 1))
-UEf.outage = np.zeros((len(Pt), 1))
+
+# Get channel gains
+gain_f = link_col.get_magnitude("BS->UEf") ** 2
+gain_n = link_col.get_magnitude("BS->UEn") ** 2
 
 for i, p in enumerate(Pt_lin):
     p = BS.t_power[i]
 
     # Edge user
-    UEf.sinr[i, :] = (
-        BS.allocations["UEf"] * p * link_col.get_magnitude("BS->UEf") ** 2
-    ) / (BS.allocations["UEn"] * p * link_col.get_magnitude("BS->UEf") ** 2 + N0_lin)
+    UEf.sinr[i, :] = (BS.allocations["UEf"] * p * gain_f) / (
+        BS.allocations["UEn"] * p * gain_f + N0_lin
+    )
 
     # Center user
-    UEn.sinr_pre[i, :] = (
-        BS.allocations["UEf"] * p * link_col.get_magnitude("BS->UEn") ** 2
-    ) / (BS.allocations["UEn"] * p * link_col.get_magnitude("BS->UEn") ** 2 + N0_lin)
-    UEn.sinr[i, :] = (
-        BS.allocations["UEn"] * p * link_col.get_magnitude("BS->UEn") ** 2
-    ) / N0_lin
+    UEn.sinr_pre[i, :] = (BS.allocations["UEf"] * p * gain_n) / (
+        BS.allocations["UEn"] * p * gain_n + N0_lin
+    )
+    UEn.sinr[i, :] = (BS.allocations["UEn"] * p * gain_n) / N0_lin
+
+# Shannon capacity
+rate_fn = np.log2(1 + UEn.sinr_pre)
+rate_n = np.log2(1 + UEn.sinr)
+rate_f = np.log2(1 + UEf.sinr)
+
+# Rate thresholds
+thresh_n = 3
+thresh_f = 1
+
+# JIT compiled as mc can be very large (>> 10000)
+@jit(nopython=True)
+def get_outage(rate_fn, rate_n, rate_f, thresh_n, thresh_f):
+    outage_n = np.zeros((len(Pt), 1))
+    outage_f = np.zeros((len(Pt), 1))
+
+    for i in range(len(Pt)):
+        for k in range(mc):
+            if rate_fn[i, k] < thresh_f and rate_n[i, k] < thresh_n:
+                outage_n[i] += 1
+            if rate_f[i, k] < thresh_f:
+                outage_f[i] += 1
+
+    return outage_n, outage_f
+
+UEn.outage, UEf.outage = get_outage(rate_fn, rate_n, rate_f, thresh_n, thresh_f)
+UEn.outage /= mc
+UEf.outage /= mc
 ```
 
 `UserEquipment` has a property called `rate` which computes the achievable rate as per the following equation of Shannon's capacity theorem. Note that the property also takes the mean of the achievable rates over the channel realizations along the last axis (`-1`), if not specified otherwise.
@@ -175,7 +207,7 @@ $$
 R = \log_2 \left(1 + \mathrm{SINR}\right).
 $$
 
-Finally, we can plot the results.
+Finally, we can plot the results; the achievable rate and the outage probability.
 
 ```python
 plot_args = {
@@ -196,7 +228,7 @@ plt.show()
 ```
 
 ```{image} examples/figs/dl_noma_rate.png
-:alt: dl_noma_rate
+:alt: rate
 :class: dark-light
 :width: 500px
 :align: center
@@ -206,6 +238,40 @@ plt.show()
 
 <div align="center">
 Fig. 2. Achievable rates at the users.
+</div>
+
+<br/>
+
+```python
+plot_args = {
+    "markevery": 10,
+    "color": "k",
+    "markerfacecolor": "c",
+}
+
+# Plot outage probabilities
+plt.figure()
+plt.semilogy(Pt, UEn.outage, label="Rate UE$_n$", marker="s", **plot_args)
+plt.semilogy(Pt, UEf.outage, label="Rate UE$_f$", marker="d", **plot_args)
+plt.xlabel("Transmit power (dBm)")
+plt.ylabel("Outage probability")
+plt.grid(alpha=0.25)
+plt.legend()
+plt.savefig("figs/dl_noma_op.png", dpi=300, bbox_inches="tight")
+plt.close()
+```
+
+```{image} examples/figs/dl_noma_op.png
+:alt: op
+:class: dark-light
+:width: 500px
+:align: center
+```
+
+<br/>
+
+<div align="center">
+Fig. 3. Outage probabilities of the users.
 </div>
 
 <br/>
