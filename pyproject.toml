@@ -10,6 +10,7 @@ authors = [{ name = "Muhammad Umer", email = "thisismumer@gmail.com" }]
 keywords = ["python", "communication", "simulator", "wireless communication"]
 dependencies = [
 	"numpy>=1.23.5",
+	"numba>=0.54.1",
 	"pandas>=2.0.1",
 	"scipy>=1.11.1",
 	"mpmath>=1.3.0",
