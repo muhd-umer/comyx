@@ -61,22 +61,35 @@ class Link:
         self._fading_args = fading_args
         self._pathloss_args = pathloss_args
         self.shape = shape
+        self._distance = get_distance(self.tx.position, self.rx.position)
+        self._pathloss = get_pathloss(self.distance, **self._pathloss_args)
+
+        self._channel_gain = self.generate_channel_gain()
 
     @property
     def distance(self) -> float:
         """Distance between the transceivers."""
 
-        return get_distance(self.tx.position, self.rx.position)
+        return self._distance
 
     @property
     def pathloss(self) -> NDArrayFloat:
         """Path loss between the transceivers."""
 
-        return get_pathloss(self.distance, **self._pathloss_args)
+        return self._pathloss
 
     @property
     def channel_gain(self) -> NDArrayComplex:
         """Channel gain between the transceivers."""
+
+        return self._channel_gain
+
+    def generate_channel_gain(self) -> NDArrayComplex:
+        """Generate channel gain between the transceivers.
+
+        Not private to allow for the generation of new channel gains for more
+        flexible simulations.
+        """
 
         rvs = get_rvs(self.shape, **self._fading_args)
         pathloss = db2pow(-self.pathloss)
@@ -145,6 +158,13 @@ class RISLink(Link):
         )
 
         self.tR_shape, self.Rr_shape = shape
+        self._distance_tR = get_distance(self.tx.position, self.ris.position)
+        self._distance_Rr = get_distance(self.ris.position, self.rx.position)
+
+        self._pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[0])
+        self._pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[1])
+
+        self._channel_gain_tR, self._channel_gain_Rr = self._ris_channel_gain()
 
     @property
     def distance(self) -> dict[str, float]:
@@ -153,10 +173,7 @@ class RISLink(Link):
         Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver.
         """
 
-        distance_tR = get_distance(self.tx.position, self.ris.position)
-        distance_Rr = get_distance(self.ris.position, self.rx.position)
-
-        return {"tR": distance_tR, "Rr": distance_Rr}
+        return {"tR": self._distance_tR, "Rr": self._distance_Rr}
 
     @property
     def pathloss(self) -> dict[str, NDArrayFloat]:
@@ -164,12 +181,26 @@ class RISLink(Link):
 
         Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver."""
 
-        pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[0])
-        pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[1])
+        return {"tR": self._pathloss_tR, "Rr": self._pathloss_Rr}
 
-        return {"tR": pathloss_tR, "Rr": pathloss_Rr}
+    @property
+    def channel_gain(self) -> dict[str, NDArrayComplex]:
+        """Dictionary containing channel gain between different components.
 
-    def _ris_channel_gain(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
+        Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver."""
+
+        return {
+            "tR": self._channel_gain_tR,
+            "Rr": self._channel_gain_Rr,
+        }
+
+    def generate_channel_gain(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
+        """Generate channels to and from the Transceiver and the RIS.
+
+        Not private to allow for the generation of new channel gains for more
+        flexible simulations.
+        """
+
         rvs_tR = get_rvs(self.tR_shape, **self._fading_args[0])
         rvs_Rr = get_rvs(self.Rr_shape, **self._fading_args[1])
 
@@ -180,19 +211,6 @@ class RISLink(Link):
         channel_gain_Rr = np.sqrt(pathloss_Rr) * rvs_Rr
 
         return channel_gain_tR, channel_gain_Rr
-
-    @property
-    def channel_gain(self) -> dict[str, NDArrayComplex]:
-        """Dictionary containing channel gain between different components.
-
-        Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver."""
-
-        channel_gain_tR, channel_gain_Rr = self._ris_channel_gain()
-
-        return {
-            "tR": channel_gain_tR,
-            "Rr": channel_gain_Rr,
-        }
 
 
 def cascaded_channel_gain(ris_link: RISLink, style: str = "sum") -> NDArrayComplex:
