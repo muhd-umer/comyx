@@ -46,8 +46,8 @@ class Rician:
         """Initialize the Rician distribution with the given parameters.
 
         Args:
-            K: Rician factor := ratio between the power of direct path and the
-              power of scattered paths.
+            K: Rician factor, i.e., ratio between the power of direct path and
+            the power of scattered paths.
             sigma: The scale parameter, which is the standard deviation of the
               distribution.
         """

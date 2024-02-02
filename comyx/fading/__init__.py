@@ -18,16 +18,16 @@ def get_rvs(
 ) -> NDArrayComplex:
     """Generates random variables from a distribution.
 
-    Rayleigh:
-        sigma: Scale parameter of the Rayleigh distribution.
+    Rayleigh
+        - ``sigma``– Scale parameter of the Rayleigh distribution.
 
-    Rician:
-        K: Rician K-factor in dB.
-        sigma: Scale parameter of the Rician distribution.
+    Rician
+        - ``K`` – Rician K-factor in dB.
+        - ``sigma`` – Scale parameter of the Rician distribution.
 
-    Nakagami:
-        m: Shape parameter of the Nakagami distribution.
-        omega: Scale parameter of the Nakagami distribution.
+    Nakagami
+        - ``m`` – Shape parameter of the Nakagami distribution.
+        - ``omega`` – Scale parameter of the Nakagami distribution.
 
     Args:
         shape: Number of fading samples to generate.
