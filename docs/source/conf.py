@@ -17,7 +17,7 @@ import comyx
 version = comyx.__version__
 
 project = "Comyx"
-copyright = "2023, Muhammad Umer"
+copyright = "2024, Muhammad Umer"
 author = "Muhammad Umer"
 release = str(version)
 
