@@ -6,6 +6,6 @@ API reference for the ``comyx`` package.
 .. toctree::
    :titlesonly:
    
-{% for module in ['fading', 'propagation', 'utils', 'stats', 'network'] %}
+{% for module in ['core', 'network', 'fading', 'propagation', 'utils', 'stats'] %}
    comyx/{{ module }}/index
 {% endfor %}
