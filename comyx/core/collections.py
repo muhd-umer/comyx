@@ -117,8 +117,8 @@ class SISOCollection:
             )
 
             # >>> Intentional redundancy for readability and clarity
-            _fading_args = ensure_list(fading_args)
-            _pathloss_args = ensure_list(pathloss_args)
+            _fading_args = ensure_list(fading_args, length=2)
+            _pathloss_args = ensure_list(pathloss_args, length=2)
 
             _tx_ris_link = Link(
                 tx=tx,
@@ -126,6 +126,7 @@ class SISOCollection:
                 fading_args=_fading_args[0],
                 pathloss_args=_pathloss_args[0],
                 shape=(tx.n_antennas, ris.n_elements, self.realizations),
+                channel_gain=_ris_link.channel_gain["tR"],
             )
             _ris_rx_link = Link(
                 tx=ris,
@@ -133,14 +134,17 @@ class SISOCollection:
                 fading_args=_fading_args[1],
                 pathloss_args=_pathloss_args[1],
                 shape=(ris.n_elements, rx.n_antennas, self.realizations),
+                channel_gain=_ris_link.channel_gain["Rr"],
             )
 
             self._links[(tx.id, ris.id)] = _tx_ris_link
             self._links[(ris.id, rx.id)] = _ris_rx_link
+            self._links[(tx.id, ris.id, rx.id)] = _ris_link
             # <<<
 
             self._channel_gains[(tx.id, ris.id)] = _ris_link.channel_gain["tR"]
             self._channel_gains[(ris.id, rx.id)] = _ris_link.channel_gain["Rr"]
+            self._channel_gains[(tx.id, ris.id, rx.id)] = _ris_link.channel_gain
 
         else:
             raise ValueError("Invalid number of nodes. Must be 2 or 3.")
@@ -154,12 +158,12 @@ class SISOCollection:
         # Split the nodes if they are a string
         if str_repr:
             nodes = nodes.split("->")
-            assert len(nodes) == 2, "Invalid number of nodes. Only 2 must be given."
+            assert len(nodes) in [2, 3], "Invalid number of nodes. Must be 2 or 3."
             nodes = tuple(nodes)
 
         # Convert the nodes to their respective objects
         else:
-            assert len(nodes) == 2, "Invalid number of nodes. Only 2 must be given."
+            assert len(nodes) in [2, 3], "Invalid number of nodes. Must be 2 or 3."
             nodes = tuple([node.id for node in nodes])
 
         if attribute:
@@ -176,7 +180,9 @@ class SISOCollection:
 
         If str_repr is True, then the nodes must be a string of the form
         f"{node1.id}->{node2.id}". Otherwise, the nodes must be a list of the
-        form [node1, node2].
+        form [node1, node2]. Can also be a list of the form
+        f"{node1.id}->{node2.id}->{node3.id}" or [node1, node2, node3] as in the
+        case of an RIS-assisted link.
 
         Example input:
             >>> get_link("A->B") # Link from node A to node B
@@ -200,7 +206,9 @@ class SISOCollection:
 
         If str_repr is True, then the nodes must be a string of the form
         f"{node1.id}->{node2.id}". Otherwise, the nodes must be a list of the
-        form [node1, node2].
+        form [node1, node2]. Can also be a list of the form
+        f"{node1.id}->{node2.id}->{node3.id}" or [node1, node2, node3] as in the
+        case of an RIS-assisted link.
 
         Example input:
             >>> get_channel_gain("A->B") # Channel gain from node A to node B
@@ -224,7 +232,9 @@ class SISOCollection:
 
         If str_repr is True, then the nodes must be a string of the form
         f"{node1.id}->{node2.id}". Otherwise, the nodes must be a list of the
-        form [node1, node2].
+        form [node1, node2]. Can also be a list of the form
+        f"{node1.id}->{node2.id}->{node3.id}" or [node1, node2, node3] as in the
+        case of an RIS-assisted link.
 
         Example input:
             >>> get_magnitude("A->B") # Magnitude from node A to node B
@@ -248,7 +258,9 @@ class SISOCollection:
 
         If str_repr is True, then the nodes must be a string of the form
         f"{node1.id}->{node2.id}". Otherwise, the nodes must be a list of the
-        form [node1, node2].
+        form [node1, node2]. Can also be a list of the form
+        f"{node1.id}->{node2.id}->{node3.id}" or [node1, node2, node3] as in the
+        case of an RIS-assisted link.
 
         Example input:
             >>> get_angle("A->B") # Angle from node A to node B
@@ -272,7 +284,9 @@ class SISOCollection:
 
         If str_repr is True, then the nodes must be a string of the form
         f"{node1.id}->{node2.id}". Otherwise, the nodes must be a list of the
-        form [node1, node2].
+        form [node1, node2]. Can also be a list of the form
+        f"{node1.id}->{node2.id}->{node3.id}" or [node1, node2, node3] as in the
+        case of an RIS-assisted link.
 
         Example input:
             >>> get_distance("A->B") # Distance from node A to node B
