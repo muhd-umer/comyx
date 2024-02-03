@@ -53,8 +53,7 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
 
    .. grid-item-card:: :material-regular:`rocket_launch;2.5em`
       :columns: 12 6 6 4
-      :link: quickstart
-      :link-type: ref
+      :link: quickstart.html
       :class-body: sd-text-white
       :class-card: clickcard
       :text-align: center
