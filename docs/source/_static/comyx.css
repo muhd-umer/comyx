@@ -8,20 +8,8 @@
   color: white !important;
 } */
 
-.api-reference {
-  color: white !important;
-  background-color: rgba(29, 85, 110, var(--block-bg-opacity));
-  /* set the color of the text to white regardless of the theme */
-}
 
-.quickstart {
-  color: white !important;
-  background-color: rgba(29, 85, 110, var(--block-bg-opacity));
-  /* set the color of the text to white regardless of the theme */
-}
-
-
-.research {
+.clickcard {
   color: white !important;
   background-color: rgba(29, 85, 110, var(--block-bg-opacity));
   /* set the color of the text to white regardless of the theme */

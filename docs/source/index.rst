@@ -56,29 +56,28 @@ The library is actively developed and maintained by **Muhammad Umer** https://gi
       :link: quickstart
       :link-type: ref
       :class-body: sd-text-white
-      :class-card: quickstart
+      :class-card: clickcard
       :text-align: center
 
       **Quickstart**
+
+   .. grid-item-card:: :material-regular:`code;2.5em`
+      :columns: 12 6 6 4
+      :link: examples/index.html
+      :class-body: sd-text-white
+      :class-card: clickcard
+      :text-align: center
+
+      **Examples**
 
    .. grid-item-card:: :material-regular:`api;2.5em`
       :columns: 12 6 6 4
       :link: api/index.html
       :class-body: sd-text-white
-      :class-card: api-reference
+      :class-card: clickcard
       :text-align: center
 
       **API Reference**
-
-   .. grid-item-card:: :material-regular:`science;2.5em`
-      :columns: 12 6 6 4
-      :link: research
-      :link-type: ref
-      :class-body: sd-text-white
-      :class-card: research
-      :text-align: center
-
-      **Research**
 
 
 .. toctree::
