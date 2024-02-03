@@ -13,6 +13,8 @@ The following example demonstrates the use of Comyx to simulate a simple wireles
 
 Consider a simple downlink NOMA system with a single base station ($\mathrm{BS}$), a cell-center user ($\mathrm{UE}_n$) and a cell-edge user ($\mathrm{UE}_f$).
 
+_For the sake of simplicity, assume that both base station and users are equipped with a single antenna._
+
 ```{image} examples/figs/dl_noma.png
 :alt: model
 :class: dark-light
@@ -27,10 +29,6 @@ Fig. 1. Downlink NOMA system model.
 </div>
 
 <br/>
-
-Consider a simple downlink NOMA system with a single base station ($\mathrm{BS}$), a cell-center user ($\mathrm{UE}_n$) and a cell-edge user ($\mathrm{UE}_f$).
-
-_For the sake of simplicity, assume that both base station and users are equipped with a single antenna._
 
 Let $x_n$ and $x_f$ denote the messages intended for $\mathrm{UE}_n$ and $\mathrm{UE}_f$, respectively. The $\mathrm{BS}$ transmits a superposition of the two messages weighted by the power allocation coefficients $\alpha_n$ and $\alpha_f$, respectively. Mathematically, the transmitted signal can be expressed as
 
