@@ -31,18 +31,18 @@ class RIS:
         self,
         id_: str,
         position: List[float],
-        elements: int,
+        n_elements: int,
     ):
         """Initialize an RIS object.
 
         Args:
             id_: Unique identifier of the RIS.
             position: Position of the RIS in the environment.
-            elements: Number of elements of the RIS.
+            n_elements: Number of elements of the RIS.
         """
         self._id = id_
         self._position = position
-        self._elements = elements
+        self._n_elements = n_elements
 
     @property
     def id(self) -> str:
@@ -55,9 +55,9 @@ class RIS:
         return self._position
 
     @property
-    def elements(self) -> int:
+    def n_elements(self) -> int:
         """Return the number of antennas of the transceiver."""
-        return self._elements
+        return self._n_elements
 
     @property
     def phase_shifts(self) -> NDArrayFloat:
@@ -69,8 +69,8 @@ class RIS:
     @phase_shifts.setter
     def phase_shifts(self, phase_shifts: NDArrayFloat) -> None:
         """Set the phase shifts of the RIS."""
-        assert phase_shifts.shape == (
-            self.elements,
+        assert phase_shifts.shape[0] != (
+            self.n_elements,
         ), "Phase shifts must be a vector of length equal to the number of elements."
         self._phase_shifts = phase_shifts
 
@@ -84,8 +84,8 @@ class RIS:
     @amplitudes.setter
     def amplitudes(self, amplitudes: NDArrayFloat) -> None:
         """Set the amplitudes of the RIS."""
-        assert amplitudes.shape == (
-            self.elements,
+        assert amplitudes.shape[0] != (
+            self.n_elements,
         ), "Amplitudes must be a vector of length equal to the number of elements."
         self._amplitudes = amplitudes
 
@@ -108,6 +108,11 @@ class RIS:
             raise ValueError("Phase shifts must be set before accessing.")
         if not hasattr(self, "_amplitudes"):
             raise ValueError("Amplitudes must be set before accessing.")
+
+        assert self.phase_shifts.ndim == 1, (
+            "Phase shifts must be a vector (design choice)."
+            + " Use amplitude and shifts individually instead.",
+        )
 
         return np.diag(self.amplitudes * np.exp(1j * self.phase_shifts))
 
