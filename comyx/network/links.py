@@ -45,6 +45,7 @@ class Link:
         fading_args: dict[str, Any],
         pathloss_args: dict[str, Any],
         shape: Tuple[int, ...],
+        channel_gain: Union[NDArrayComplex, None] = None,
     ) -> None:
         """Initialize a link object.
 
@@ -54,6 +55,7 @@ class Link:
             fading_args: Arguments for the fading model.
             pathloss_args: Arguments for the path loss model.
             shape: Shape for the channel gain matrix.
+            channel_gain: Channel gain values.
         """
 
         self.tx = tx
@@ -64,7 +66,9 @@ class Link:
         self._distance = get_distance(self.tx.position, self.rx.position)
         self._pathloss = get_pathloss(self.distance, **self._pathloss_args)
 
-        self._channel_gain = self.generate_channel_gain()
+        self._channel_gain = (
+            self.generate_channel_gain() if channel_gain is None else channel_gain
+        )
 
     @property
     def distance(self) -> float:
@@ -149,8 +153,8 @@ class RISLink(Link):
         self.ris = ris
         self.rx = rx
 
-        self._fading_args = ensure_list(fading_args)
-        self._pathloss_args = ensure_list(pathloss_args)
+        self._fading_args = ensure_list(fading_args, length=2)
+        self._pathloss_args = ensure_list(pathloss_args, length=2)
 
         assert len(self._fading_args) == 2 and len(self._pathloss_args) == 2, (
             "Fading and path loss arguments must be either a list of length 2 "
@@ -164,7 +168,7 @@ class RISLink(Link):
         self._pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[0])
         self._pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[1])
 
-        self._channel_gain_tR, self._channel_gain_Rr = self._ris_channel_gain()
+        self._channel_gain_tR, self._channel_gain_Rr = self.generate_channel_gain()
 
     @property
     def distance(self) -> dict[str, float]:
@@ -221,13 +225,12 @@ def cascaded_channel_gain(ris_link: RISLink, style: str = "sum") -> NDArrayCompl
     through the RIS is given by
 
     .. math::
-        h_{csc}= \mathbf{h}_{R,r}^H \mathbf{R} \mathbf{h}_{t,R},
+        h_{csc}= \mathbf{h}_{R,r}^T \mathbf{R} \mathbf{h}_{t,R},
 
     where :math:`\mathbf{h}_{t,R}` is the channel gain between the transceiver
     and the RIS, :math:`\mathbf{h}_{R,r}` is the channel gain between the RIS
     and the receiver, and :math:`\mathbf{R}` is the reflection matrix of the
-    RIS. The superscript :math:`H` denotes the Hermitian (complex conjugate)
-    operator.
+    RIS. The superscript :math:`T` denotes the transpose operator.
 
     If channel_gain_tR is of shape (Nt, K, Mc), and channel_gain_Rr is of shape
     (K, Nr, Mc), where Nt is the number of transmit antennas, K is the number of
@@ -247,11 +250,23 @@ def cascaded_channel_gain(ris_link: RISLink, style: str = "sum") -> NDArrayCompl
     channel_gain_tR = ris_link.channel_gain["tR"]
     channel_gain_Rr = ris_link.channel_gain["Rr"]
 
+    assert channel_gain_tR.shape[-1] == channel_gain_Rr.shape[-1], (
+        "The number of channel  realizations must be the same for both channel "
+        + "gains."
+    )
+    mc = channel_gain_tR.shape[-1]
+
     if style == "sum":
-        cascaded_channel_gain = np.sum(
-            np.conj(channel_gain_Rr) * ris_link.ris.reflection_matrix * channel_gain_tR,
-            axis=1,
+        cascaded_channel_gain = np.zeros(
+            (ris_link.tx.n_antennas, ris_link.rx.n_antennas, mc), dtype=np.complex128
         )
+        for i in range(ris_link.ris.n_elements):
+            cascaded_channel_gain += (
+                channel_gain_tR[:, i, :]
+                * ris_link.ris.amplitudes[i]
+                * np.exp(1j * ris_link.ris.phase_shifts[i])
+                * channel_gain_Rr[i, :, :]
+            )
 
     elif style == "matrix":
         if channel_gain_tR.ndim != 2 or channel_gain_Rr.ndim != 2:
@@ -261,9 +276,7 @@ def cascaded_channel_gain(ris_link: RISLink, style: str = "sum") -> NDArrayCompl
             )
 
         cascaded_channel_gain = (
-            np.conj(channel_gain_Rr).T
-            @ ris_link.ris.reflection_matrix
-            @ channel_gain_tR
+            channel_gain_Rr.T @ ris_link.ris.reflection_matrix @ channel_gain_tR
         )
 
     else:
@@ -286,14 +299,13 @@ def effective_channel_gain(
     through the RIS is given by
 
     .. math::
-        h_{eff}= h_{t,r} + \mathbf{h}_{R,r}^H \mathbf{R} \mathbf{h}_{t,R},
+        h_{eff}= h_{t,r} + \mathbf{h}_{R,r}^T \mathbf{R} \mathbf{h}_{t,R},
 
     where :math:`\mathbf{h}_{t,R}` is the channel gain between the transceiver
     and the RIS, :math:`\mathbf{h}_{R,r}` is the channel gain between the RIS
     and the receiver, :math:`\mathbf{R}` is the reflection matrix of the RIS,
     and :math:`h_{t,r}` is the channel gain between the transceiver and the
-    receiver. The superscript :math:`H` denotes the Hermitian (complex
-    conjugate) operator.
+    receiver. The superscript :math:`T` denotes the transpose operator.
 
     Args:
         direct_link: Direct link.
