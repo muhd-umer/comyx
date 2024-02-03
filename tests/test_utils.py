@@ -11,7 +11,7 @@ from comyx.utils import (
     pow2db,
     pow2dbm,
     qfunc,
-    wrapTo2Pi,
+    wrap_to_2pi,
 )
 
 
@@ -87,14 +87,15 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(laguerre(1, 2), -0.5)
         self.assertTrue(np.allclose(laguerre(np.array([0, 1]), 2), np.array([1, -0.5])))
 
-    def test_wrapTo2Pi(self):
+    def test_wrap_to_2pi(self):
         # Test wrapping to [0, 2*pi] interval
-        self.assertEqual(wrapTo2Pi(np.array(0)), 0)
-        self.assertEqual(wrapTo2Pi(np.array(2 * np.pi)), 0)
-        self.assertEqual(wrapTo2Pi(np.array(3 * np.pi)), np.pi)
+        self.assertEqual(wrap_to_2pi(np.array(0)), 0)
+        self.assertEqual(wrap_to_2pi(np.array(2 * np.pi)), 0)
+        self.assertEqual(wrap_to_2pi(np.array(3 * np.pi)), np.pi)
         self.assertTrue(
             np.allclose(
-                wrapTo2Pi(np.array([0, 2 * np.pi, 3 * np.pi])), np.array([0, 0, np.pi])
+                wrap_to_2pi(np.array([0, 2 * np.pi, 3 * np.pi])),
+                np.array([0, 0, np.pi]),
             )
         )
 
