@@ -18,5 +18,6 @@ and to provide a starting point for further exploration.
   :caption: Topics
 
   siso_dl_noma
+  ris_enhanced
 
 *More to be added soon*.
