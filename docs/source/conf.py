@@ -98,7 +98,7 @@ html_context = {
     "github_repo": "comyx",
     "github_version": "main",
     "doc_path": "docs",
-    "default_mode": "light",
+    "default_mode": "dark",
 }
 
 html_extra_path = ["_extra/googlee67cda8bc2355b91.html"]
