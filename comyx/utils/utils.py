@@ -150,7 +150,7 @@ def laguerre(x: Union[float, NDArrayFloat], n: float) -> Union[float, NDArrayFlo
         return ((2 * n - 1 - x) * laguerre(x, n - 1) - (n - 1) * laguerre(x, n - 2)) / n
 
 
-def wrapTo2Pi(theta: NDArrayFloat) -> NDArrayFloat:
+def wrap_to_2pi(theta: NDArrayFloat) -> NDArrayFloat:
     """Wrap an angle to the interval [0, 2 * pi].
 
     Args:
@@ -163,7 +163,7 @@ def wrapTo2Pi(theta: NDArrayFloat) -> NDArrayFloat:
     return np.mod(theta, 2 * np.pi)
 
 
-def ensure_list(arg, length=3) -> List[Any]:
+def ensure_list(arg, length) -> List[Any]:
     """Ensure that the argument is a list of desired length.
 
     Args:
@@ -187,6 +187,6 @@ __all__ = [
     "qfunc",
     "inverse_qfunc",
     "laguerre",
-    "wrapTo2Pi",
+    "wrap_to_2pi",
     "ensure_list",
 ]
