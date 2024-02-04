@@ -1,6 +1,6 @@
 # Installing Comyx
 
-Comyx is written in pure Python, and is compatible with Python 3.10 and above. It is tested on Linux (Ubuntu 20.04), however it should work on any platform without any issues.
+Comyx is written in pure Python, and is compatible with Python 3.11 and above. It is tested on Linux (Ubuntu 22.04), however it should work on any platform without any issues.
 Use the following instructions to install a binary package with `pip` or build `comyx` from source.
 
 ## Installing with `pip`
