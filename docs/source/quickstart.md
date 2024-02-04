@@ -52,8 +52,13 @@ $$
 \begin{align*}
 R_{f\,\rightarrow\,n} &= \log_2 \left(1 + \frac{\alpha_f P_t |h_n|^2}{\alpha_n P_t |h_n|^2 + N_0}\right),\\
 R_n &= \log_2 \left(1 + \frac{\alpha_n P_t |h_n|^2}{N_0}\right), \\
-R_f &= \log_2 \left(1 + \frac{\alpha_f P_t |h_f|^2}{\alpha_n P_t |h_f|^2 + N_0}\right),
 \end{align*}
+$$
+
+and
+
+$$
+R_f &= \log_2 \left(1 + \frac{\alpha_f P_t |h_f|^2}{\alpha_n P_t |h_f|^2 + N_0}\right),
 $$
 
 where $N_0$ is the noise power spectral density, and $R_{f\,\rightarrow\,n}$ is the achievable data rate at $\mathrm{UE}_n$ before SIC.
@@ -131,10 +136,13 @@ link_col.add_link([BS, UEf], fading_args, pathloss_args)
 As mentioned in the [system model](#system-model) section, the achievable rates at $\mathrm{UE}_n$ and $\mathrm{UE}_f$ are given by
 
 $$
-\begin{align*}
-R_n &= \log_2 \left(1 + \frac{\alpha_n P_t |h_n|^2}{N_0}\right), \\
-R_f &= \log_2 \left(1 + \frac{\alpha_f P_t |h_f|^2}{\alpha_n P_t |h_f|^2 + N_0}\right),
-\end{align*}
+R_n = \log_2 \left(1 + \frac{\alpha_n P_t |h_n|^2}{N_0}\right),
+$$
+
+and
+
+$$
+R_f = \log_2 \left(1 + \frac{\alpha_f P_t |h_f|^2}{\alpha_n P_t |h_f|^2 + N_0}\right).
 $$
 
 As this notebook intends to give a simple illustration of NOMA, we assume that the power allocation coefficients are fixed. 
