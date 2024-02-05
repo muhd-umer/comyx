@@ -178,13 +178,13 @@ for i, p in enumerate(Pt_lin):
     )
     UEn.sinr[i, :] = (BS.allocations["UEn"] * p * gain_n) / N0_lin
 
-# Shannon capacity
+
 rate_fn = np.log2(1 + UEn.sinr_pre)
 rate_n = np.log2(1 + UEn.sinr)
 rate_f = np.log2(1 + UEf.sinr)
 
 # Rate thresholds
-thresh_n = 3
+thresh_n = 1
 thresh_f = 1
 
 # JIT compiled as mc can be very large (>> 10000)
@@ -195,7 +195,7 @@ def get_outage(rate_fn, rate_n, rate_f, thresh_n, thresh_f):
 
     for i in range(len(Pt)):
         for k in range(mc):
-            if rate_fn[i, k] < thresh_f and rate_n[i, k] < thresh_n:
+            if rate_fn[i, k] < thresh_f or rate_n[i, k] < thresh_n:
                 outage_n[i] += 1
             if rate_f[i, k] < thresh_f:
                 outage_f[i] += 1
