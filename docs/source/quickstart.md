@@ -58,7 +58,7 @@ $$
 and
 
 $$
-R_f &= \log_2 \left(1 + \frac{\alpha_f P_t |h_f|^2}{\alpha_n P_t |h_f|^2 + N_0}\right),
+R_f = \log_2 \left(1 + \frac{\alpha_f P_t |h_f|^2}{\alpha_n P_t |h_f|^2 + N_0}\right),
 $$
 
 where $N_0$ is the noise power spectral density, and $R_{f\,\rightarrow\,n}$ is the achievable data rate at $\mathrm{UE}_n$ before SIC.
