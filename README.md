@@ -26,7 +26,7 @@
         <img src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?flat&logo=PyTorch&logoColor=white" /></a>
 </p> -->
 
-## Comyx: Optimized & Modular Wireless Network Simulator
+# Comyx: Wireless Network Simulator
 
 [![build](https://github.com/muhd-umer/comyx/workflows/build/badge.svg)](https://github.com/muhd-umer/comyx/actions?query=workflow:"build")
 [![GitHub release](https://img.shields.io/github/release/muhd-umer/comyx?include_prereleases=&sort=semver&color=blue)](https://github.com/muhd-umer/comyx/releases/)
