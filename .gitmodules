@@ -1,0 +1,3 @@
+[submodule "research/deep-rl-energyeff"]
+	path = research/deep-rl-energyeff
+	url = https://github.com/muhd-umer/deep-rl-energyeff.git
