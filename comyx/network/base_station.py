@@ -27,6 +27,7 @@ class BaseStation(Transceiver):
         n_antennas: int,
         t_power: Union[float, None] = None,
         r_sensitivity: Union[float, None] = None,
+        radius: Union[float, None] = None,
     ):
         """Initialize a transceiver object.
 
@@ -36,8 +37,16 @@ class BaseStation(Transceiver):
             n_antennas: Number of antennas of the transceiver.
             t_power: Transmit power of the transceiver.
             r_sensitivity: Sensitivity of the transceiver.
+            radius: Radius of the transceiver.
         """
         super().__init__(id_, position, n_antennas, t_power, r_sensitivity)
+
+        self._radius = radius
+
+    @property
+    def radius(self) -> float:
+        """Return the radius of the base station."""
+        return self._radius
 
 
 __all__ = ["BaseStation"]
