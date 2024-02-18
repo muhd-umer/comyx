@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, List, Union
+from typing import TYPE_CHECKING, Any, List, Union
+
+if TYPE_CHECKING:
+    from .base_station import BaseStation
+
+import random
 
 import numpy as np
 import numpy.typing as npt
@@ -55,6 +60,43 @@ class UserEquipment(Transceiver):
             raise ValueError("SINR not set")
 
         return np.mean(np.log2(1 + self.sinr), axis=mean_axis)
+
+    @classmethod
+    def from_base_station(
+        cls,
+        base_station: BaseStation,
+        id_: str,
+        n_antennas: int,
+        t_power: Union[float, None] = None,
+        r_sensitivity: Union[float, None] = None,
+        height: float = 0,
+        tolerance: float = 0,
+    ) -> UserEquipment:
+        """Create a user equipment within the coverage area of a base station.
+
+        Args:
+            id_: Unique identifier of the user equipment.
+            n_antennas: Number of antennas of the user equipment.
+            base_station: Base station to create the user equipment from.
+            height: Height of the user equipment. Defaults to 0.
+            tolerance: Tolerance from the edge of the coverage area.
+              Defaults to 0.
+
+        Returns:
+            Randomly positioned user equipment.
+        """
+
+        angle = 2 * np.pi * random.random()
+        r = (base_station.radius - tolerance) * np.sqrt(random.random())
+
+        # Calculate the new x and y coordinates
+        x = r * np.cos(angle) + base_station.position[0]
+        y = r * np.sin(angle) + base_station.position[1]
+        z = height
+
+        position = [x, y, z]
+
+        return cls(id_, position, n_antennas, t_power, r_sensitivity)
 
 
 __all__ = ["UserEquipment"]
