@@ -46,6 +46,7 @@ class Link:
         pathloss_args: dict[str, Any],
         shape: Tuple[int, ...],
         channel_gain: Union[NDArrayComplex, None] = None,
+        distance: Union[float, None] = None,
     ) -> None:
         """Initialize a link object.
 
@@ -56,6 +57,7 @@ class Link:
             pathloss_args: Arguments for the path loss model.
             shape: Shape for the channel gain matrix.
             channel_gain: Channel gain values.
+            distance: Distance between the transceivers.
         """
 
         self.tx = tx
@@ -63,7 +65,11 @@ class Link:
         self._fading_args = fading_args
         self._pathloss_args = pathloss_args
         self.shape = shape
-        self._distance = get_distance(self.tx.position, self.rx.position)
+        self._distance = (
+            get_distance(self.tx.position, self.rx.position)
+            if distance is None
+            else distance
+        )
         self._pathloss = get_pathloss(self.distance, **self._pathloss_args)
 
         self._channel_gain = (
