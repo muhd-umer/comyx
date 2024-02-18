@@ -113,6 +113,9 @@ class Link:
 
         return channel_gain
 
+    def __repr__(self) -> str:
+        return f"Link({self.tx.id}, {self.rx.id}) of shape {self.shape}"
+
 
 class RISLink(Link):
     r"""Represents an RIS link in the modelled environment.
