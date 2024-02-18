@@ -88,6 +88,18 @@ class Link:
 
         return self._channel_gain
 
+    @property
+    def magnitude(self) -> NDArrayFloat:
+        """Magnitude of the channel"""
+
+        return np.abs(self.channel_gain)
+
+    @property
+    def phase(self) -> NDArrayFloat:
+        """Phase of the channel"""
+
+        return np.angle(self.channel_gain)
+
     def generate_channel_gain(self) -> NDArrayComplex:
         """Generate channel gain between the transceivers.
 
@@ -196,6 +208,28 @@ class RISLink(Link):
         return {
             "tR": self._channel_gain_tR,
             "Rr": self._channel_gain_Rr,
+        }
+
+    @property
+    def magnitude(self) -> dict[str, NDArrayFloat]:
+        """Dictionary containing magnitude of the channel between different components.
+
+        Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver."""
+
+        return {
+            "tR": np.abs(self._channel_gain_tR),
+            "Rr": np.abs(self._channel_gain_Rr),
+        }
+
+    @property
+    def phase(self) -> dict[str, NDArrayFloat]:
+        """Dictionary containing phase of the channel between different components.
+
+        Keys are ``tR`` for transceiver and RIS, ``Rr`` for RIS and receiver."""
+
+        return {
+            "tR": np.angle(self._channel_gain_tR),
+            "Rr": np.angle(self._channel_gain_Rr),
         }
 
     def generate_channel_gain(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
