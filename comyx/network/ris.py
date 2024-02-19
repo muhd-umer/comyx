@@ -69,8 +69,8 @@ class RIS:
     @phase_shifts.setter
     def phase_shifts(self, phase_shifts: NDArrayFloat) -> None:
         """Set the phase shifts of the RIS."""
-        assert phase_shifts.shape[0] != (
-            self.n_elements,
+        assert (
+            phase_shifts.shape[0] == self.n_elements
         ), "Phase shifts must be a vector of length equal to the number of elements."
         self._phase_shifts = phase_shifts
 
@@ -84,8 +84,8 @@ class RIS:
     @amplitudes.setter
     def amplitudes(self, amplitudes: NDArrayFloat) -> None:
         """Set the amplitudes of the RIS."""
-        assert amplitudes.shape[0] != (
-            self.n_elements,
+        assert (
+            amplitudes.shape[0] == self.n_elements
         ), "Amplitudes must be a vector of length equal to the number of elements."
         self._amplitudes = amplitudes
 
