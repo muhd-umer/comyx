@@ -23,6 +23,9 @@ class Link:
     A link is a connection between two transceivers. It is characterized by the
     distance between the two transceivers, the path loss, and the channel gain.
 
+    If rician_args are provided, the fading_args are used for the NLOS component
+    and the rician_args are used for the LOS component.
+
     Mathematically, the channel gain is given by
 
     .. math::
@@ -40,12 +43,13 @@ class Link:
 
     def __init__(
         self,
-        tx: Transceiver,
-        rx: Transceiver,
+        tx: Transceiver | RIS,
+        rx: Transceiver | RIS,
         fading_args: dict[str, Any],
         pathloss_args: dict[str, Any],
         shape: Tuple[int, ...],
-        channel_gain: Union[NDArrayComplex, None] = None,
+        rician_args: Union[dict[str, Any], None] = None,
+        custom_rvs: Union[NDArrayComplex, None] = None,
         distance: Union[float, None] = None,
     ) -> None:
         """Initialize a link object.
@@ -56,7 +60,8 @@ class Link:
             fading_args: Arguments for the fading model.
             pathloss_args: Arguments for the path loss model.
             shape: Shape for the channel gain matrix.
-            channel_gain: Channel gain values.
+            rician_args: Arguments for the Rician fading model.
+            custom_rvs: Custom random variables for the channel gain.
             distance: Distance between the transceivers.
         """
 
@@ -72,9 +77,14 @@ class Link:
         )
         self._pathloss = get_pathloss(self.distance, **self._pathloss_args)
 
-        self._channel_gain = (
-            self.generate_channel_gain() if channel_gain is None else channel_gain
-        )
+        if rician_args is not None:
+            assert custom_rvs is None, (
+                "The custom random variables cannot be provided when the fading "
+                + "model is Rician."
+            )
+        self._rician_args = rician_args
+
+        self._channel_gain = self.generate(custom_rvs)
 
     @property
     def distance(self) -> float:
@@ -106,18 +116,82 @@ class Link:
 
         return np.angle(self.channel_gain)
 
-    def generate_channel_gain(self) -> NDArrayComplex:
+    def generate(self, custom_rvs: NDArrayComplex | None = None) -> NDArrayComplex:
         """Generate channel gain between the transceivers.
 
         Not private to allow for the generation of new channel gains for more
         flexible simulations.
         """
+        if custom_rvs is None:
+            rvs = get_rvs(self.shape, **self._fading_args)
 
-        rvs = get_rvs(self.shape, **self._fading_args)
+        elif self.rician:
+            rvs = self.rician_fading(**self._rician_args)
+        else:
+            rvs = custom_rvs
+            assert rvs.shape == self.shape, (
+                "The shape of the custom random variables must be the same as the "
+                + "shape of the channel gain."
+            )
+
         pathloss = db2pow(-self.pathloss)
         channel_gain = np.sqrt(pathloss) * rvs
 
         return channel_gain
+
+    def rician_fading(
+        self,
+        K: float,
+        order: str = "post",
+    ) -> NDArrayComplex:
+        """Generate Rician fading channel gain between the transceivers.
+
+        Args:
+            K: Rician K-factor.
+            pos_a: Position of the first transceiver.
+            pos_b: Position of the second transceiver.
+            order: Order of RIS in the link.
+              Possible values are 'post' and 'pre'.
+
+        Returns:
+            Rician fading channel gain.
+        """
+
+        los = []
+        if order == "post":
+            assert isinstance(
+                self.rx, RIS
+            ), "The receiver must be an RIS for the post-order Rician fading."
+            n_elements = self.rx.n_elements
+        elif order == "pre":
+            assert isinstance(
+                self.tx, RIS
+            ), "The transmitter must be an RIS for the pre-order Rician fading."
+            n_elements = self.tx.n_elements
+        else:
+            raise ValueError(f"Order {order} not supported.")
+
+        for m in range(n_elements):
+            los.append(
+                np.exp(
+                    1j
+                    * m
+                    * np.pi
+                    * (self.rx.position[1] - self.tx.position[1])
+                    / (
+                        np.sqrt(
+                            (self.rx.position[0] - self.tx.position[0]) ** 2
+                            + (self.rx.position[1] - self.tx.position[1]) ** 2
+                        )
+                    )
+                )
+            )
+
+        los = np.array(los).reshape(self.shape)
+        nlos = get_rvs(self.shape, **self._fading_args)
+        rvs = los * (np.sqrt(K / (K + 1))) + nlos * (1 / (np.sqrt(K + 1)))
+
+        return rvs
 
     def __repr__(self) -> str:
         return f"Link({self.tx.id}, {self.rx.id}) of shape {self.shape}"
@@ -146,9 +220,9 @@ class RISLink(Link):
 
     def __init__(
         self,
-        tx: Transceiver,
+        tx: Transceiver | RIS,
         ris: RIS,
-        rx: Transceiver,
+        rx: Transceiver | RIS,
         fading_args: Union[dict[str, Any], List[dict[str, Any]]],
         pathloss_args: Union[dict[str, Any], List[dict[str, Any]]],
         shape: Tuple[Tuple[int, ...], Tuple[int, ...]],
@@ -189,7 +263,7 @@ class RISLink(Link):
         self._pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[0])
         self._pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[1])
 
-        self._channel_gain_tR, self._channel_gain_Rr = self.generate_channel_gain()
+        self._channel_gain_tR, self._channel_gain_Rr = self.generate()
 
     @property
     def distance(self) -> dict[str, float]:
@@ -241,7 +315,7 @@ class RISLink(Link):
             "Rr": np.angle(self._channel_gain_Rr),
         }
 
-    def generate_channel_gain(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
+    def generate(self) -> Tuple[NDArrayComplex, NDArrayComplex]:
         """Generate channels to and from the Transceiver and the RIS.
 
         Not private to allow for the generation of new channel gains for more
