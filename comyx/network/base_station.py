@@ -23,8 +23,8 @@ class BaseStation(Transceiver):
     def __init__(
         self,
         id_: str,
-        position: List[float],
         n_antennas: int,
+        position: Union[List[float], None] = None,
         t_power: Union[float, None] = None,
         r_sensitivity: Union[float, None] = None,
         radius: Union[float, None] = None,
@@ -33,13 +33,13 @@ class BaseStation(Transceiver):
 
         Args:
             id_: Unique identifier of the transceiver.
-            position: Position of the transceiver in the environment.
             n_antennas: Number of antennas of the transceiver.
+            position: Position of the transceiver in the environment.
             t_power: Transmit power of the transceiver.
             r_sensitivity: Sensitivity of the transceiver.
             radius: Radius of the transceiver.
         """
-        super().__init__(id_, position, n_antennas, t_power, r_sensitivity)
+        super().__init__(id_, n_antennas, position, t_power, r_sensitivity)
 
         self._radius = radius
 

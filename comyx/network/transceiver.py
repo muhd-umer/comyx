@@ -24,8 +24,8 @@ class Transceiver:
     def __init__(
         self,
         id_: str,
-        position: List[float],
         n_antennas: int,
+        position: Union[List[float], None] = None,
         t_power: Union[float, None] = None,
         r_sensitivity: Union[float, None] = None,
     ):
@@ -33,13 +33,12 @@ class Transceiver:
 
         Args:
             id_: Unique identifier of the transceiver.
-            position: Position of the transceiver in the environment.
             n_antennas: Number of antennas of the transceiver.
+            position: Position of the transceiver in the environment.
             t_power: Transmit power of the transceiver.
             r_sensitivity: Sensitivity of the transceiver.
         """
         assert isinstance(id_, str), "ID must be a string."
-        assert len(position) in (2, 3), "Position must be 2D or 3D."
 
         self._id = id_
         self._position = position
@@ -73,10 +72,7 @@ class Transceiver:
         return self._r_sensitivity
 
     def __repr__(self) -> str:
-        return (
-            f"{self.id} at position("
-            f"{', '.join(str(self.position[i]) for i in range(len(self.position)))})"
-        )
+        return f"{self.id}(position={self.position}, n_antennas={self.n_antennas})"
 
 
 __all__ = ["Transceiver"]

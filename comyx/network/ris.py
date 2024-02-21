@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, List
+from typing import Any, List, Union
 
 import numpy as np
 import numpy.typing as npt
@@ -30,15 +30,15 @@ class RIS:
     def __init__(
         self,
         id_: str,
-        position: List[float],
         n_elements: int,
+        position: Union[List[float], None] = None,
     ):
         """Initialize an RIS object.
 
         Args:
             id_: Unique identifier of the RIS.
-            position: Position of the RIS in the environment.
             n_elements: Number of elements of the RIS.
+            position: Position of the RIS in the environment.
         """
         self._id = id_
         self._position = position
@@ -117,10 +117,7 @@ class RIS:
         return np.diag(self.amplitudes * np.exp(1j * self.phase_shifts))
 
     def __repr__(self) -> str:
-        return (
-            f"{self.id} at position("
-            f"{', '.join(str(self.position[i]) for i in range(len(self.position)))})"
-        )
+        return f"{self.id}(position={self.position}, n_elements={self.n_elements})"
 
 
 __all__ = ["RIS"]

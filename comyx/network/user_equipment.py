@@ -28,8 +28,8 @@ class UserEquipment(Transceiver):
     def __init__(
         self,
         id_: str,
-        position: List[float],
         n_antennas: int,
+        position: Union[List[float], None] = None,
         t_power: Union[float, None] = None,
         r_sensitivity: Union[float, None] = None,
     ):
@@ -37,12 +37,12 @@ class UserEquipment(Transceiver):
 
         Args:
             id_: Unique identifier of the transceiver.
-            position: Position of the transceiver in the environment.
             n_antennas: Number of antennas of the transceiver.
+            position: Position of the transceiver in the environment.
             t_power: Transmit power of the transceiver.
             r_sensitivity: Sensitivity of the transceiver.
         """
-        super().__init__(id_, position, n_antennas, t_power, r_sensitivity)
+        super().__init__(id_, n_antennas, position, t_power, r_sensitivity)
 
     @property
     def rate(self, mean_axis=-1) -> NDArrayFloat:
@@ -86,6 +86,9 @@ class UserEquipment(Transceiver):
             Randomly positioned user equipment.
         """
 
+        assert base_station.radius > 0, "Base station radius must be positive"
+        assert base_station.position is not None, "Base station position must be set"
+
         angle = 2 * np.pi * random.random()
         r = (base_station.radius - tolerance) * np.sqrt(random.random())
 
@@ -96,7 +99,7 @@ class UserEquipment(Transceiver):
 
         position = [x, y, z]
 
-        return cls(id_, position, n_antennas, t_power, r_sensitivity)
+        return cls(id_, n_antennas, position, t_power, r_sensitivity)
 
 
 __all__ = ["UserEquipment"]
