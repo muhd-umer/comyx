@@ -124,8 +124,7 @@ class Link:
         """
         if custom_rvs is None:
             rvs = get_rvs(self.shape, **self._fading_args)
-
-        elif self.rician:
+        elif self._rician_args is not None:
             rvs = self.rician_fading(**self._rician_args)
         else:
             rvs = custom_rvs
@@ -156,6 +155,11 @@ class Link:
         Returns:
             Rician fading channel gain.
         """
+
+        assert self.tx.position is not None and self.rx.position is not None, (
+            "Positions of the transceivers must be provided to generate the Rician "
+            + "fading."
+        )
 
         los = []
         if order == "post":
@@ -226,6 +230,7 @@ class RISLink(Link):
         fading_args: Union[dict[str, Any], List[dict[str, Any]]],
         pathloss_args: Union[dict[str, Any], List[dict[str, Any]]],
         shape: Tuple[Tuple[int, ...], Tuple[int, ...]],
+        distance: Union[Tuple[float, float], float, None] = None,
     ) -> None:
         """Initialize a cascaded link object.
 
@@ -235,6 +240,10 @@ class RISLink(Link):
         the tx and the RIS, and the RIS and the rx, respectively. In the latter
         case, the same fading and path loss arguments are used for both links.
 
+        Distance between the transceivers and the RIS, and the RIS and the
+        receivers can optionally be provided to override computation from
+        positions.
+
         Args:
             tx: Transmitter of the cascaded link.
             ris: RIS of the cascaded link.
@@ -242,6 +251,7 @@ class RISLink(Link):
             fading_args: Arguments for the fading model.
             pathloss_args: Arguments for the path loss model.
             shape: Shape for the channel gain matrices.
+            distance: Distance between the transceivers.
         """
 
         self.tx = tx
@@ -250,6 +260,7 @@ class RISLink(Link):
 
         self._fading_args = ensure_list(fading_args, length=2)
         self._pathloss_args = ensure_list(pathloss_args, length=2)
+        distance = ensure_list(distance, length=2)
 
         assert len(self._fading_args) == 2 and len(self._pathloss_args) == 2, (
             "Fading and path loss arguments must be either a list of length 2 "
@@ -257,8 +268,16 @@ class RISLink(Link):
         )
 
         self.tR_shape, self.Rr_shape = shape
-        self._distance_tR = get_distance(self.tx.position, self.ris.position)
-        self._distance_Rr = get_distance(self.ris.position, self.rx.position)
+        self._distance_tR = (
+            get_distance(self.tx.position, self.ris.position)
+            if distance is None
+            else distance[0]
+        )
+        self._distance_Rr = (
+            get_distance(self.ris.position, self.rx.position)
+            if distance is None
+            else distance[1]
+        )
 
         self._pathloss_tR = get_pathloss(self.distance["tR"], **self._pathloss_args[0])
         self._pathloss_Rr = get_pathloss(self.distance["Rr"], **self._pathloss_args[1])
