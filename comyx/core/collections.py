@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, List, Tuple, Union
 import numpy as np
 import numpy.typing as npt
 
-from ..network import Link, RISLink
+from ..network import Link
 from ..utils import ensure_list
 
 if TYPE_CHECKING:
@@ -104,47 +104,29 @@ class SISOCollection:
             if (ris.id, rx.id) in self._links:
                 raise ValueError("Link already exists.")
 
-            _ris_link = RISLink(
-                tx=tx,
-                ris=ris,
-                rx=rx,
-                fading_args=fading_args,
-                pathloss_args=pathloss_args,
-                shape=(
-                    (tx.n_antennas, ris.n_elements, self.realizations),
-                    (ris.n_elements, rx.n_antennas, self.realizations),
-                ),
-            )
+            fading_args = ensure_list(fading_args, length=2)
+            pathloss_args = ensure_list(pathloss_args, length=2)
 
-            # >>> Intentional redundancy for readability and clarity
-            _fading_args = ensure_list(fading_args, length=2)
-            _pathloss_args = ensure_list(pathloss_args, length=2)
-
-            _tx_ris_link = Link(
+            tx_ris_link = Link(
                 tx=tx,
                 rx=ris,
-                fading_args=_fading_args[0],
-                pathloss_args=_pathloss_args[0],
+                fading_args=fading_args[0],
+                pathloss_args=pathloss_args[0],
                 shape=(tx.n_antennas, ris.n_elements, self.realizations),
-                channel_gain=_ris_link.channel_gain["tR"],
             )
-            _ris_rx_link = Link(
+            ris_rx_link = Link(
                 tx=ris,
                 rx=rx,
-                fading_args=_fading_args[1],
-                pathloss_args=_pathloss_args[1],
+                fading_args=fading_args[1],
+                pathloss_args=pathloss_args[1],
                 shape=(ris.n_elements, rx.n_antennas, self.realizations),
-                channel_gain=_ris_link.channel_gain["Rr"],
             )
 
-            self._links[(tx.id, ris.id)] = _tx_ris_link
-            self._links[(ris.id, rx.id)] = _ris_rx_link
-            self._links[(tx.id, ris.id, rx.id)] = _ris_link
-            # <<<
+            self._links[(tx.id, ris.id)] = tx_ris_link
+            self._links[(ris.id, rx.id)] = ris_rx_link
 
-            self._channel_gains[(tx.id, ris.id)] = _ris_link.channel_gain["tR"]
-            self._channel_gains[(ris.id, rx.id)] = _ris_link.channel_gain["Rr"]
-            self._channel_gains[(tx.id, ris.id, rx.id)] = _ris_link.channel_gain
+            self._channel_gains[(tx.id, ris.id)] = tx_ris_link.channel_gain
+            self._channel_gains[(ris.id, rx.id)] = ris_rx_link.channel_gain
 
         else:
             raise ValueError("Invalid number of nodes. Must be 2 or 3.")
