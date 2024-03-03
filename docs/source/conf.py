@@ -69,7 +69,7 @@ suppress_warnings = [
     "myst.header",
     "misc.highlighting_failure",
 ]
-nb_execution_mode = "off"
+nb_execution_mode = "auto"
 
 # -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_book_theme"
