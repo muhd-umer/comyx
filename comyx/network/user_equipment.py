@@ -86,7 +86,7 @@ class UserEquipment(Transceiver):
             Randomly positioned user equipment.
         """
 
-        assert base_station.radius > 0, "Base station radius must be positive"
+        assert base_station.radius is not None, "Base station radius must be set"
         assert base_station.position is not None, "Base station position must be set"
 
         angle = 2 * np.pi * random.random()
