@@ -56,6 +56,11 @@ class Transceiver:
         """Return the position of the transceiver in the environment."""
         return self._position
 
+    @position.setter
+    def position(self, new_position: List[float]) -> None:
+        """Set the position of the transceiver in the environment."""
+        self._position = new_position
+
     @property
     def n_antennas(self) -> int:
         """Return the number of antennas of the transceiver."""
