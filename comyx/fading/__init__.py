@@ -19,15 +19,15 @@ def get_rvs(
     """Generates random variables from a distribution.
 
     Rayleigh
-        - ``sigma``– Scale parameter of the Rayleigh distribution.
+        - ``sigma``- Scale parameter of the Rayleigh distribution.
 
     Rician
-        - ``K`` – Rician K-factor in dB.
-        - ``sigma`` – Scale parameter of the Rician distribution.
+        - ``K`` - Rician K-factor in dB.
+        - ``sigma`` - Scale parameter of the Rician distribution.
 
     Nakagami
-        - ``m`` – Shape parameter of the Nakagami distribution.
-        - ``omega`` – Scale parameter of the Nakagami distribution.
+        - ``m`` - Shape parameter of the Nakagami distribution.
+        - ``omega`` - Scale parameter of the Nakagami distribution.
 
     Args:
         shape: Number of fading samples to generate.
