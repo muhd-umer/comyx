@@ -53,6 +53,11 @@ class RIS:
         """Return the position of the RIS in the environment."""
         return self._position
 
+    @position.setter
+    def position(self, position: List[float]) -> None:
+        """Set the position of the RIS in the environment."""
+        self._position = position
+
     @property
     def n_elements(self) -> int:
         """Return the number of elements of the RIS."""
@@ -172,6 +177,11 @@ class STAR_RIS:
         """Return the position of the STAR-RIS in the environment."""
         return self._position
 
+    @position.setter
+    def position(self, position: List[float]) -> None:
+        """Set the position of the STAR-RIS in the environment."""
+        self._position = position
+
     @property
     def n_elements(self) -> int:
         """Return the number of antennas of the STAR-RIS."""
@@ -232,6 +242,17 @@ class STAR_RIS:
         Returns:
             The reflection matrix of the RIS.
         """
+        if not hasattr(self, "_reflection_shifts"):
+            raise ValueError("Reflection phase shifts must be set before accessing.")
+        if not hasattr(self, "_reflection_amplitudes"):
+            raise ValueError("Reflection amplitudes must be set before accessing.")
+
+        assert self.reflection_shifts.ndim == 1, (
+            "Reflection phase shifts must be a vector (design choice)."
+            + " Use amplitude and shifts individually instead.",
+        )
+
+        return np.diag(self.reflection_amplitudes * np.exp(1j * self.reflection_shifts))
 
     @property
     def transmission_matrix(self) -> NDArrayComplex:
@@ -248,6 +269,19 @@ class STAR_RIS:
         Returns:
             The transmission matrix of the STAR-RIS.
         """
+        if not hasattr(self, "_transmission_shifts"):
+            raise ValueError("Transmission phase shifts must be set before accessing.")
+        if not hasattr(self, "_transmission_amplitudes"):
+            raise ValueError("Transmission amplitudes must be set before accessing.")
+
+        assert self.transmission_shifts.ndim == 1, (
+            "Transmission phase shifts must be a vector (design choice)."
+            + " Use amplitude and shifts individually instead.",
+        )
+
+        return np.diag(
+            self.transmission_amplitudes * np.exp(1j * self.transmission_shifts)
+        )
 
     def _get_attribute(self, attr: str) -> NDArrayFloat:
         """Return the attribute of the STAR-RIS."""
