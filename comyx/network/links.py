@@ -86,7 +86,7 @@ class Link:
 
         # initialize the channel gain
         self.generate_rvs(custom_rvs=custom_rvs)
-        self.update_channel(ex_params=True, ex_rvs=True)
+        self.update_channel(ex_pathloss=True, ex_rvs=True)
 
     @property
     def distance(self) -> float:
@@ -152,7 +152,7 @@ class Link:
         self,
         distance: Union[float, None] = None,
         custom_rvs: NDArrayComplex | None = None,
-        ex_params: bool = False,
+        ex_pathloss: bool = False,
         ex_rvs: bool = False,
     ) -> None:
         """Update the channel gain.
@@ -160,11 +160,11 @@ class Link:
         Args:
             distance: New distance between the transceivers.
             custom_rvs: New random variables for the channel gain.
-            ex_params: Whether to exclude the parameters from the update.
+            ex_pathloss: Whether to exclude distance-based params from the update.
             ex_rvs: Whether to exclude the random variables from the update.
         """
 
-        if not ex_params:
+        if not ex_pathloss:
             self.update_params(distance=distance)
 
         if not ex_rvs:
