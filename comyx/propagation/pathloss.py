@@ -60,7 +60,7 @@ def reference(distance: float, alpha: float, p0: float) -> NDArrayFloat:
     Returns:
         loss: Path loss in dB.
     """
-    loss = pow2db(distance**alpha) + p0
+    loss = p0 + 10 * alpha * np.log10(distance)
     return np.array(loss)
 
 
