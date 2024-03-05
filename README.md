@@ -50,7 +50,9 @@
 - [ ] Add Reinforcement Learning (RL) support
 
 ## Installation
+
 You can install the latest version of the package using pip:
+
 ```shell
 pip install comyx
 ```
@@ -64,22 +66,19 @@ git clone https://github.com/muhd-umer/comyx.git
 pip install -e .
 ```
 
-**Advanced Dependencies**
+**Reinforcement Learning (RL) Support**
 
-*Experimental - These libraries are not currently in-use, but will gradually be an integral part of the library.*
+For RL support, you will need to install the following dependencies:
 
-- Install PyTorch (Stable):
+- Install PyTorch (Stable)
 
     ```shell
-    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    pip install torch torchvision torchaudio
     ```
 
-- Install Ray for Reinforcement Learning:
+- Install Ray RLlib
 
     ```shell
-    pip install ray[default]
-    pip install ray[air]
-    pip install ray[tune]
-    pip install ray[rllib]
-    pip install ray[serve]
+    pip install -U ray[default]  # core, dashboard, cluster launcher
+    pip install -U ray[rllib]  # tune, rllib
     ```
