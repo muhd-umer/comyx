@@ -100,18 +100,23 @@ class Rician:
         """Returns the RMS value of the Rician distribution."""
         return self.sigma * np.sqrt(2 + np.pi / 2)
 
-    def get_samples(self, size: Union[int, Tuple[int, ...]]) -> NDArrayFloat:
+    def get_samples(
+        self, size: Union[int, Tuple[int, ...]], seed: int = None
+    ) -> NDArrayFloat:
         """Generate random variables from the Rician distribution.
 
         Args:
             size: Nnumber of random variables to generate.
+            seed: Seed for the random number generator.
 
         Returns:
             An array of size `size` containing random variables from the Rician
             distribution.
         """
         return np.array(
-            stats.rice.rvs(self.nu / self.sigma, scale=self.sigma, size=size)
+            stats.rice.rvs(
+                self.nu / self.sigma, scale=self.sigma, size=size, random_state=seed
+            )
         )
 
 

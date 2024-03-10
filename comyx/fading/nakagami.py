@@ -90,18 +90,23 @@ class Nakagami:
             1 - 1 / self.m * (gamma(self.m + 1 / 2) / gamma(self.m)) ** 2
         )
 
-    def get_samples(self, size: Union[int, Tuple[int, ...]]) -> NDArrayFloat:
+    def get_samples(
+        self, size: Union[int, Tuple[int, ...]], seed: int = None
+    ) -> NDArrayFloat:
         """Generate random variables from the Nakagami distribution.
 
         Args:
             size: Number of random variables to generate.
+            seed: Seed for the random number generator.
 
         Returns:
             An array of size `size` containing random variables from the
             Nakagami distribution.
         """
         return np.array(
-            stats.nakagami.rvs(self.m, scale=np.sqrt(self.omega), size=size)
+            stats.nakagami.rvs(
+                self.m, scale=np.sqrt(self.omega), size=size, random_state=seed
+            ),
         )
 
 

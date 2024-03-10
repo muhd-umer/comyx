@@ -81,19 +81,21 @@ class Rayleigh:
         return np.sqrt(2) * self.sigma
 
     def get_samples(
-        self,
-        size: Union[int, Tuple[int, ...]],
+        self, size: Union[int, Tuple[int, ...]], seed: int = None
     ) -> NDArrayFloat:
         """Generates random variables from the Rayleigh distribution.
 
         Args:
             size: Number of random variables to generate.
+            seed: Seed for the random number generator.
 
         Returns:
             An array of size `size` containing random variables from the
             Rayleigh distribution.
         """
-        return np.array(stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size))
+        return np.array(
+            stats.rayleigh.rvs(loc=0, scale=self.sigma, size=size, random_state=seed)
+        )
 
 
 __all__ = ["Rayleigh"]

@@ -51,6 +51,7 @@ class Link:
         rician_args: Union[dict[str, Any], None] = None,
         custom_rvs: Union[NDArrayComplex, None] = None,
         distance: Union[float, None] = None,
+        seed: Union[int, None] = None,
     ) -> None:
         """Initialize a link object.
 
@@ -63,10 +64,12 @@ class Link:
             rician_args: Arguments for the Rician fading model.
             custom_rvs: Custom random variables for the channel gain.
             distance: Distance between the transceivers.
+            seed: Seed for the random number generator.
         """
 
         self.tx = tx
         self.rx = rx
+        self.seed = seed
         self._fading_args = fading_args
         self._pathloss_args = pathloss_args
         self.shape = shape
@@ -85,7 +88,7 @@ class Link:
         self._rician_args = rician_args
 
         # initialize the channel gain
-        self.generate_rvs(custom_rvs=custom_rvs)
+        self.generate_rvs(custom_rvs=custom_rvs, seed=self.seed)
         self.update_channel(ex_pathloss=True, ex_rvs=True)
 
     @property
@@ -118,14 +121,16 @@ class Link:
 
         return np.angle(self.channel_gain)
 
-    def generate_rvs(self, custom_rvs: NDArrayComplex | None = None) -> None:
+    def generate_rvs(
+        self, custom_rvs: NDArrayComplex | None = None, seed: int = None
+    ) -> None:
         """Generate random variables for the channel gain.
 
         Not private to allow for the generation of new channel gains for more
         flexible simulations.
         """
         if custom_rvs is None:
-            self.rvs = get_rvs(self.shape, **self._fading_args)
+            self.rvs = get_rvs(self.shape, **self._fading_args, seed=seed)
         elif self._rician_args is not None:
             self.rvs = self.rician_fading(**self._rician_args)
         else:
@@ -168,7 +173,7 @@ class Link:
             self.update_params(distance=distance)
 
         if not ex_rvs:
-            self.generate_rvs(custom_rvs=custom_rvs)
+            self.generate_rvs(custom_rvs=custom_rvs, seed=self.seed)
 
         pathloss = db2pow(-self.pathloss)
         self._channel_gain = np.sqrt(pathloss) * self.rvs
@@ -227,7 +232,7 @@ class Link:
             )
 
         los = np.array(los).reshape(self.shape)
-        nlos = get_rvs(self.shape, **self._fading_args)
+        nlos = get_rvs(self.shape, **self._fading_args, seed=self.seed)
         rvs = los * (np.sqrt(K / (K + 1))) + nlos * (1 / (np.sqrt(K + 1)))
 
         return rvs
