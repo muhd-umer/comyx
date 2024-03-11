@@ -173,7 +173,8 @@ class Link:
             self.update_params(distance=distance)
 
         if not ex_rvs:
-            self.generate_rvs(custom_rvs=custom_rvs, seed=self.seed)
+            # generate new random variables
+            self.generate_rvs(custom_rvs=custom_rvs, seed=None)
 
         pathloss = db2pow(-self.pathloss)
         self._channel_gain = np.sqrt(pathloss) * self.rvs
