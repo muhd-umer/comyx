@@ -188,24 +188,24 @@ class STAR_RIS:
         return self._n_elements
 
     @property
-    def reflection_shifts(self) -> NDArrayFloat:
+    def reflection_phases(self) -> NDArrayFloat:
         """Return the reflection phase shifts of the STAR-RIS."""
-        return self._get_attribute("_reflection_shifts")
+        return self._get_attribute("_reflection_phases")
 
-    @reflection_shifts.setter
-    def reflection_shifts(self, reflection_shifts: NDArrayFloat) -> None:
+    @reflection_phases.setter
+    def reflection_phases(self, reflection_phases: NDArrayFloat) -> None:
         """Set the reflection phase shifts of the STAR-RIS."""
-        self._set_attribute("_reflection_shifts", reflection_shifts)
+        self._set_attribute("_reflection_phases", reflection_phases)
 
     @property
-    def transmission_shifts(self) -> NDArrayFloat:
+    def transmission_phases(self) -> NDArrayFloat:
         """Return the transmission phase shifts of the STAR-RIS."""
-        return self._get_attribute("_transmission_shifts")
+        return self._get_attribute("_transmission_phases")
 
-    @transmission_shifts.setter
-    def transmission_shifts(self, transmission_shifts: NDArrayFloat) -> None:
+    @transmission_phases.setter
+    def transmission_phases(self, transmission_phases: NDArrayFloat) -> None:
         """Set the transmission phase shifts of the STAR-RIS."""
-        self._set_attribute("_transmission_shifts", transmission_shifts)
+        self._set_attribute("_transmission_phases", transmission_phases)
 
     @property
     def reflection_amplitudes(self) -> NDArrayFloat:
