@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from typing import Any, List, Union
 
 import numpy as np
@@ -177,6 +178,24 @@ def ensure_list(arg, length) -> List[Any]:
     return arg if isinstance(arg, list) else [arg for _ in range(length)]
 
 
+def generate_seed(identifier: str) -> int:
+    """Generate a seed from an identifier.
+
+    Seed is generated using the MD5 hash of the identifier. The hash is then
+    converted to an integer and the modulo operation is applied to ensure the
+    seed fits into a 32-bit integer.
+
+    Args:
+        identifier: The identifier to hash.
+
+    Returns:
+        A seed for random number generation.
+    """
+
+    hash_object = hashlib.md5(identifier.encode())
+    return int(hash_object.hexdigest(), 16) % (2**32 - 1)
+
+
 __all__ = [
     "db2pow",
     "pow2db",
@@ -189,4 +208,5 @@ __all__ = [
     "laguerre",
     "wrap_to_2pi",
     "ensure_list",
+    "generate_seed",
 ]
