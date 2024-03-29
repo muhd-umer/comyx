@@ -2,4 +2,4 @@
 
 Collection of research conducted using Comyx.
 
-_Please note that some submodules may be private and are work in progress despite being listed here._
+_Please note that some modules are private and are thus not included in this repository._
