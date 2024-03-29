@@ -1,8 +1,0 @@
-[submodule "research/deep-rl-energyeff"]
-	path = research/deep-rl-energyeff
-	url = https://github.com/muhd-umer/deep-rl-energyeff
-	branch = main
-[submodule "research/deep-rl-uavtraj"]
-	path = research/deep-rl-uavtraj
-	url = https://github.com/muhd-umer/deep-rl-uavtraj.git
-	brach = main

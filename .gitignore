@@ -218,5 +218,5 @@ baseline_simulator/
 build/
 *.asv
 
-# include all folders in research/ but not the files
-# research/**/*
+# include all folders in research/ but not the README.md
+research/**/*/
