@@ -30,7 +30,7 @@ def get_pathloss(
 
     Args:
         distance: Distance between transmitter and receiver.
-        type: Path loss model type. ("free-space", "log-distance", "friis")
+        type: Path loss model type. ("reference", "friis", "log-distance")
         frequency: Frequency of the signal.
         *args: Positional arguments for the path loss model.
         **kwargs: Keyword arguments for the path loss model.
