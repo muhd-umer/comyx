@@ -159,6 +159,7 @@ class Link:
         custom_rvs: NDArrayComplex | None = None,
         ex_pathloss: bool = False,
         ex_rvs: bool = False,
+        seed: Union[int, None] = None,
     ) -> None:
         """Update the channel gain.
 
@@ -167,6 +168,7 @@ class Link:
             custom_rvs: New random variables for the channel gain.
             ex_pathloss: Whether to exclude distance-based params from the update.
             ex_rvs: Whether to exclude the random variables from the update.
+            seed: Seed for the random number generator.
         """
 
         if not ex_pathloss:
@@ -174,7 +176,7 @@ class Link:
 
         if not ex_rvs:
             # generate new random variables
-            self.generate_rvs(custom_rvs=custom_rvs, seed=None)
+            self.generate_rvs(custom_rvs=custom_rvs, seed=seed)
 
         pathloss = db2pow(-self.pathloss)
         self._channel_gain = np.sqrt(pathloss) * self.rvs
