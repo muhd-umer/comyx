@@ -220,3 +220,4 @@ build/
 
 # include all folders in research/ but not the README.md
 research/**/*/
+notebooks/
