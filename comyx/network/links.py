@@ -187,6 +187,7 @@ class Link:
         self,
         K: float,
         order: str = "post",
+        ris: bool = True,
     ) -> NDArrayComplex:
         """Generate Rician fading channel gain between the transceivers.
 
@@ -196,6 +197,7 @@ class Link:
             pos_b: Position of the second transceiver.
             order: Order of RIS in the link.
               Possible values are 'post' and 'pre'.
+            ris: Whether to consider the RIS in the link.
 
         Returns:
             Rician fading channel gain.
@@ -207,18 +209,20 @@ class Link:
         )
 
         los = []
-        if order == "post":
-            assert isinstance(
-                self.rx, (RIS, STAR_RIS)
-            ), "The receiver must be an RIS for the post-order Rician fading."
-            n_elements = self.rx.n_elements
-        elif order == "pre":
-            assert isinstance(
-                self.tx, (RIS, STAR_RIS)
-            ), "The transmitter must be an RIS for the pre-order Rician fading."
-            n_elements = self.tx.n_elements
-        else:
-            raise ValueError(f"Order {order} not supported.")
+
+        if ris:
+            if order == "post":
+                assert isinstance(
+                    self.rx, (RIS, STAR_RIS)
+                ), "The receiver must be an RIS for the post-order Rician fading."
+                n_elements = self.rx.n_elements
+            elif order == "pre":
+                assert isinstance(
+                    self.tx, (RIS, STAR_RIS)
+                ), "The transmitter must be an RIS for the pre-order Rician fading."
+                n_elements = self.tx.n_elements
+            else:
+                raise ValueError(f"Order {order} not supported.")
 
         for m in range(n_elements):
             los.append(
@@ -247,7 +251,7 @@ class Link:
 
 
 def cascaded_channel_gain(
-    tR_link: Link, Rr_link: Link, style: str = "sum"
+    tR_link: Link, Rr_link: Link, style: str = "sum", ele_idx: int = 0
 ) -> NDArrayComplex:
     r"""Calculate the cascaded channel gain.
 
@@ -270,9 +274,11 @@ def cascaded_channel_gain(
     Mc). For SISO links, the cascaded channel gain is of shape (1, 1, Mc).
 
     Args:
-        ris_link: RIS link.
+        tR_link: Link between the transmitter and the RIS.
+        Rr_link: Link between the RIS and the receiver.
         style: Formula used to calculate the cascaded channel gain.
-          Possible values are 'sum' and 'matrix'.
+            Possible values are 'sum' and 'matrix'.
+        ele_idx: Index of the elements of RIS in channel gain matrix.
 
     Returns:
         Cascaded channel gain.
@@ -299,13 +305,25 @@ def cascaded_channel_gain(
         cascaded_channel_gain = np.zeros(
             (tR_link.tx.n_antennas, Rr_link.rx.n_antennas, mc), dtype=np.complex128
         )
-        for i in range(ris.n_elements):
-            cascaded_channel_gain += (
-                channel_gain_tR[:, i, :]
-                * ris.amplitudes[i]
-                * np.exp(1j * ris.phase_shifts[i])
-                * channel_gain_Rr[i, :, :]
-            )
+        if ele_idx == 0:
+            for i in range(ris.n_elements):
+                cascaded_channel_gain += (
+                    channel_gain_tR[i, :, :]
+                    * ris.amplitudes[i]
+                    * np.exp(1j * ris.phase_shifts[i])
+                    * channel_gain_Rr[i, :, :]
+                )
+
+        elif ele_idx == 1:
+            for i in range(ris.n_elements):
+                cascaded_channel_gain += (
+                    channel_gain_tR[:, i, :]
+                    * ris.amplitudes[i]
+                    * np.exp(1j * ris.phase_shifts[i])
+                    * channel_gain_Rr[:, i, :]
+                )
+        else:
+            raise ValueError(f"Element index {ele_idx} not supported.")
 
     elif style == "matrix":
         if channel_gain_tR.ndim != 2 or channel_gain_Rr.ndim != 2:
@@ -331,6 +349,7 @@ def effective_channel_gain(
     tR_link: Link,
     Rr_link: Link,
     style: str = "sum",
+    ele_idx: int = 0,
 ) -> NDArrayComplex:
     r"""Calculate the effective channel gain.
 
@@ -353,6 +372,7 @@ def effective_channel_gain(
         Rr: Link between the RIS and the receiver.
         style: Formula used to calculate the cascaded channel gain.
           Possible values are 'sum' and 'matrix'.
+        ele_idx: Index of the elements of RIS in channel gain matrix.
 
     Returns:
         Effective channel gain.
