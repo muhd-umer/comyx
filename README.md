@@ -85,4 +85,4 @@ For RL support, you will need to install the following dependencies:
 
 ## Authors
 
-This repo was maintained by muhd-umer and [ahmd-mohsin](https://github.com/ahmd-mohsin).
+This repo was maintained by [muhd-umer](https://github.com/muhd-umer) and [ahmd-mohsin](https://github.com/ahmd-mohsin).
