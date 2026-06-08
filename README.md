@@ -82,3 +82,7 @@ For RL support, you will need to install the following dependencies:
     pip install -U ray[default]  # core, dashboard, cluster launcher
     pip install -U ray[rllib]  # tune, rllib
     ```
+
+## Maintainers
+
+This repo is maintained by Muhammad Umer and Muhammad Ahmed Mohsin.
