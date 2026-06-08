@@ -83,6 +83,6 @@ For RL support, you will need to install the following dependencies:
     pip install -U ray[rllib]  # tune, rllib
     ```
 
-## Maintainers
+## About
 
-This repo is maintained by Muhammad Umer and Muhammad Ahmed Mohsin.
+This repo was maintained by Muhammad Umer and Muhammad Ahmed Mohsin.
